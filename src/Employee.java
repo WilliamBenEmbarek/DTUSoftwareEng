@@ -6,15 +6,13 @@ public class Employee {
 	String CurrentProject;
 	int[][] TimeManagementArray;
 
-	public Employee(String ID, int[][] timeManagementArray) {
+	public Employee(String ID) {
 		this.ID = ID;
-		TimeManagementArray = timeManagementArray;
 	}
 
-	public Employee(String ID, String currentProject, int[][] timeManagementArray) {
+	public Employee(String ID, String currentProject) {
 		this.ID = ID;
 		CurrentProject = currentProject;
-		TimeManagementArray = timeManagementArray;
 	}
 
 	public void AddProject
