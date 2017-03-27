@@ -40,4 +40,8 @@ public class SystemTimeManager {
 	public void setProjects(ArrayList<Project> projects) {
 		Projects = projects;
 	}
+
+	public void newProject(String ProjectName, int StartWeek) {
+		Projects.add(new Project(ProjectName,StartWeek));
+	}
 }

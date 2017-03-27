@@ -4,7 +4,7 @@
 public class Employee {
 	String ID;
 	String CurrentProject;
-	int[][] TimeManagementArray;
+	TimeManager TimeManagementArray = new TimeManager();
 
 	public Employee(String ID) {
 		this.ID = ID;
@@ -15,5 +15,7 @@ public class Employee {
 		CurrentProject = currentProject;
 	}
 
-	public void AddProject
+	public void AddProject (String ProjectName, int StartWeek){
+		SystemTimeManager.NewProject(ProjectName,StartWeek);
+	}
 }
