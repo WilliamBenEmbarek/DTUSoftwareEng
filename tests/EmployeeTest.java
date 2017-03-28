@@ -12,11 +12,11 @@ public class EmployeeTest {
     @Test
     public void addEmployee(){
         SystemTimeManager STM = new SystemTimeManager();
-        assertEquals(STM.employees.size(),0);
+        assertEquals(STM.Employees.size(),0);
 
         Employee employee = new Employee("SteveJobs");
-        STM.employees.add(employee);
-        assertEquals(STM.employees.size(),1);
+        STM.Employees.add(employee);
+        assertEquals(STM.Employees.size(),1);
 
     }
 

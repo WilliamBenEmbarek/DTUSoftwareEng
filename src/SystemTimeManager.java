@@ -6,8 +6,8 @@ import java.util.ArrayList;
  */
 public class SystemTimeManager {
 	// Define ArrayLists
-	ArrayList<Employee> Employees = new ArrayList<Employee>(0);
-	ArrayList<Project> Projects = new ArrayList<Project>(0);
+	public static ArrayList<Employee> Employees = new ArrayList<Employee>(0);
+	public static ArrayList<Project> Projects = new ArrayList<Project>(0);
 
 	public SystemTimeManager(ArrayList<Employee> employees, ArrayList<Project> projects) {
 		Employees = employees;

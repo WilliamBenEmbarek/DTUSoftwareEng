@@ -2,9 +2,9 @@
  * Created by Emil on 27/03/2017.
  */
 public class Employee {
-	String ID;
-	String CurrentProject;
-	TimeManager TimeManagementArray = new TimeManager();
+	private String ID;
+	private String CurrentProject;
+	private TimeManager TimeManagementArray = new TimeManager();
 
 	public Employee(String ID) {
 		this.ID = ID;
