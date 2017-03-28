@@ -41,7 +41,7 @@ public class SystemTimeManager {
 		Projects = projects;
 	}
 
-	public void newProject(String ProjectName, int StartWeek) {
+	public static void newProject(String ProjectName, int StartWeek) {
 		Projects.add(new Project(ProjectName,StartWeek));
 	}
 }

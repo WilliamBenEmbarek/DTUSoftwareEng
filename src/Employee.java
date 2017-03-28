@@ -16,6 +16,6 @@ public class Employee {
 	}
 
 	public void AddProject (String ProjectName, int StartWeek){
-		SystemTimeManager.NewProject(ProjectName,StartWeek);
+		SystemTimeManager.newProject(ProjectName,StartWeek);
 	}
 }
