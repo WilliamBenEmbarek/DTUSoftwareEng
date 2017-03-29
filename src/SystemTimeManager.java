@@ -6,8 +6,13 @@ import java.util.ArrayList;
  */
 public class SystemTimeManager {
 	// Define ArrayLists
-	public static ArrayList<Employee> Employees = new ArrayList<Employee>(0);
+	public ArrayList<String> ProjectLeaderIDs = new ArrayList<String>();
+	public ArrayList<Employee> Employees = new ArrayList<Employee>(0);
 	public static ArrayList<Project> Projects = new ArrayList<Project>(0);
+
+	public SystemTimeManager(){
+		this.ProjectLeaderIDs.add("Emil");
+	}
 
 	public SystemTimeManager(ArrayList<Employee> employees, ArrayList<Project> projects) {
 		Employees = employees;
@@ -15,6 +20,7 @@ public class SystemTimeManager {
 	}
 
 	public void AssignProjectLeader(Employee E, Project P){
+		ProjectLeaderIDs.add(E.getID());
 
 	}
 

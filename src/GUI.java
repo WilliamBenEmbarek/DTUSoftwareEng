@@ -8,23 +8,41 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class GUI extends JFrame implements ActionListener{
-    private String user;
+    private SystemTimeManager STM;
+    private Employee currentLoggedOn;
+
+    private String ID;
     private String pass;
+
+    // Textfields to be added
     private JTextField userName;
     private JTextField password;
+    private JTextField projectName;
+    private JTextField projectStartWeek;
+    private JTextField projectAssignProjectLeader;
+
+    // Functional buttons
+    private JButton back;
     private JButton login;
+    private JButton createProject;
+    private JButton addProject;
+    private JButton assignProjectLeader;
 
     // Panels
     private JPanel loginPanel;
+    private JPanel employeePanel;
+    private JPanel createProjectPanel;
+
 
     public static void main(String[] args) {
-
         GUI mainFrame = new GUI();
 
         windowProperties(mainFrame);
     }
 
     public GUI(){
+        STM = new SystemTimeManager();
+        setUpEmployees();
         loginPage();
     }
 
@@ -72,29 +90,136 @@ public class GUI extends JFrame implements ActionListener{
 
     // Hardcoding of login
     public boolean checkLogin(){
-        user = userName.getText().trim();
+        ID = userName.getText().trim();
         pass = password.getText().trim();
 
-        if(user.equals("Emil") && pass.equals("123")){
+        if(ID.equals("Emil") && pass.equals("123")){
             return true;
         }
-        if(user.equals("William") && pass.equals("321")){
+        if(ID.equals("William") && pass.equals("321")){
             return true;
         }
         return false;
     }
 
+    public void employeePage(){
+        employeePanel = new JPanel(new GridBagLayout());
+
+        createProject = new JButton("Create Project");
+        createProject.addActionListener(this);
+        employeePanel.add(createProject);
+
+        assignProjectLeader = new JButton("Assign Project Leader");
+        assignProjectLeader.addActionListener(this);
+        employeePanel.add(assignProjectLeader);
+
+        getContentPane().add(employeePanel);
+    }
+
+    public void createProjectPage(){
+        createProjectPanel = new JPanel(new GridBagLayout());
+
+        // Sets contrains to organize components in the panel.
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel labelProjectName = new JLabel("Project Name: ");
+        cs.gridx     = 0;
+        cs.gridy     = 0;
+        cs.gridwidth = 1;
+        createProjectPanel.add(labelProjectName, cs);
+
+        projectName     = new JTextField(20);
+        cs.gridx     = 1;
+        cs.gridy     = 0;
+        cs.gridwidth = 3;
+        createProjectPanel.add(projectName, cs);
+
+        JLabel labelProjectStartWeek = new JLabel("Project Start Week: ");
+        cs.gridx     = 0;
+        cs.gridy     = 1;
+        cs.gridwidth = 1;
+        createProjectPanel.add(labelProjectStartWeek, cs);
+
+        projectStartWeek = new JTextField(20);
+        cs.gridx     = 1;
+        cs.gridy     = 1;
+        cs.gridwidth = 3;
+        createProjectPanel.add(projectStartWeek, cs);
+
+        JLabel labelProjectLeader = new JLabel("Project Leader (optional): ");
+        cs.gridx     = 0;
+        cs.gridy     = 2;
+        cs.gridwidth = 1;
+        createProjectPanel.add(labelProjectLeader, cs);
+
+        projectAssignProjectLeader = new JTextField(20);
+        cs.gridx     = 1;
+        cs.gridy     = 2;
+        cs.gridwidth = 3;
+        createProjectPanel.add(projectAssignProjectLeader, cs);
+
+        addProject = new JButton("Add Project");
+        cs.gridx     = 1;
+        cs.gridy     = 3;
+        cs.gridwidth = 3;
+        addProject.addActionListener(this);
+        createProjectPanel.add(addProject, cs);
+
+        back = new JButton("Back");
+        cs.gridx     = 0;
+        cs.gridy     = 3;
+        cs.gridwidth = 3;
+        back.addActionListener(this);
+        createProjectPanel.add(back, cs);
+
+
+        getContentPane().add(createProjectPanel);
+    }
+
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == login) {
             if(checkLogin()) {
-                JLabel myLabel = new JLabel("test");
-                getContentPane().removeAll();
-                revalidate();
-                repaint();
-                getContentPane().add(myLabel);
+                currentLoggedOn = new Employee("ID");
+                if(STM.ProjectLeaderIDs.contains(this.ID)){
+                    getContentPane().removeAll();
+                    revalidate();
+                    repaint();
+                }
+                else{
+                    getContentPane().removeAll();
+                    employeePage();
+                    revalidate();
+                    repaint();
+                }
+            }
+        }
+        else if (e.getSource() == createProject){
+            getContentPane().removeAll();
+            createProjectPage();
+            revalidate();
+            repaint();
+
+        }
+        else if (e.getSource() == addProject){
+            String name = projectName.getText().trim();
+            String startWeek = projectStartWeek.getText().trim();
+            String assignProjectLeader = projectAssignProjectLeader.getText().trim();
+            if(assignProjectLeader.equals("")){
+                currentLoggedOn.AddProject(name,Integer.parseInt(startWeek));
+                addProject.setText("Project has been added");
                 revalidate();
                 repaint();
             }
+            else{
+                System.out.println("without");
+            }
+        }
+        else if (e.getSource() == back){
+            getContentPane().removeAll();
+            employeePage();
+            revalidate();
+            repaint();
         }
     }
 
@@ -103,5 +228,13 @@ public class GUI extends JFrame implements ActionListener{
         mainFrame.setSize(400, 200);
         mainFrame.setLayout(new GridBagLayout());
         mainFrame.setVisible(true);
+    }
+
+    // Hardcode employees
+    public void setUpEmployees(){
+        Employee e1 = new Employee("Emil");
+        STM.Employees.add(e1);
+        Employee e2 = new Employee("William");
+        STM.Employees.add(e2);
     }
 }
