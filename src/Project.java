@@ -20,4 +20,8 @@ public class Project {
 		StartWeek       = startWeek;
 		projectLeaderID = projectLeader;
 	}
+
+	public String getProjectName() {
+		return ProjectName;
+	}
 }

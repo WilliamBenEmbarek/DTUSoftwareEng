@@ -18,7 +18,9 @@ public class GUI extends JFrame implements ActionListener{
     private JTextField userName;
     private JTextField password;
     private JTextField projectName;
+    private JTextField newProjectName;
     private JTextField projectStartWeek;
+    private JTextField projectLeader;
     private JTextField projectAssignProjectLeader;
 
     // Functional buttons
@@ -28,11 +30,13 @@ public class GUI extends JFrame implements ActionListener{
     private JButton createProject;
     private JButton addProject;
     private JButton assignProjectLeader;
+    private JButton addProjectLeader;
 
     // Panels
     private JPanel loginPanel;
     private JPanel employeePanel;
     private JPanel createProjectPanel;
+    private JPanel assignProjectLeaderPanel;
 
 
     public static void main(String[] args) {
@@ -134,11 +138,11 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         createProjectPanel.add(labelProjectName, cs);
 
-        projectName     = new JTextField(20);
+        newProjectName    = new JTextField(20);
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 3;
-        createProjectPanel.add(projectName, cs);
+        createProjectPanel.add(newProjectName, cs);
 
         JLabel labelProjectStartWeek = new JLabel("Project Start Week: ");
         cs.gridx     = 0;
@@ -182,6 +186,49 @@ public class GUI extends JFrame implements ActionListener{
         getContentPane().add(createProjectPanel);
     }
 
+    public void assignProjectLeaderPage(){
+        assignProjectLeaderPanel = new JPanel(new GridBagLayout());
+
+        // Sets contrains to organize components in the panel.
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel labelUsername = new JLabel("Project Leader: ");
+        cs.gridx     = 0;
+        cs.gridy     = 0;
+        cs.gridwidth = 1;
+        assignProjectLeaderPanel.add(labelUsername, cs);
+
+        projectLeader     = new JTextField(20);
+        cs.gridx     = 1;
+        cs.gridy     = 0;
+        cs.gridwidth = 2;
+        assignProjectLeaderPanel.add(projectLeader, cs);
+
+        JLabel labelPassword = new JLabel("Project: ");
+        cs.gridx     = 0;
+        cs.gridy     = 1;
+        cs.gridwidth = 1;
+        assignProjectLeaderPanel.add(labelPassword, cs);
+
+        projectName     = new JTextField(20);
+        cs.gridx     = 1;
+        cs.gridy     = 1;
+        cs.gridwidth = 2;
+        assignProjectLeaderPanel.add(projectName, cs);
+
+
+        addProjectLeader = new JButton("Assign this leader to the project");
+        cs.gridx     = 1;
+        cs.gridy     = 2;
+        cs.gridwidth = 2;
+        addProjectLeader.addActionListener(this);
+        assignProjectLeaderPanel.add(addProjectLeader, cs);
+
+        getContentPane().add(assignProjectLeaderPanel);
+
+    }
+
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == login) {
             if(checkLogin()) {
@@ -207,7 +254,7 @@ public class GUI extends JFrame implements ActionListener{
 
         }
         else if (e.getSource() == addProject){
-            String name = projectName.getText().trim();
+            String name = newProjectName.getText().trim();
             String startWeek = projectStartWeek.getText().trim();
             String assignProjectLeader = projectAssignProjectLeader.getText().trim();
             if(assignProjectLeader.equals("")){
@@ -228,6 +275,20 @@ public class GUI extends JFrame implements ActionListener{
                     revalidate();
                     repaint();
                 }
+            }
+        }
+        else if(e.getSource() == assignProjectLeader){
+            getContentPane().removeAll();
+            assignProjectLeaderPage();
+            revalidate();
+            repaint();
+        }
+        else if(e.getSource() == addProjectLeader){
+            String leader = projectLeader.getText().trim();
+            String project = projectName.getText().trim();
+
+            if(STM.canTheIDBeAssignToProjectLeader(leader) && STM.doesTheProjectExist(project)){
+                STM.AssignProjectLeader(leader ,project);
             }
         }
         else if (e.getSource() == back){

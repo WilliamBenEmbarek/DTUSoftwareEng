@@ -33,6 +33,15 @@ public class SystemTimeManager {
 		return false;
 	}
 
+	public boolean doesTheProjectExist(String projectName){
+		for(int i = 0; i<this.Projects.size();i++){
+			if(this.Projects.get(i).getProjectName().equals(projectName)){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public ArrayList<Employee> AvailableEmployees (int week) {
 		ArrayList<Employee> AvailableEmployees = new ArrayList<Employee>(0);
 
