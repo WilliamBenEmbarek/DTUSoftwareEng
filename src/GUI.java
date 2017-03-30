@@ -244,9 +244,7 @@ public class GUI extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == login) {
             if(checkLogin()) {
-                System.out.println(currentLoggedOn);
                 currentLoggedOn = STM.getEmployeeByID(userName.getText().trim());
-                System.out.println(currentLoggedOn);
                 if(STM.ProjectLeaders.contains(currentLoggedOn)){
                     getContentPane().removeAll();
                     revalidate();

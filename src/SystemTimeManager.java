@@ -89,7 +89,6 @@ public class SystemTimeManager {
 	}
 
 	public Employee getEmployeeByID(String ID){
-
 		for(int i = 0; i<Employees.size();i++){
 			if(Employees.get(i).getID().equals(ID)){
 				return Employees.get(i);
@@ -97,7 +96,7 @@ public class SystemTimeManager {
 		}
 		for(int i = 0; i<ProjectLeaders.size();i++){
 			if(ProjectLeaders.get(i).getID().equals(ID)){
-				return Employees.get(i);
+				return ProjectLeaders.get(i);
 			}
 		}
 		return null;
