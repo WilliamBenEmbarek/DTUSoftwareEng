@@ -19,7 +19,7 @@ public class Employee {
 		SystemTimeManager.newProject(ProjectName,StartWeek);
 	}
 
-	public void AddProject (String ProjectName, int StartWeek, String projectLeader){
+	public void AddProject (String ProjectName, int StartWeek, Employee projectLeader){
 		SystemTimeManager.newProject(ProjectName,StartWeek,projectLeader);
 	}
 

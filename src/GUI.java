@@ -18,10 +18,8 @@ public class GUI extends JFrame implements ActionListener{
     // Textfields to be added
     private JTextField userName;
     private JTextField password;
-    private JTextField projectName;
     private JTextField newProjectName;
     private JTextField projectStartWeek;
-    private JTextField projectAssignProjectLeader;
 
     // Drop-down menus
     private JComboBox boxOfEmployees;
@@ -167,11 +165,13 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         createProjectPanel.add(labelProjectLeader, cs);
 
-        projectAssignProjectLeader = new JTextField(20);
+        boxOfEmployees = new JComboBox(new Vector(STM.Employees));
+        // Remove the index because this function is optional
+        boxOfEmployees.setSelectedIndex(-1);
         cs.gridx     = 1;
         cs.gridy     = 2;
         cs.gridwidth = 3;
-        createProjectPanel.add(projectAssignProjectLeader, cs);
+        createProjectPanel.add(boxOfEmployees, cs);
 
         addProject = new JButton("Add Project");
         cs.gridx     = 1;
@@ -216,7 +216,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         assignProjectLeaderPanel.add(labelPassword, cs);
 
-        boxOfProjects     = new JComboBox(new Vector(STM.getProjects()));
+        boxOfProjects     = new JComboBox(new Vector(STM.projectsWithoutAProjectLeader()));
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 2;
@@ -230,6 +230,13 @@ public class GUI extends JFrame implements ActionListener{
         addProjectLeader.addActionListener(this);
         assignProjectLeaderPanel.add(addProjectLeader, cs);
 
+        back = new JButton("Back");
+        cs.gridx     = 0;
+        cs.gridy     = 2;
+        cs.gridwidth = 1;
+        back.addActionListener(this);
+        assignProjectLeaderPanel.add(back,cs);
+
         getContentPane().add(assignProjectLeaderPanel);
 
     }
@@ -237,8 +244,10 @@ public class GUI extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == login) {
             if(checkLogin()) {
-                currentLoggedOn = new Employee("ID");
-                if(STM.ProjectLeaderIDs.contains(this.ID)){
+                System.out.println(currentLoggedOn);
+                currentLoggedOn = STM.getEmployeeByID(userName.getText().trim());
+                System.out.println(currentLoggedOn);
+                if(STM.ProjectLeaders.contains(currentLoggedOn)){
                     getContentPane().removeAll();
                     revalidate();
                     repaint();
@@ -261,25 +270,17 @@ public class GUI extends JFrame implements ActionListener{
         else if (e.getSource() == addProject){
             String name = newProjectName.getText().trim();
             String startWeek = projectStartWeek.getText().trim();
-            String assignProjectLeader = projectAssignProjectLeader.getText().trim();
-            if(assignProjectLeader.equals("")){
+            if(boxOfEmployees.getSelectedIndex()==-1){
                 currentLoggedOn.AddProject(name,Integer.parseInt(startWeek));
                 addProject.setText("Project has been added");
                 revalidate();
                 repaint();
             }
             else{
-                if(STM.canTheIDBeAssignToProjectLeader(assignProjectLeader)){
-                    currentLoggedOn.AddProject(name,Integer.parseInt(startWeek),assignProjectLeader);
-                    addProject.setText("Project has been added");
-                    revalidate();
-                    repaint();
-                }
-                else{
-                    addProject.setText("Invalid Project Leader ID");
-                    revalidate();
-                    repaint();
-                }
+                currentLoggedOn.AddProject(name,Integer.parseInt(startWeek),(Employee)boxOfEmployees.getSelectedItem());
+                addProject.setText("Project has been added");
+                revalidate();
+                repaint();
             }
         }
         else if(e.getSource() == assignProjectLeader){
@@ -289,8 +290,7 @@ public class GUI extends JFrame implements ActionListener{
             repaint();
         }
         else if(e.getSource() == addProjectLeader){
-
-
+            STM.AssignProjectLeader((Employee)boxOfEmployees.getSelectedItem(),(Project)boxOfProjects.getSelectedItem());
 
         }
         else if (e.getSource() == back){

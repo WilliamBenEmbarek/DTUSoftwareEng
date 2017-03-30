@@ -6,19 +6,19 @@ import java.util.ArrayList;
 public class Project {
 	int ProjectNumber;
 	String ProjectName;
-	String projectLeaderID;
+	Employee projectLeader;
 	ArrayList<Activity> activities = new ArrayList<Activity>(0);
 	int StartWeek;
 
 	public Project(String projectName, int startWeek) {
-		ProjectName	 = projectName;
-		StartWeek	 = startWeek;
+		this.ProjectName	 = projectName;
+		this.StartWeek	 = startWeek;
 	}
 
-	public Project(String projectName, int startWeek, String projectLeader) {
-		ProjectName 	= projectName;
-		StartWeek       = startWeek;
-		projectLeaderID = projectLeader;
+	public Project(String projectName, int startWeek, Employee projectLeader) {
+		this.ProjectName 	= projectName;
+		this.StartWeek       = startWeek;
+		this.projectLeader = projectLeader;
 	}
 
 	public String getProjectName() {
@@ -28,5 +28,9 @@ public class Project {
 	// To display the ID names in JComboBox java Swing
 	public String toString(){
 		return this.ProjectName;
+	}
+
+	public Employee getProjectLeader() {
+		return projectLeader;
 	}
 }

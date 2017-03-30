@@ -6,12 +6,13 @@ import java.util.ArrayList;
  */
 public class SystemTimeManager {
 	// Define ArrayLists
-	public static ArrayList<String> ProjectLeaderIDs = new ArrayList<String>();
-	public ArrayList<Employee> Employees = new ArrayList<Employee>(0);
+	public static ArrayList<Employee> ProjectLeaders = new ArrayList<Employee>();
+	public static ArrayList<Employee> Employees = new ArrayList<Employee>(0);
 	public static ArrayList<Project> Projects = new ArrayList<Project>(0);
 
+
 	public SystemTimeManager(){
-		this.ProjectLeaderIDs.add("Emil");
+
 	}
 
 	public SystemTimeManager(ArrayList<Employee> employees, ArrayList<Project> projects) {
@@ -20,13 +21,14 @@ public class SystemTimeManager {
 	}
 
 	public void AssignProjectLeader(Employee E, Project P){
-		ProjectLeaderIDs.add(E.getID());
-
+		ProjectLeaders.add(E);
+		Employees.remove(E);
+		P.projectLeader = E;
 	}
 
 	public boolean canTheIDBeAssignToProjectLeader(String ID){
 		for(int i = 0; i<this.Employees.size(); i++){
-			if(this.Employees.get(i).getID().equals(ID) && !this.ProjectLeaderIDs.contains(ID)){
+			if(this.Employees.get(i).getID().equals(ID)){
 				return true;
 			}
 		}
@@ -69,8 +71,35 @@ public class SystemTimeManager {
 		Projects.add(new Project(ProjectName,StartWeek));
 	}
 
-	public static void newProject(String ProjectName, int StartWeek, String projectLeader) {
-		ProjectLeaderIDs.add(projectLeader);
+	public static void newProject(String ProjectName, int StartWeek, Employee projectLeader) {
+		ProjectLeaders.add(projectLeader);
+		Employees.remove(projectLeader);
 		Projects.add(new Project(ProjectName,StartWeek,projectLeader));
+	}
+
+	public ArrayList<Project> projectsWithoutAProjectLeader(){
+		ArrayList<Project> tempArray = new ArrayList<>();
+
+		for(int i = 0; i<Projects.size();i++){
+			if(Projects.get(i).getProjectLeader()==null){
+				tempArray.add(Projects.get(i));
+			}
+		}
+		return tempArray;
+	}
+
+	public Employee getEmployeeByID(String ID){
+
+		for(int i = 0; i<Employees.size();i++){
+			if(Employees.get(i).getID().equals(ID)){
+				return Employees.get(i);
+			}
+		}
+		for(int i = 0; i<ProjectLeaders.size();i++){
+			if(ProjectLeaders.get(i).getID().equals(ID)){
+				return Employees.get(i);
+			}
+		}
+		return null;
 	}
 }
