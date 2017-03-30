@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Vector;
 
 public class GUI extends JFrame implements ActionListener{
     private SystemTimeManager STM;
@@ -20,8 +21,11 @@ public class GUI extends JFrame implements ActionListener{
     private JTextField projectName;
     private JTextField newProjectName;
     private JTextField projectStartWeek;
-    private JTextField projectLeader;
     private JTextField projectAssignProjectLeader;
+
+    // Drop-down menus
+    private JComboBox boxOfEmployees;
+    private JComboBox boxOfProjects;
 
     // Functional buttons
     private JButton logout;
@@ -37,6 +41,7 @@ public class GUI extends JFrame implements ActionListener{
     private JPanel employeePanel;
     private JPanel createProjectPanel;
     private JPanel assignProjectLeaderPanel;
+
 
 
     public static void main(String[] args) {
@@ -199,11 +204,11 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         assignProjectLeaderPanel.add(labelUsername, cs);
 
-        projectLeader     = new JTextField(20);
+        boxOfEmployees = new JComboBox(new Vector(STM.Employees));
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 2;
-        assignProjectLeaderPanel.add(projectLeader, cs);
+        assignProjectLeaderPanel.add(boxOfEmployees, cs);
 
         JLabel labelPassword = new JLabel("Project: ");
         cs.gridx     = 0;
@@ -211,11 +216,11 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         assignProjectLeaderPanel.add(labelPassword, cs);
 
-        projectName     = new JTextField(20);
+        boxOfProjects     = new JComboBox(new Vector(STM.getProjects()));
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 2;
-        assignProjectLeaderPanel.add(projectName, cs);
+        assignProjectLeaderPanel.add(boxOfProjects, cs);
 
 
         addProjectLeader = new JButton("Assign this leader to the project");
@@ -284,12 +289,9 @@ public class GUI extends JFrame implements ActionListener{
             repaint();
         }
         else if(e.getSource() == addProjectLeader){
-            String leader = projectLeader.getText().trim();
-            String project = projectName.getText().trim();
 
-            if(STM.canTheIDBeAssignToProjectLeader(leader) && STM.doesTheProjectExist(project)){
-                STM.AssignProjectLeader(leader ,project);
-            }
+
+
         }
         else if (e.getSource() == back){
             getContentPane().removeAll();
@@ -318,5 +320,7 @@ public class GUI extends JFrame implements ActionListener{
         STM.Employees.add(e1);
         Employee e2 = new Employee("William");
         STM.Employees.add(e2);
+        Employee e3 = new Employee("Test person");
+        STM.Employees.add(e3);
     }
 }

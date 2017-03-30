@@ -27,6 +27,11 @@ public class Employee {
 		return ID;
 	}
 
+	// To display the ID names in JComboBox java Swing
+	public String toString(){
+    	return this.ID;
+	}
+
 	public void setID(String ID) {
 		this.ID = ID;
 	}

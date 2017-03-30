@@ -24,4 +24,9 @@ public class Project {
 	public String getProjectName() {
 		return ProjectName;
 	}
+
+	// To display the ID names in JComboBox java Swing
+	public String toString(){
+		return this.ProjectName;
+	}
 }
