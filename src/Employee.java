@@ -19,6 +19,10 @@ public class Employee {
 		SystemTimeManager.newProject(ProjectName,StartWeek);
 	}
 
+	public void AddProject (String ProjectName, int StartWeek, String projectLeader){
+		SystemTimeManager.newProject(ProjectName,StartWeek,projectLeader);
+	}
+
 	public String getID() {
 		return ID;
 	}

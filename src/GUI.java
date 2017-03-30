@@ -22,6 +22,7 @@ public class GUI extends JFrame implements ActionListener{
     private JTextField projectAssignProjectLeader;
 
     // Functional buttons
+    private JButton logout;
     private JButton back;
     private JButton login;
     private JButton createProject;
@@ -112,6 +113,10 @@ public class GUI extends JFrame implements ActionListener{
         assignProjectLeader = new JButton("Assign Project Leader");
         assignProjectLeader.addActionListener(this);
         employeePanel.add(assignProjectLeader);
+
+        logout = new JButton("Log Out");
+        logout.addActionListener(this);
+        employeePanel.add(logout);
 
         getContentPane().add(employeePanel);
     }
@@ -212,7 +217,17 @@ public class GUI extends JFrame implements ActionListener{
                 repaint();
             }
             else{
-                System.out.println("without");
+                if(STM.canTheIDBeAssignToProjectLeader(assignProjectLeader)){
+                    currentLoggedOn.AddProject(name,Integer.parseInt(startWeek),assignProjectLeader);
+                    addProject.setText("Project has been added");
+                    revalidate();
+                    repaint();
+                }
+                else{
+                    addProject.setText("Invalid Project Leader ID");
+                    revalidate();
+                    repaint();
+                }
             }
         }
         else if (e.getSource() == back){
@@ -221,11 +236,17 @@ public class GUI extends JFrame implements ActionListener{
             revalidate();
             repaint();
         }
+        else if (e.getSource() == logout){
+            getContentPane().removeAll();
+            loginPage();
+            revalidate();
+            repaint();
+        }
     }
 
     public static void windowProperties(JFrame mainFrame){
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(400, 200);
+        mainFrame.setSize(800, 400);
         mainFrame.setLayout(new GridBagLayout());
         mainFrame.setVisible(true);
     }

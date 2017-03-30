@@ -6,11 +6,18 @@ import java.util.ArrayList;
 public class Project {
 	int ProjectNumber;
 	String ProjectName;
+	String projectLeaderID;
 	ArrayList<Activity> activities = new ArrayList<Activity>(0);
 	int StartWeek;
 
 	public Project(String projectName, int startWeek) {
-		ProjectName = projectName;
-		StartWeek = startWeek;
+		ProjectName	 = projectName;
+		StartWeek	 = startWeek;
+	}
+
+	public Project(String projectName, int startWeek, String projectLeader) {
+		ProjectName 	= projectName;
+		StartWeek       = startWeek;
+		projectLeaderID = projectLeader;
 	}
 }
