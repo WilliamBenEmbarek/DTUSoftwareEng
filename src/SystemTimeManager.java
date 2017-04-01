@@ -6,7 +6,7 @@ import java.util.ArrayList;
  */
 public class SystemTimeManager {
 	// Define ArrayLists
-	public static ArrayList<Employee> ProjectLeaders = new ArrayList<Employee>();
+	public static ArrayList<ProjectLeader> ProjectLeaders = new ArrayList<ProjectLeader>();
 	public static ArrayList<Employee> Employees = new ArrayList<Employee>(0);
 	public static ArrayList<Project> Projects = new ArrayList<Project>(0);
 
@@ -15,33 +15,11 @@ public class SystemTimeManager {
 
 	}
 
-	public SystemTimeManager(ArrayList<Employee> employees, ArrayList<Project> projects) {
-		Employees = employees;
-		Projects = projects;
-	}
-
 	public void AssignProjectLeader(Employee E, Project P){
-		ProjectLeaders.add(E);
+		ProjectLeader PL = new ProjectLeader(E.getID(),P.getProjectName());
+		ProjectLeaders.add(PL);
 		Employees.remove(E);
-		P.projectLeader = E;
-	}
-
-	public boolean canTheIDBeAssignToProjectLeader(String ID){
-		for(int i = 0; i<this.Employees.size(); i++){
-			if(this.Employees.get(i).getID().equals(ID)){
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean doesTheProjectExist(String projectName){
-		for(int i = 0; i<this.Projects.size();i++){
-			if(this.Projects.get(i).getProjectName().equals(projectName)){
-				return true;
-			}
-		}
-		return false;
+		P.projectLeader = PL;
 	}
 
 	public ArrayList<Employee> AvailableEmployees (int week) {
@@ -55,16 +33,12 @@ public class SystemTimeManager {
 		return Employees;
 	}
 
-	public void setEmployees(ArrayList<Employee> employees) {
-		Employees = employees;
+	public ArrayList<ProjectLeader> getProjectLeaders() {
+		return ProjectLeaders;
 	}
 
 	public ArrayList<Project> getProjects() {
 		return Projects;
-	}
-
-	public void setProjects(ArrayList<Project> projects) {
-		Projects = projects;
 	}
 
 	public static void newProject(String ProjectName, int StartWeek) {
@@ -72,9 +46,10 @@ public class SystemTimeManager {
 	}
 
 	public static void newProject(String ProjectName, int StartWeek, Employee projectLeader) {
-		ProjectLeaders.add(projectLeader);
 		Employees.remove(projectLeader);
-		Projects.add(new Project(ProjectName,StartWeek,projectLeader));
+		ProjectLeader PL = new ProjectLeader(projectLeader.getID(), ProjectName);
+		ProjectLeaders.add(PL);
+		Projects.add(new Project(ProjectName,StartWeek,PL));
 	}
 
 	public ArrayList<Project> projectsWithoutAProjectLeader(){
@@ -94,6 +69,10 @@ public class SystemTimeManager {
 				return Employees.get(i);
 			}
 		}
+		return null;
+	}
+
+	public ProjectLeader getProjectLeaderByID(String ID){
 		for(int i = 0; i<ProjectLeaders.size();i++){
 			if(ProjectLeaders.get(i).getID().equals(ID)){
 				return ProjectLeaders.get(i);

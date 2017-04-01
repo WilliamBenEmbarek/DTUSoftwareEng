@@ -3,14 +3,15 @@
  */
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 import java.util.Vector;
 
 public class GUI extends JFrame implements ActionListener{
     private SystemTimeManager STM;
     private Employee currentLoggedOn;
+    private ProjectLeader loggedOnProjectLeader;
 
     private String ID;
     private String pass;
@@ -27,19 +28,15 @@ public class GUI extends JFrame implements ActionListener{
 
     // Functional buttons
     private JButton logout;
-    private JButton back;
+    private JButton backEmployee;
     private JButton login;
     private JButton createProject;
     private JButton addProject;
     private JButton assignProjectLeader;
     private JButton addProjectLeader;
-
-    // Panels
-    private JPanel loginPanel;
-    private JPanel employeePanel;
-    private JPanel createProjectPanel;
-    private JPanel assignProjectLeaderPanel;
-
+    private JButton createActivity;
+    private JButton editActivity;
+    private JButton assignEmployeeToActivity;
 
 
     public static void main(String[] args) {
@@ -48,14 +45,14 @@ public class GUI extends JFrame implements ActionListener{
         windowProperties(mainFrame);
     }
 
-    public GUI(){
+    private GUI(){
         STM = new SystemTimeManager();
         setUpEmployees();
         loginPage();
     }
 
-    public void loginPage(){
-        loginPanel = new JPanel(new GridBagLayout());
+    private void loginPage(){
+        JPanel loginPanel = new JPanel(new GridBagLayout());
 
         // Sets contrains to organize components in the panel.
         GridBagConstraints cs = new GridBagConstraints();
@@ -96,22 +93,8 @@ public class GUI extends JFrame implements ActionListener{
         getContentPane().add(loginPanel);
     }
 
-    // Hardcoding of login
-    public boolean checkLogin(){
-        ID = userName.getText().trim();
-        pass = password.getText().trim();
-
-        if(ID.equals("Emil") && pass.equals("123")){
-            return true;
-        }
-        if(ID.equals("William") && pass.equals("321")){
-            return true;
-        }
-        return false;
-    }
-
-    public void employeePage(){
-        employeePanel = new JPanel(new GridBagLayout());
+    private void employeePage(){
+        JPanel employeePanel = new JPanel(new GridBagLayout());
 
         createProject = new JButton("Create Project");
         createProject.addActionListener(this);
@@ -128,8 +111,8 @@ public class GUI extends JFrame implements ActionListener{
         getContentPane().add(employeePanel);
     }
 
-    public void createProjectPage(){
-        createProjectPanel = new JPanel(new GridBagLayout());
+    private void createProjectPage(){
+        JPanel createProjectPanel = new JPanel(new GridBagLayout());
 
         // Sets contrains to organize components in the panel.
         GridBagConstraints cs = new GridBagConstraints();
@@ -180,19 +163,19 @@ public class GUI extends JFrame implements ActionListener{
         addProject.addActionListener(this);
         createProjectPanel.add(addProject, cs);
 
-        back = new JButton("Back");
+        backEmployee = new JButton("Back");
         cs.gridx     = 0;
         cs.gridy     = 3;
         cs.gridwidth = 3;
-        back.addActionListener(this);
-        createProjectPanel.add(back, cs);
+        backEmployee.addActionListener(this);
+        createProjectPanel.add(backEmployee, cs);
 
 
         getContentPane().add(createProjectPanel);
     }
 
-    public void assignProjectLeaderPage(){
-        assignProjectLeaderPanel = new JPanel(new GridBagLayout());
+    private void assignProjectLeaderPage(){
+        JPanel assignProjectLeaderPanel = new JPanel(new GridBagLayout());
 
         // Sets contrains to organize components in the panel.
         GridBagConstraints cs = new GridBagConstraints();
@@ -230,23 +213,61 @@ public class GUI extends JFrame implements ActionListener{
         addProjectLeader.addActionListener(this);
         assignProjectLeaderPanel.add(addProjectLeader, cs);
 
-        back = new JButton("Back");
+        backEmployee = new JButton("Back");
         cs.gridx     = 0;
         cs.gridy     = 2;
         cs.gridwidth = 1;
-        back.addActionListener(this);
-        assignProjectLeaderPanel.add(back,cs);
+        backEmployee.addActionListener(this);
+        assignProjectLeaderPanel.add(backEmployee,cs);
 
         getContentPane().add(assignProjectLeaderPanel);
 
     }
 
+    private void projectLeaderPage(){
+        JPanel projectLeaderPanel = new JPanel(new GridBagLayout());
+
+        JLabel labelProject = new JLabel();
+
+        createActivity = new JButton("Create Activity");
+        createActivity.addActionListener(this);
+        projectLeaderPanel.add(createActivity);
+
+        editActivity = new JButton("Edit Activity");
+        editActivity.addActionListener(this);
+        projectLeaderPanel.add(editActivity);
+
+        assignEmployeeToActivity = new JButton("Assign Employee");
+        assignEmployeeToActivity.addActionListener(this);
+        projectLeaderPanel.add(assignEmployeeToActivity);
+
+        logout = new JButton("Log Out");
+        logout.addActionListener(this);
+        projectLeaderPanel.add(logout);
+
+        getContentPane().add(projectLeaderPanel);
+    }
+
+    private void createActivityPage(){
+
+    }
+
     public void actionPerformed(ActionEvent e) {
+        // To keep track of projects and employees in the console
+        System.out.println(Arrays.toString(STM.getEmployees().toArray()));
+        System.out.println(Arrays.toString(STM.getProjects().toArray()));
+        System.out.println(Arrays.toString(STM.getProjectLeaders().toArray()));
+
+        actionCommandsEmployeePage(e);
+        actionCommandsProjectLeaderPage(e);
         if (e.getSource() == login) {
             if(checkLogin()) {
                 currentLoggedOn = STM.getEmployeeByID(userName.getText().trim());
-                if(STM.ProjectLeaders.contains(currentLoggedOn)){
+                // If the currentLoggedOn is null, then it is a project leader
+                if(currentLoggedOn == null ){
+                    loggedOnProjectLeader = STM.getProjectLeaderByID(userName.getText().trim());
                     getContentPane().removeAll();
+                    projectLeaderPage();
                     revalidate();
                     repaint();
                 }
@@ -258,14 +279,22 @@ public class GUI extends JFrame implements ActionListener{
                 }
             }
         }
-        else if (e.getSource() == createProject){
+        if (e.getSource() == logout){
+            getContentPane().removeAll();
+            loginPage();
+            revalidate();
+            repaint();
+        }
+    }
+
+    private void actionCommandsEmployeePage(ActionEvent e){
+        if (e.getSource() == createProject){
             getContentPane().removeAll();
             createProjectPage();
             revalidate();
             repaint();
-
         }
-        else if (e.getSource() == addProject){
+        if (e.getSource() == addProject){
             String name = newProjectName.getText().trim();
             String startWeek = projectStartWeek.getText().trim();
             if(boxOfEmployees.getSelectedIndex()==-1){
@@ -281,31 +310,34 @@ public class GUI extends JFrame implements ActionListener{
                 repaint();
             }
         }
-        else if(e.getSource() == assignProjectLeader){
+        if(e.getSource() == assignProjectLeader){
             getContentPane().removeAll();
             assignProjectLeaderPage();
             revalidate();
             repaint();
         }
-        else if(e.getSource() == addProjectLeader){
+        if(e.getSource() == addProjectLeader){
             STM.AssignProjectLeader((Employee)boxOfEmployees.getSelectedItem(),(Project)boxOfProjects.getSelectedItem());
 
         }
-        else if (e.getSource() == back){
+        if (e.getSource() == backEmployee){
             getContentPane().removeAll();
             employeePage();
             revalidate();
             repaint();
         }
-        else if (e.getSource() == logout){
+    }
+
+    private void actionCommandsProjectLeaderPage(ActionEvent e){
+        if(e.getSource()==createActivity){
             getContentPane().removeAll();
-            loginPage();
+            createActivityPage();
             revalidate();
             repaint();
         }
     }
 
-    public static void windowProperties(JFrame mainFrame){
+    private static void windowProperties(JFrame mainFrame){
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(800, 400);
         mainFrame.setLayout(new GridBagLayout());
@@ -313,12 +345,26 @@ public class GUI extends JFrame implements ActionListener{
     }
 
     // Hardcode employees
-    public void setUpEmployees(){
+    private void setUpEmployees(){
         Employee e1 = new Employee("Emil");
         STM.Employees.add(e1);
         Employee e2 = new Employee("William");
         STM.Employees.add(e2);
         Employee e3 = new Employee("Test person");
         STM.Employees.add(e3);
+    }
+
+    // Hardcoding of login of each employee
+    private boolean checkLogin(){
+        ID = userName.getText().trim();
+        pass = password.getText().trim();
+
+        if(ID.equals("Emil") && pass.equals("123")){
+            return true;
+        }
+        if(ID.equals("William") && pass.equals("321")){
+            return true;
+        }
+        return false;
     }
 }

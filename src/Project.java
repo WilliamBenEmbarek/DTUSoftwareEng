@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Project {
 	int ProjectNumber;
 	String ProjectName;
-	Employee projectLeader;
+	ProjectLeader projectLeader;
 	ArrayList<Activity> activities = new ArrayList<Activity>(0);
 	int StartWeek;
 
@@ -15,7 +15,7 @@ public class Project {
 		this.StartWeek	 = startWeek;
 	}
 
-	public Project(String projectName, int startWeek, Employee projectLeader) {
+	public Project(String projectName, int startWeek, ProjectLeader projectLeader) {
 		this.ProjectName 	= projectName;
 		this.StartWeek       = startWeek;
 		this.projectLeader = projectLeader;
@@ -30,7 +30,7 @@ public class Project {
 		return this.ProjectName;
 	}
 
-	public Employee getProjectLeader() {
+	public ProjectLeader getProjectLeader() {
 		return projectLeader;
 	}
 }

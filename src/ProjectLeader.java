@@ -5,7 +5,10 @@ public class ProjectLeader {
     private String ID;
     private String currentProject;
 
-
+    public ProjectLeader(String ID, String project){
+        this.ID = ID;
+        this.currentProject = project;
+    }
 
     public String getID() {
         return ID;
@@ -23,4 +26,7 @@ public class ProjectLeader {
         this.currentProject = currentProject;
     }
 
+    public String toString(){
+        return this.ID;
+    }
 }
