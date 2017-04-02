@@ -80,4 +80,13 @@ public class SystemTimeManager {
 		}
 		return null;
 	}
+
+	public boolean doesProjectIDExist(String ID){
+		for (int i = 0; i<Projects.size(); i++){
+			if(Projects.get(i).getProjectName().equals(ID)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

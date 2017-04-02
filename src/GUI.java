@@ -23,8 +23,6 @@ public class GUI extends JFrame implements ActionListener{
     private JTextField userName;
     private JTextField password;
     private JTextField newProjectName;
-    private JTextField activityStartWeek;
-    private JTextField activityEndWeek;
     private JTextField newActivityName;
 
     // Number fields
@@ -369,7 +367,12 @@ public class GUI extends JFrame implements ActionListener{
         if (e.getSource() == addProject){
             String name = newProjectName.getText().trim();
             String startWeek = projectStartWeek.getText().trim();
-            if(boxOfEmployees.getSelectedIndex()==-1){
+            if(STM.doesProjectIDExist(name)){
+                addProject.setText("The name already exist, try again");
+                revalidate();
+                repaint();
+            }
+            else if(boxOfEmployees.getSelectedIndex()==-1){
                 currentLoggedOn.AddProject(name,Integer.parseInt(startWeek));
                 addProject.setText("Project has been added");
                 revalidate();
@@ -390,7 +393,9 @@ public class GUI extends JFrame implements ActionListener{
         }
         if(e.getSource() == addProjectLeader){
             STM.AssignProjectLeader((Employee)boxOfEmployees.getSelectedItem(),(Project)boxOfProjects.getSelectedItem());
-
+            addProjectLeader.setText("Project Leader is assigned!");
+            revalidate();
+            repaint();
         }
         if (e.getSource() == backEmployee){
             getContentPane().removeAll();
