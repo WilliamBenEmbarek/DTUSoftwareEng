@@ -3,12 +3,15 @@
  */
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Vector;
 
 public class GUI extends JFrame implements ActionListener{
+
     private SystemTimeManager STM;
     private Employee currentLoggedOn;
     private ProjectLeader loggedOnProjectLeader;
@@ -20,7 +23,14 @@ public class GUI extends JFrame implements ActionListener{
     private JTextField userName;
     private JTextField password;
     private JTextField newProjectName;
-    private JTextField projectStartWeek;
+    private JTextField activityStartWeek;
+    private JTextField activityEndWeek;
+    private JTextField newActivityName;
+
+    // Number fields
+    private JFormattedTextField projectStartWeek;
+    private JFormattedTextField activityStartWeek;
+    private JFormattedTextField activityEndWeek;
 
     // Drop-down menus
     private JComboBox boxOfEmployees;
@@ -29,6 +39,7 @@ public class GUI extends JFrame implements ActionListener{
     // Functional buttons
     private JButton logout;
     private JButton backEmployee;
+    private JButton backProjectLeader;
     private JButton login;
     private JButton createProject;
     private JButton addProject;
@@ -38,6 +49,9 @@ public class GUI extends JFrame implements ActionListener{
     private JButton editActivity;
     private JButton assignEmployeeToActivity;
 
+    // Allows only numbers in some fields
+    private NumberFormat longFormat = NumberFormat.getIntegerInstance();
+    private NumberFormatter numberFormatter = new NumberFormatter(longFormat);
 
     public static void main(String[] args) {
         GUI mainFrame = new GUI();
@@ -136,7 +150,8 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         createProjectPanel.add(labelProjectStartWeek, cs);
 
-        projectStartWeek = new JTextField(20);
+        numberFormatter.setAllowsInvalid(false);
+        projectStartWeek = new JFormattedTextField(numberFormatter);
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 3;
@@ -249,7 +264,64 @@ public class GUI extends JFrame implements ActionListener{
     }
 
     private void createActivityPage(){
+        JPanel createActivityPanel = new JPanel(new GridBagLayout());
 
+        // Sets contrains to organize components in the panel.
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel labelActivityName = new JLabel("Activty Name: ");
+        cs.gridx     = 0;
+        cs.gridy     = 0;
+        cs.gridwidth = 1;
+        createActivityPanel.add(labelActivityName, cs);
+
+        newActivityName    = new JTextField(20);
+        cs.gridx     = 1;
+        cs.gridy     = 0;
+        cs.gridwidth = 3;
+        createActivityPanel.add(newActivityName, cs);
+
+        JLabel labelActivityStartWeek = new JLabel("Activity Start Week: ");
+        cs.gridx     = 0;
+        cs.gridy     = 1;
+        cs.gridwidth = 1;
+        createActivityPanel.add(labelActivityStartWeek, cs);
+
+        activityStartWeek = new JFormattedTextField(numberFormatter);
+        cs.gridx     = 1;
+        cs.gridy     = 1;
+        cs.gridwidth = 3;
+        createActivityPanel.add(activityStartWeek, cs);
+
+        JLabel labelActivityEndWeek = new JLabel("Activity End Week: ");
+        cs.gridx     = 0;
+        cs.gridy     = 2;
+        cs.gridwidth = 1;
+        createActivityPanel.add(labelActivityEndWeek, cs);
+
+        activityEndWeek = new JFormattedTextField(numberFormatter);
+        cs.gridx     = 1;
+        cs.gridy     = 2;
+        cs.gridwidth = 3;
+        createActivityPanel.add(activityEndWeek, cs);
+
+        addProject = new JButton("Add Activity");
+        cs.gridx     = 1;
+        cs.gridy     = 3;
+        cs.gridwidth = 3;
+        addProject.addActionListener(this);
+        createActivityPanel.add(addProject, cs);
+
+        backProjectLeader = new JButton("Back");
+        cs.gridx     = 0;
+        cs.gridy     = 3;
+        cs.gridwidth = 3;
+        backProjectLeader.addActionListener(this);
+        createActivityPanel.add(backProjectLeader, cs);
+
+
+        getContentPane().add(createActivityPanel);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -332,6 +404,12 @@ public class GUI extends JFrame implements ActionListener{
         if(e.getSource()==createActivity){
             getContentPane().removeAll();
             createActivityPage();
+            revalidate();
+            repaint();
+        }
+        if (e.getSource() == backProjectLeader){
+            getContentPane().removeAll();
+            projectLeaderPage();
             revalidate();
             repaint();
         }
