@@ -21,7 +21,8 @@ public class ProjectLeader {
     }
 
     public void addActivity(String activity, int startWeek, int endWeek){
-
+        ProjectActivity A = new ProjectActivity(activity,startWeek,endWeek);
+        assignedProject.activities.add(A);
     }
 
     public String getCurrentProject() {

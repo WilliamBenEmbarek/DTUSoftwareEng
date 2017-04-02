@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Project {
 	private int ProjectNumber;
 	private String ProjectName;
-	private ArrayList<Activity> activities = new ArrayList<Activity>(0);
+	public ArrayList<Activity> activities = new ArrayList<Activity>(0);
 	private int StartWeek;
 	private ProjectLeader projectLeader;
 
