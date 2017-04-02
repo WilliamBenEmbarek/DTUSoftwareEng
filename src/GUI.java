@@ -437,9 +437,18 @@ public class GUI extends JFrame implements ActionListener{
                 revalidate();
                 repaint();
             }
+            else if(Integer.parseInt(startWeek)<loggedOnProjectLeader.assignedProject.getStartWeek()){
+                addActivity.setText("Start week is before project start week, try again");
+                revalidate();
+                repaint();
+            }
             else{
                 loggedOnProjectLeader.addActivity(name, Integer.parseInt(startWeek), Integer.parseInt(endWeek));
+                addActivity.setText("Activity is added!");
+                revalidate();
+                repaint();
             }
+            System.out.println(Arrays.toString(loggedOnProjectLeader.assignedProject.activities.toArray()));
         }
     }
 

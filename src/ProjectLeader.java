@@ -4,7 +4,7 @@
 public class ProjectLeader {
     private String ID;
     private String currentProject;
-    private Project assignedProject;
+    public Project assignedProject;
 
     public ProjectLeader(String ID, String project, Project p){
         this.ID = ID;
@@ -36,4 +36,5 @@ public class ProjectLeader {
     public String toString(){
         return this.ID;
     }
+
 }

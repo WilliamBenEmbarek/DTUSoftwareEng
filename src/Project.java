@@ -32,4 +32,7 @@ public class Project {
 		return this.ProjectName;
 	}
 
+	public int getStartWeek() {
+		return StartWeek;
+	}
 }

@@ -40,4 +40,8 @@ public abstract class Activity {
     public void setEndWeek(int endWeek) {
         this.endWeek = endWeek;
     }
+
+    public String toString(){
+        return this.name;
+    }
 }
