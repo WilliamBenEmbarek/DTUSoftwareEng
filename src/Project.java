@@ -4,25 +4,27 @@ import java.util.ArrayList;
  * Created by Emil on 27/03/2017.
  */
 public class Project {
-	int ProjectNumber;
-	String ProjectName;
-	ProjectLeader projectLeader;
-	ArrayList<Activity> activities = new ArrayList<Activity>(0);
-	int StartWeek;
+	private int ProjectNumber;
+	private String ProjectName;
+	private ArrayList<Activity> activities = new ArrayList<Activity>(0);
+	private int StartWeek;
+	private ProjectLeader projectLeader;
 
 	public Project(String projectName, int startWeek) {
 		this.ProjectName	 = projectName;
 		this.StartWeek	 = startWeek;
 	}
 
-	public Project(String projectName, int startWeek, ProjectLeader projectLeader) {
-		this.ProjectName 	= projectName;
-		this.StartWeek       = startWeek;
-		this.projectLeader = projectLeader;
-	}
-
 	public String getProjectName() {
 		return ProjectName;
+	}
+
+	public void setProjectLeader(ProjectLeader PL){
+		this.projectLeader = PL;
+	}
+
+	public ProjectLeader getProjectLeader() {
+		return projectLeader;
 	}
 
 	// To display the ID names in JComboBox java Swing
@@ -30,7 +32,4 @@ public class Project {
 		return this.ProjectName;
 	}
 
-	public ProjectLeader getProjectLeader() {
-		return projectLeader;
-	}
 }

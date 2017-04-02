@@ -16,10 +16,10 @@ public class SystemTimeManager {
 	}
 
 	public void AssignProjectLeader(Employee E, Project P){
-		ProjectLeader PL = new ProjectLeader(E.getID(),P.getProjectName());
+		ProjectLeader PL = new ProjectLeader(E.getID(),P.getProjectName(),P);
+		P.setProjectLeader(PL);
 		ProjectLeaders.add(PL);
 		Employees.remove(E);
-		P.projectLeader = PL;
 	}
 
 	public ArrayList<Employee> AvailableEmployees (int week) {
@@ -46,10 +46,12 @@ public class SystemTimeManager {
 	}
 
 	public static void newProject(String ProjectName, int StartWeek, Employee projectLeader) {
+		Project P = new Project(ProjectName,StartWeek);
 		Employees.remove(projectLeader);
-		ProjectLeader PL = new ProjectLeader(projectLeader.getID(), ProjectName);
+		ProjectLeader PL = new ProjectLeader(projectLeader.getID(), ProjectName,P);
+		P.setProjectLeader(PL);
 		ProjectLeaders.add(PL);
-		Projects.add(new Project(ProjectName,StartWeek,PL));
+		Projects.add(P);
 	}
 
 	public ArrayList<Project> projectsWithoutAProjectLeader(){

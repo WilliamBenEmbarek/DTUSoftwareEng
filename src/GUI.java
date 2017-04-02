@@ -46,6 +46,7 @@ public class GUI extends JFrame implements ActionListener{
     private JButton createActivity;
     private JButton editActivity;
     private JButton assignEmployeeToActivity;
+    private JButton addActivity;
 
     // Allows only numbers in some fields
     private NumberFormat longFormat = NumberFormat.getIntegerInstance();
@@ -304,12 +305,12 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 3;
         createActivityPanel.add(activityEndWeek, cs);
 
-        addProject = new JButton("Add Activity");
+        addActivity = new JButton("Add Activity");
         cs.gridx     = 1;
         cs.gridy     = 3;
         cs.gridwidth = 3;
-        addProject.addActionListener(this);
-        createActivityPanel.add(addProject, cs);
+        addActivity.addActionListener(this);
+        createActivityPanel.add(addActivity, cs);
 
         backProjectLeader = new JButton("Back");
         cs.gridx     = 0;
@@ -323,10 +324,9 @@ public class GUI extends JFrame implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
-        // To keep track of projects and employees in the console
+        System.out.println(Arrays.toString(STM.getProjectLeaders().toArray()));
         System.out.println(Arrays.toString(STM.getEmployees().toArray()));
         System.out.println(Arrays.toString(STM.getProjects().toArray()));
-        System.out.println(Arrays.toString(STM.getProjectLeaders().toArray()));
 
         actionCommandsEmployeePage(e);
         actionCommandsProjectLeaderPage(e);
@@ -367,7 +367,12 @@ public class GUI extends JFrame implements ActionListener{
         if (e.getSource() == addProject){
             String name = newProjectName.getText().trim();
             String startWeek = projectStartWeek.getText().trim();
-            if(STM.doesProjectIDExist(name)){
+            if(name.equals("") || startWeek.equals("")){
+                addProject.setText("Please fill out the fields, try again");
+                revalidate();
+                repaint();
+            }
+            else if(STM.doesProjectIDExist(name)){
                 addProject.setText("The name already exist, try again");
                 revalidate();
                 repaint();
@@ -418,6 +423,24 @@ public class GUI extends JFrame implements ActionListener{
             revalidate();
             repaint();
         }
+        if(e.getSource() == addActivity){
+            String name      = newActivityName.getText().trim();
+            String startWeek = activityStartWeek.getText().trim();
+            String endWeek   = activityEndWeek.getText().trim();
+            if(name.equals("") || startWeek.equals("") || endWeek.equals("")){
+                addActivity.setText("Please fill out the fields, try again");
+                revalidate();
+                repaint();
+            }
+            else if(Integer.parseInt(startWeek)>Integer.parseInt(endWeek)){
+                addActivity.setText("Invalid start and end week, try again");
+                revalidate();
+                repaint();
+            }
+            else{
+                loggedOnProjectLeader.addActivity(name, Integer.parseInt(startWeek), Integer.parseInt(endWeek));
+            }
+        }
     }
 
     private static void windowProperties(JFrame mainFrame){
@@ -437,7 +460,7 @@ public class GUI extends JFrame implements ActionListener{
         STM.Employees.add(e3);
     }
 
-    // Hardcoding of login of each employee
+    // Hardcoding of login for each employee
     private boolean checkLogin(){
         ID = userName.getText().trim();
         pass = password.getText().trim();

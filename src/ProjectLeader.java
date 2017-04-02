@@ -4,10 +4,12 @@
 public class ProjectLeader {
     private String ID;
     private String currentProject;
+    private Project assignedProject;
 
-    public ProjectLeader(String ID, String project){
+    public ProjectLeader(String ID, String project, Project p){
         this.ID = ID;
         this.currentProject = project;
+        this.assignedProject = p;
     }
 
     public String getID() {
@@ -16,6 +18,10 @@ public class ProjectLeader {
 
     public void setID(String ID) {
         this.ID = ID;
+    }
+
+    public void addActivity(String activity, int startWeek, int endWeek){
+
     }
 
     public String getCurrentProject() {
