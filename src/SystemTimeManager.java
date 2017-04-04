@@ -9,10 +9,10 @@ public class SystemTimeManager {
 	public static ArrayList<ProjectLeader> ProjectLeaders = new ArrayList<ProjectLeader>();
 	public static ArrayList<Employee> Employees = new ArrayList<Employee>(0);
 	public static ArrayList<Project> Projects = new ArrayList<Project>(0);
-
+	private static int CurrentWeek = 0;
 
 	public SystemTimeManager(){
-
+		SystemTimeManager x = new SystemTimeManager();
 	}
 
 	public void AssignProjectLeader(Employee E, Project P){
@@ -90,5 +90,9 @@ public class SystemTimeManager {
 			}
 		}
 		return false;
+	}
+
+	public static int getCurrentWeek() {
+		return CurrentWeek;
 	}
 }
