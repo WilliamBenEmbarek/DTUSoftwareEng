@@ -5,14 +5,17 @@ public abstract class Activity {
     private String name;
     private int startWeek;
     private int  endWeek;
+    private int ID;
 
-    public Activity(String name, int startWeek) {
+    public Activity(String name,int ID, int startWeek) {
         this.name = name;
         this.startWeek = startWeek;
+        this.ID = ID;
     }
 
-    public Activity(String name, int startWeek, int endWeek) {
+    public Activity(String name,int ID, int startWeek, int endWeek) {
         this.name = name;
+        this.ID = ID;
         this.startWeek = startWeek;
         this.endWeek = endWeek;
     }
@@ -43,5 +46,9 @@ public abstract class Activity {
 
     public String toString(){
         return this.name;
+    }
+
+    public int getID() {
+        return ID;
     }
 }

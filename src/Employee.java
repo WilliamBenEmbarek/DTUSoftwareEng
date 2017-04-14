@@ -9,6 +9,7 @@ public class Employee {
 	private String CurrentProjectName;
 	private ArrayList<ArrayList<ArrayList<Integer>>> week = new ArrayList<ArrayList<ArrayList<Integer>>>(); //Outer Arraylist. Keeps track of current week.
 	private ArrayList<ArrayList<Integer>> projectWeek = new ArrayList<ArrayList<Integer>>(1); //Middle ArrayList. Keeps track of Activties
+	private ArrayList<Activity> assignedActivites = new ArrayList<Activity>();
 	private int currentWeek;
 	private int currentDay;
 
@@ -63,9 +64,17 @@ public class Employee {
 		for (int i = 0; i < CurrentProject.getNumberOfActivties(); i++) {
 			week.get(currentWeek).add(new ArrayList<Integer>(1)); //Inner ArrayList. Keeps track of hours on what days.
 		}
+		refreshActivties();
 	}
-	public void refreshActivties() {
-
+	public void assignActivity(Activity a) {
+		assignedActivites.add(a);
+	}
+	public void refreshActivties() { //Needs to be called everytime an activity is created / changed with the employee.
+		for (int i = 0; i < assignedActivites.size(); i++) { //Loop through list of activities.
+			if ((week.get(currentWeek).get(i).get(0) != (assignedActivites.get(i).getID()))) { // If the activity does not exist
+				week.get(currentWeek).get(i).set(0,assignedActivites.get(i).getID());
+			}
+		}
 	}
 
 	public void AddProject (String ProjectName, int StartWeek){

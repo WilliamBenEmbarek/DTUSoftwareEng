@@ -12,7 +12,6 @@ public class SystemTimeManager {
 	private static int CurrentWeek = 0;
 
 	public SystemTimeManager(){
-		SystemTimeManager x = new SystemTimeManager();
 	}
 
 	public void AssignProjectLeader(Employee E, Project P){
