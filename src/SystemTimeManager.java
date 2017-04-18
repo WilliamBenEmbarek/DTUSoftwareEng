@@ -51,6 +51,15 @@ public class SystemTimeManager {
 		return Projects;
 	}
 
+	public Project getProjectByID(String ID){
+		for(int i = 0; i<Projects.size();i++){
+			if(Projects.get(i).getProjectName().equals(ID)){
+				return Projects.get(i);
+			}
+		}
+		return null;
+	}
+
 	public static void newProject(String ProjectName, int StartWeek) throws NameAlreadyExistException {
 		if(doesProjectIDExist(ProjectName)==true){
 			throw new NameAlreadyExistException("This name already exist.");
@@ -60,13 +69,18 @@ public class SystemTimeManager {
 		}
 	}
 
-	public static void newProject(String ProjectName, int StartWeek, Employee projectLeader) {
-		Project P = new Project(ProjectName,StartWeek);
-		Employees.remove(projectLeader);
-		ProjectLeader PL = new ProjectLeader(projectLeader.getID(), ProjectName,P);
-		P.setProjectLeader(PL);
-		ProjectLeaders.add(PL);
-		Projects.add(P);
+	public static void newProject(String ProjectName, int StartWeek, Employee projectLeader) throws NameAlreadyExistException {
+		if(doesProjectIDExist(ProjectName)==true){
+			throw new NameAlreadyExistException("This name already exist.");
+		}
+		else {
+			Project P = new Project(ProjectName, StartWeek);
+			Employees.remove(projectLeader);
+			ProjectLeader PL = new ProjectLeader(projectLeader.getID(), ProjectName, P);
+			P.setProjectLeader(PL);
+			ProjectLeaders.add(PL);
+			Projects.add(P);
+		}
 	}
 
 	public ArrayList<Project> projectsWithoutAProjectLeader(){

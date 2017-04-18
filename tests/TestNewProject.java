@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -10,18 +12,19 @@ public class TestNewProject extends SampleDataSetup{
 
     @Test
     public void testNewProject() throws NameAlreadyExistException {
-        assertEquals(STM.getProjects().size(),1);
+        int numberOfProjects = STM.getProjects().size();
 
         Employee E = STM.getEmployeeByID("Emil");
 
         E.AddProject("test",1);
 
-        assertEquals(STM.getProjects().size(),2);
+        assertEquals( STM.getProjects().size(),numberOfProjects+1);
     }
 
     /*
        A project can not be created if the name already exists
      */
+
     @Test
     public void testNewProjectWithInvalidName() throws NameAlreadyExistException {
         Employee E = STM.getEmployeeByID("Emil");
@@ -45,7 +48,13 @@ public class TestNewProject extends SampleDataSetup{
      */
 
     @Test
-    public void testNewProjectWithProjectLeader(){
+    public void testNewProjectWithProjectLeader() throws NameAlreadyExistException {
+        Employee E = STM.getEmployeeByID("Emil");
 
+        E.AddProject("test1",2,E);
+
+        ProjectLeader PL = STM.getProjectLeaderByID("Emil");
+
+        assertEquals(STM.getProjectByID("test1").getProjectLeader(), PL);
     }
 }
