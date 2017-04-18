@@ -51,8 +51,13 @@ public class SystemTimeManager {
 		return Projects;
 	}
 
-	public static void newProject(String ProjectName, int StartWeek) {
-		Projects.add(new Project(ProjectName,StartWeek));
+	public static void newProject(String ProjectName, int StartWeek) throws NameAlreadyExistException {
+		if(doesProjectIDExist(ProjectName)==true){
+			throw new NameAlreadyExistException("This name already exist.");
+		}
+		else {
+			Projects.add(new Project(ProjectName, StartWeek));
+		}
 	}
 
 	public static void newProject(String ProjectName, int StartWeek, Employee projectLeader) {
@@ -93,7 +98,7 @@ public class SystemTimeManager {
 		return null;
 	}
 
-	public boolean doesProjectIDExist(String ID){
+	public static boolean doesProjectIDExist(String ID){
 		for (int i = 0; i<Projects.size(); i++){
 			if(Projects.get(i).getProjectName().equals(ID)) {
 				return true;

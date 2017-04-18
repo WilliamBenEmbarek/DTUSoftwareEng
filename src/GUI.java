@@ -364,7 +364,11 @@ public class GUI extends JFrame implements ActionListener{
         System.out.println(Arrays.toString(STM.getEmployees().toArray()));
         System.out.println(Arrays.toString(STM.getProjects().toArray()));
 
-        actionCommandsEmployeePage(e);
+        try {
+            actionCommandsEmployeePage(e);
+        } catch (NameAlreadyExistException e1) {
+            e1.printStackTrace();
+        }
         actionCommandsProjectLeaderPage(e);
         if (e.getSource() == login) {
             if(STM.checkLogin(userName.getText().trim(), password.getText().trim())) {
@@ -393,7 +397,7 @@ public class GUI extends JFrame implements ActionListener{
         }
     }
 
-    private void actionCommandsEmployeePage(ActionEvent e){
+    private void actionCommandsEmployeePage(ActionEvent e) throws NameAlreadyExistException {
         if (e.getSource() == createProject){
             getContentPane().removeAll();
             createProjectPage();
