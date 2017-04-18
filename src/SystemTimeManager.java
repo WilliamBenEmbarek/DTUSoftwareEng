@@ -104,4 +104,26 @@ public class SystemTimeManager {
 	public static int getCurrentWeek() {
 		return CurrentWeek;
 	}
+
+	// Hardcode employees
+	public void setUpEmployees(){
+		Employee e1 = new Employee("Emil");
+		Employees.add(e1);
+		Employee e2 = new Employee("William");
+		Employees.add(e2);
+		Employee e3 = new Employee("Test person");
+		Employees.add(e3);
+	}
+
+	// Hardcoding of login for each employee
+	public  boolean checkLogin(String ID, String pass){
+
+		if(ID.equals("Emil") && pass.equals("123")){
+			return true;
+		}
+		if(ID.equals("William") && pass.equals("321")){
+			return true;
+		}
+		return false;
+	}
 }

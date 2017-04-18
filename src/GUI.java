@@ -62,7 +62,7 @@ public class GUI extends JFrame implements ActionListener{
 
     private GUI(){
         STM = new SystemTimeManager();
-        setUpEmployees();
+        STM.setUpEmployees();
         loginPage();
     }
 
@@ -367,7 +367,7 @@ public class GUI extends JFrame implements ActionListener{
         actionCommandsEmployeePage(e);
         actionCommandsProjectLeaderPage(e);
         if (e.getSource() == login) {
-            if(checkLogin()) {
+            if(STM.checkLogin(userName.getText().trim(), password.getText().trim())) {
                 currentLoggedOn = STM.getEmployeeByID(userName.getText().trim());
                 // If the currentLoggedOn is null, then it is a project leader
                 if(currentLoggedOn == null ){
@@ -501,27 +501,4 @@ public class GUI extends JFrame implements ActionListener{
         mainFrame.setVisible(true);
     }
 
-    // Hardcode employees
-    private void setUpEmployees(){
-        Employee e1 = new Employee("Emil");
-        STM.Employees.add(e1);
-        Employee e2 = new Employee("William");
-        STM.Employees.add(e2);
-        Employee e3 = new Employee("Test person");
-        STM.Employees.add(e3);
-    }
-
-    // Hardcoding of login for each employee
-    private boolean checkLogin(){
-        ID = userName.getText().trim();
-        pass = password.getText().trim();
-
-        if(ID.equals("Emil") && pass.equals("123")){
-            return true;
-        }
-        if(ID.equals("William") && pass.equals("321")){
-            return true;
-        }
-        return false;
-    }
 }
