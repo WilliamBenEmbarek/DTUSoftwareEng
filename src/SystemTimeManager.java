@@ -24,18 +24,19 @@ public class SystemTimeManager {
 
 	public ArrayList<Employee> AvailableEmployeesForAGivenWeek (int gWeek) {
 		ArrayList<Employee> AvailableEmployees = new ArrayList<Employee>(0);
-		for(int i = 0; i < Employees.size(); i++){
-			if(Employees.get(i).getCurrentProject() == null){
+		for (int i = 0; i < Employees.size(); i++) {
+			if (Employees.get(i).getCurrentProject() == null) {
 				AvailableEmployees.add(Employees.get(i));
-			}else if (Employees.get(i).getAssignedActivites().size() < 10){
+			} else if (Employees.get(i).getAssignedActivites().size() < 10) {
 				AvailableEmployees.add(Employees.get(i));
-			}else if (AvailableEmployees.size() < 5) {
-				if (Employees.get(i).getAssignedActivites().size() < 15){
-					AvailableEmployees.add(Employees.get(i));)
+			} else if (AvailableEmployees.size() < 5) {
+				if (Employees.get(i).getAssignedActivites().size() < 15) {
+					AvailableEmployees.add(Employees.get(i));
+				}
 			}
-		}
 
-		return(AvailableEmployees);
+		}
+		return (AvailableEmployees);
 	}
 
 	public ArrayList<Employee> getEmployees() {
