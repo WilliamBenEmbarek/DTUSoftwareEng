@@ -21,9 +21,19 @@ public class SystemTimeManager {
 		Employees.remove(E);
 	}
 
-	public ArrayList<Employee> AvailableEmployees (int week) {
+	public ArrayList<Employee> AvailableEmployeesForAGivingWeek (int weekStart, int weekEnd) {
 		ArrayList<Employee> AvailableEmployees = new ArrayList<Employee>(0);
+		for(int i = 0; i < getEmployees().size(); i++){
+			if(getEmployees().get(i).getCurrentProject() == null){
+				// Check for vacation or illness or courses
 
+				// Check how many activities the employee is assigned this period
+				int activityCounterInPeriod = 0;
+				for(int j = 0; j < getEmployees().get(i).getAssignedActivites().size(); j++){
+
+				}
+			}
+		}
 
 		return(AvailableEmployees);
 	}
@@ -93,5 +103,27 @@ public class SystemTimeManager {
 
 	public static int getCurrentWeek() {
 		return CurrentWeek;
+	}
+
+	// Hardcode employees
+	public void setUpEmployees(){
+		Employee e1 = new Employee("Emil");
+		Employees.add(e1);
+		Employee e2 = new Employee("William");
+		Employees.add(e2);
+		Employee e3 = new Employee("Test person");
+		Employees.add(e3);
+	}
+
+	// Hardcoding of login for each employee
+	public  boolean checkLogin(String ID, String pass){
+
+		if(ID.equals("Emil") && pass.equals("123")){
+			return true;
+		}
+		if(ID.equals("William") && pass.equals("321")){
+			return true;
+		}
+		return false;
 	}
 }

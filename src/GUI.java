@@ -33,6 +33,8 @@ public class GUI extends JFrame implements ActionListener{
     // Drop-down menus
     private JComboBox boxOfEmployees;
     private JComboBox boxOfProjects;
+    private JComboBox boxOfAvaliableEmployees;
+    private JComboBox boxOfActivities;
 
     // Functional buttons
     private JButton logout;
@@ -60,7 +62,7 @@ public class GUI extends JFrame implements ActionListener{
 
     private GUI(){
         STM = new SystemTimeManager();
-        setUpEmployees();
+        STM.setUpEmployees();
         loginPage();
     }
 
@@ -323,6 +325,40 @@ public class GUI extends JFrame implements ActionListener{
         getContentPane().add(createActivityPanel);
     }
 
+    private void assignEmployeePage(){
+        JPanel assignEmployeePanel = new JPanel(new GridBagLayout());
+
+        // Sets contrains to organize components in the panel.
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel labelActivities = new JLabel("Activity to be assigned: ");
+        cs.gridx     = 0;
+        cs.gridy     = 0;
+        cs.gridwidth = 1;
+        assignEmployeePanel.add(labelActivities, cs);
+
+        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.assignedProject.activities));
+        cs.gridx     = 1;
+        cs.gridy     = 0;
+        cs.gridwidth = 3;
+        assignEmployeePanel.add(boxOfActivities, cs);
+
+        JLabel labelAvaliableEmployees = new JLabel("Employee to be assigned: ");
+        cs.gridx     = 0;
+        cs.gridy     = 1;
+        cs.gridwidth = 1;
+        assignEmployeePanel.add(labelActivities, cs);
+
+        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.assignedProject.activities));
+        cs.gridx     = 1;
+        cs.gridy     = 1;
+        cs.gridwidth = 3;
+        assignEmployeePanel.add(boxOfActivities, cs);
+
+        getContentPane().add(assignEmployeePanel);
+    }
+
     public void actionPerformed(ActionEvent e) {
         System.out.println(Arrays.toString(STM.getProjectLeaders().toArray()));
         System.out.println(Arrays.toString(STM.getEmployees().toArray()));
@@ -331,7 +367,7 @@ public class GUI extends JFrame implements ActionListener{
         actionCommandsEmployeePage(e);
         actionCommandsProjectLeaderPage(e);
         if (e.getSource() == login) {
-            if(checkLogin()) {
+            if(STM.checkLogin(userName.getText().trim(), password.getText().trim())) {
                 currentLoggedOn = STM.getEmployeeByID(userName.getText().trim());
                 // If the currentLoggedOn is null, then it is a project leader
                 if(currentLoggedOn == null ){
@@ -450,6 +486,12 @@ public class GUI extends JFrame implements ActionListener{
             }
             System.out.println(Arrays.toString(loggedOnProjectLeader.assignedProject.activities.toArray()));
         }
+        if(e.getSource() == assignEmployeeToActivity){
+            getContentPane().removeAll();
+            assignEmployeePage();
+            revalidate();
+            repaint();
+        }
     }
 
     private static void windowProperties(JFrame mainFrame){
@@ -459,27 +501,4 @@ public class GUI extends JFrame implements ActionListener{
         mainFrame.setVisible(true);
     }
 
-    // Hardcode employees
-    private void setUpEmployees(){
-        Employee e1 = new Employee("Emil");
-        STM.Employees.add(e1);
-        Employee e2 = new Employee("William");
-        STM.Employees.add(e2);
-        Employee e3 = new Employee("Test person");
-        STM.Employees.add(e3);
-    }
-
-    // Hardcoding of login for each employee
-    private boolean checkLogin(){
-        ID = userName.getText().trim();
-        pass = password.getText().trim();
-
-        if(ID.equals("Emil") && pass.equals("123")){
-            return true;
-        }
-        if(ID.equals("William") && pass.equals("321")){
-            return true;
-        }
-        return false;
-    }
 }
