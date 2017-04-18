@@ -7,5 +7,6 @@ public class ProjectLeaderTest extends SampleDataSetup{
 
 	@Test
 	public void ProjectLeaderTest() {
+		ProjectLeader x = STM.getProjectLeaderByID("201701");
 	}
 }
