@@ -19,22 +19,9 @@ public class Employee {
 		currentDay = SystemTimeManager.getCurrentDay();
 		projectWeek.add(new ArrayList<Integer>());
 		for (int i = 0; i <6; i++) {
-			projectWeek.get(0).add(-1);
+			projectWeek.get(0).add(0);
 		}
 		week.add(currentWeek, projectWeek);
-	}
-
-	public Employee(String ID, Project currentProject) {
-		this.ID = ID;
-		CurrentProject = currentProject;
-		CurrentProjectName = currentProject.getProjectName();
-		currentWeek = SystemTimeManager.getCurrentWeek();
-		projectWeek.add(new ArrayList<Integer>());
-		projectWeek.get(0).add(1);
-		week.add(currentWeek, week.get(currentWeek)); //Fill up arraylist with activties
-		for (int i = 0; i < currentProject.getNumberOfActivties(); i++) {
-			week.get(currentWeek).add(new ArrayList<Integer>(1)); //Inner ArrayList. Keeps track of hours on what days.
-		}
 	}
 
 	public void registerHours(int activityID, int hours) {
@@ -61,9 +48,6 @@ public class Employee {
 			}
 		return hours;
 	}
-	public ArrayList<ArrayList<Integer>> getTimeManagementArray(int gWeek) {
-		return week.get(gWeek);
-	}
 
 	public void assignProject(Project project) {
 		CurrentProject = project;
@@ -82,7 +66,9 @@ public class Employee {
 		if (x != assignedActivites.size()) {
 			for (int i = 0; i < assignedActivites.size()-x; i++) {
 				week.get(currentWeek).add(new ArrayList<Integer>());
-				week.get(currentWeek).get(week.get(currentWeek).size()-1).add(-1);
+				for (int y = 0; y <6; y++) {
+					week.get(currentWeek).get(week.get(currentWeek).size()-1).add(0);
+				}
 			}
 		}
 		for (int i = 0; i < assignedActivites.size(); i++) { //Loop through list of activities.

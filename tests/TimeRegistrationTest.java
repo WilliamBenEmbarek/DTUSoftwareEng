@@ -27,7 +27,7 @@ public class TimeRegistrationTest extends SampleDataSetup{
 		//Step 1
 		test.refreshActivties();
 		test.registerHours(1,10);
-		assertEquals(test.getHoursWorkedDay(1,1),10);
+		assertEquals(test.getHoursWorkedDay(STM.getCurrentWeek(),1),10);
 
 
 	}
