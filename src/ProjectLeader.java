@@ -25,7 +25,7 @@ public class ProjectLeader {
         assignedProject.addActivity(A);
     }
     public void addActivity(String activity, int ID, int startWeek, int endWeek){
-        ProjectActivity A = new ProjectActivity(activity,startWeek,endWeek);
+        ProjectActivity A = new ProjectActivity(activity,ID,startWeek,endWeek);
         assignedProject.addActivity(A);
     }
     public void assignEmployee(Employee e, ProjectActivity a) {

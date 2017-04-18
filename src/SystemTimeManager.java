@@ -10,6 +10,7 @@ public class SystemTimeManager {
 	public static ArrayList<Employee> Employees = new ArrayList<Employee>(0);
 	public static ArrayList<Project> Projects = new ArrayList<Project>(0);
 	private static int CurrentWeek = 0;
+	private static int CurrentDay = 1;
 
 	public SystemTimeManager(){
 	}
@@ -113,6 +114,10 @@ public class SystemTimeManager {
 		Employees.add(e2);
 		Employee e3 = new Employee("Test person");
 		Employees.add(e3);
+	}
+
+	public static int getCurrentDay() {
+		return CurrentDay;
 	}
 
 	// Hardcoding of login for each employee

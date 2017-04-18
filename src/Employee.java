@@ -16,6 +16,11 @@ public class Employee {
 	public Employee(String ID) {
 		this.ID = ID;
 		currentWeek = SystemTimeManager.getCurrentWeek();
+		currentDay = SystemTimeManager.getCurrentDay();
+		projectWeek.add(new ArrayList<Integer>());
+		for (int i = 0; i <6; i++) {
+			projectWeek.get(0).add(-1);
+		}
 		week.add(currentWeek, projectWeek);
 	}
 
@@ -24,6 +29,8 @@ public class Employee {
 		CurrentProject = currentProject;
 		CurrentProjectName = currentProject.getProjectName();
 		currentWeek = SystemTimeManager.getCurrentWeek();
+		projectWeek.add(new ArrayList<Integer>());
+		projectWeek.get(0).add(1);
 		week.add(currentWeek, week.get(currentWeek)); //Fill up arraylist with activties
 		for (int i = 0; i < currentProject.getNumberOfActivties(); i++) {
 			week.get(currentWeek).add(new ArrayList<Integer>(1)); //Inner ArrayList. Keeps track of hours on what days.
@@ -71,6 +78,13 @@ public class Employee {
 	}
 
 	public void refreshActivties() { //Needs to be called everytime an activity is created / changed with the employee.
+		int x = week.get(currentWeek).size();
+		if (x != assignedActivites.size()) {
+			for (int i = 0; i < assignedActivites.size()-x; i++) {
+				week.get(currentWeek).add(new ArrayList<Integer>());
+				week.get(currentWeek).get(week.get(currentWeek).size()-1).add(-1);
+			}
+		}
 		for (int i = 0; i < assignedActivites.size(); i++) { //Loop through list of activities.
 			if ((week.get(currentWeek).get(i).get(0) != (assignedActivites.get(i).getID()))) { // If the activity does not exist
 				week.get(currentWeek).get(i).set(0,assignedActivites.get(i).getID());
