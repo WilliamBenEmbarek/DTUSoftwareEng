@@ -20,7 +20,11 @@ public class ProjectLeader {
         this.ID = ID;
     }
 
-    public void addActivity(String activity, int startWeek, int endWeek){
+    public void addActivity(String activity, int ID, int startWeek){
+        ProjectActivity A = new ProjectActivity(activity,ID,startWeek);
+        assignedProject.addActivity(A);
+    }
+    public void addActivity(String activity, int ID, int startWeek, int endWeek){
         ProjectActivity A = new ProjectActivity(activity,startWeek,endWeek);
         assignedProject.addActivity(A);
     }

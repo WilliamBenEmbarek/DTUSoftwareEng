@@ -20,8 +20,8 @@ public class SampleDataSetup {
 
 		ProjectLeader projectManager = new ProjectLeader("ProjectLeader","testProject",testProject);
 		STM.ProjectLeaders.add(projectManager);
-		for (int i = 0; i < 10; i++) {
-			projectManager.addActivity("activity"+i,ThreadLocalRandom.current().nextInt(1,6),ThreadLocalRandom.current().nextInt(2,11));
+		for (int i = 0; i < 15; i++) {
+			projectManager.addActivity("activity"+i,i,ThreadLocalRandom.current().nextInt(1,6),ThreadLocalRandom.current().nextInt(2,11));
 		}
 
 	}
