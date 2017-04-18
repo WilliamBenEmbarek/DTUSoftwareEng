@@ -78,7 +78,7 @@ public class Employee {
 		}
 	}
 
-	public void AddProject (String ProjectName, int StartWeek){
+	public void AddProject (String ProjectName, int StartWeek) throws NameAlreadyExistException {
 		SystemTimeManager.newProject(ProjectName,StartWeek);
 	}
 

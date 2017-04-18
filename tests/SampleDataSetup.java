@@ -1,5 +1,6 @@
 import org.junit.Before;
 import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * Created by William Ben Embarek on 18/04/2017.
  */
