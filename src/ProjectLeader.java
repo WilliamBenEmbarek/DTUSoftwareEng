@@ -33,9 +33,15 @@ public class ProjectLeader {
     	a.assignEmployee(e);
     	e.assignActivity(a);
 	}
+	public void assignProject(Employee e, Project p) {
+        e.assignProject(p);
+    }
 
     public String getCurrentProject() {
         return currentProject;
+    }
+    public Project getAssignedProject() {
+        return assignedProject;
     }
 
     public void setCurrentProject(String currentProject) {
