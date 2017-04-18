@@ -16,9 +16,6 @@ public class GUI extends JFrame implements ActionListener{
     private Employee currentLoggedOn;
     private ProjectLeader loggedOnProjectLeader;
 
-    private String ID;
-    private String pass;
-
     // Textfields to be added
     private JTextField userName;
     private JTextField password;
@@ -45,10 +42,11 @@ public class GUI extends JFrame implements ActionListener{
     private JButton addProject;
     private JButton assignProjectLeader;
     private JButton addProjectLeader;
-    private JButton createActivity;
-    private JButton editActivity;
-    private JButton assignEmployeeToActivity;
+    private JButton createActivityPage;
+    private JButton editActivityPage;
     private JButton addActivity;
+    private JButton assignEmployeeToActivityPage;
+    private JButton assignEmployeeToActivity;
 
     // Allows only numbers in some fields
     private NumberFormat longFormat = NumberFormat.getIntegerInstance();
@@ -243,19 +241,20 @@ public class GUI extends JFrame implements ActionListener{
     private void projectLeaderPage(){
         JPanel projectLeaderPanel = new JPanel(new GridBagLayout());
 
-        JLabel labelProject = new JLabel();
+        JLabel labelProject = new JLabel("Project: "+loggedOnProjectLeader.getCurrentProject());
+        projectLeaderPanel.add(labelProject);
 
-        createActivity = new JButton("Create Activity");
-        createActivity.addActionListener(this);
-        projectLeaderPanel.add(createActivity);
+        createActivityPage = new JButton("Create Activity");
+        createActivityPage.addActionListener(this);
+        projectLeaderPanel.add(createActivityPage);
 
-        editActivity = new JButton("Edit Activity");
-        editActivity.addActionListener(this);
-        projectLeaderPanel.add(editActivity);
+        editActivityPage = new JButton("Edit Activity");
+        editActivityPage.addActionListener(this);
+        projectLeaderPanel.add(editActivityPage);
 
-        assignEmployeeToActivity = new JButton("Assign Employee");
-        assignEmployeeToActivity.addActionListener(this);
-        projectLeaderPanel.add(assignEmployeeToActivity);
+        assignEmployeeToActivityPage = new JButton("Assign Employee");
+        assignEmployeeToActivityPage.addActionListener(this);
+        projectLeaderPanel.add(assignEmployeeToActivityPage);
 
         logout = new JButton("Log Out");
         logout.addActionListener(this);
@@ -348,13 +347,29 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridx     = 0;
         cs.gridy     = 1;
         cs.gridwidth = 1;
-        assignEmployeePanel.add(labelActivities, cs);
+        assignEmployeePanel.add(labelAvaliableEmployees, cs);
 
-        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.assignedProject.activities));
+        boxOfAvaliableEmployees = new JComboBox(new Vector(STM.AvailableEmployeesForAGivenWeek(1)));
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 3;
         assignEmployeePanel.add(boxOfActivities, cs);
+
+        assignEmployeeToActivity = new JButton("Assign to activity");
+        cs.gridx     = 1;
+        cs.gridy     = 2;
+        cs.gridwidth = 3;
+        assignEmployeeToActivity.addActionListener(this);
+        assignEmployeePanel.add(assignEmployeeToActivity, cs);
+
+        backProjectLeader = new JButton("Back");
+        cs.gridx     = 0;
+        cs.gridy     = 2;
+        cs.gridwidth = 3;
+        backProjectLeader.addActionListener(this);
+        assignEmployeePanel.add(backProjectLeader, cs);
+
+
 
         getContentPane().add(assignEmployeePanel);
     }
@@ -369,7 +384,9 @@ public class GUI extends JFrame implements ActionListener{
         } catch (NameAlreadyExistException e1) {
             e1.printStackTrace();
         }
+
         actionCommandsProjectLeaderPage(e);
+
         if (e.getSource() == login) {
             if(STM.checkLogin(userName.getText().trim(), password.getText().trim())) {
                 currentLoggedOn = STM.getEmployeeByID(userName.getText().trim());
@@ -451,7 +468,7 @@ public class GUI extends JFrame implements ActionListener{
     }
 
     private void actionCommandsProjectLeaderPage(ActionEvent e){
-        if(e.getSource()==createActivity){
+        if(e.getSource()==createActivityPage){
             getContentPane().removeAll();
             createActivityPage();
             revalidate();
@@ -490,11 +507,15 @@ public class GUI extends JFrame implements ActionListener{
             }
             System.out.println(Arrays.toString(loggedOnProjectLeader.assignedProject.activities.toArray()));
         }
-        if(e.getSource() == assignEmployeeToActivity){
+        if(e.getSource() == assignEmployeeToActivityPage){
             getContentPane().removeAll();
             assignEmployeePage();
             revalidate();
             repaint();
+        }
+        if(e.getSource() == assignEmployeeToActivity){
+            loggedOnProjectLeader.assignEmployee((Employee)boxOfAvaliableEmployees.getSelectedItem(),(ProjectActivity)boxOfActivities.getSelectedItem());
+
         }
     }
 
