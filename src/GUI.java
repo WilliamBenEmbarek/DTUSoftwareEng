@@ -33,6 +33,8 @@ public class GUI extends JFrame implements ActionListener{
     // Drop-down menus
     private JComboBox boxOfEmployees;
     private JComboBox boxOfProjects;
+    private JComboBox boxOfAvaliableEmployees;
+    private JComboBox boxOfActivities;
 
     // Functional buttons
     private JButton logout;
@@ -323,6 +325,40 @@ public class GUI extends JFrame implements ActionListener{
         getContentPane().add(createActivityPanel);
     }
 
+    private void assignEmployeePage(){
+        JPanel assignEmployeePanel = new JPanel(new GridBagLayout());
+
+        // Sets contrains to organize components in the panel.
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel labelActivities = new JLabel("Activity to be assigned: ");
+        cs.gridx     = 0;
+        cs.gridy     = 0;
+        cs.gridwidth = 1;
+        assignEmployeePanel.add(labelActivities, cs);
+
+        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.assignedProject.activities));
+        cs.gridx     = 1;
+        cs.gridy     = 0;
+        cs.gridwidth = 3;
+        assignEmployeePanel.add(boxOfActivities, cs);
+
+        JLabel labelAvaliableEmployees = new JLabel("Employee to be assigned: ");
+        cs.gridx     = 0;
+        cs.gridy     = 1;
+        cs.gridwidth = 1;
+        assignEmployeePanel.add(labelActivities, cs);
+
+        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.assignedProject.activities));
+        cs.gridx     = 1;
+        cs.gridy     = 1;
+        cs.gridwidth = 3;
+        assignEmployeePanel.add(boxOfActivities, cs);
+
+        getContentPane().add(assignEmployeePanel);
+    }
+
     public void actionPerformed(ActionEvent e) {
         System.out.println(Arrays.toString(STM.getProjectLeaders().toArray()));
         System.out.println(Arrays.toString(STM.getEmployees().toArray()));
@@ -449,6 +485,12 @@ public class GUI extends JFrame implements ActionListener{
                 repaint();
             }
             System.out.println(Arrays.toString(loggedOnProjectLeader.assignedProject.activities.toArray()));
+        }
+        if(e.getSource() == assignEmployeeToActivity){
+            getContentPane().removeAll();
+            assignEmployeePage();
+            revalidate();
+            repaint();
         }
     }
 

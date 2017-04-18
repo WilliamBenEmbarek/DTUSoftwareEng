@@ -69,6 +69,7 @@ public class Employee {
 	public void assignActivity(Activity a) {
 		assignedActivites.add(a);
 	}
+
 	public void refreshActivties() { //Needs to be called everytime an activity is created / changed with the employee.
 		for (int i = 0; i < assignedActivites.size(); i++) { //Loop through list of activities.
 			if ((week.get(currentWeek).get(i).get(0) != (assignedActivites.get(i).getID()))) { // If the activity does not exist
@@ -96,5 +97,13 @@ public class Employee {
 
 	public void setID(String ID) {
 		this.ID = ID;
+	}
+
+	public Project getCurrentProject() {
+		return CurrentProject;
+	}
+
+	public ArrayList<Activity> getAssignedActivites() {
+		return assignedActivites;
 	}
 }

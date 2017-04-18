@@ -21,9 +21,19 @@ public class SystemTimeManager {
 		Employees.remove(E);
 	}
 
-	public ArrayList<Employee> AvailableEmployees (int week) {
+	public ArrayList<Employee> AvailableEmployeesForAGivingWeek (int weekStart, int weekEnd) {
 		ArrayList<Employee> AvailableEmployees = new ArrayList<Employee>(0);
+		for(int i = 0; i < getEmployees().size(); i++){
+			if(getEmployees().get(i).getCurrentProject() == null){
+				// Check for vacation or illness or courses
 
+				// Check how many activities the employee is assigned this period
+				int activityCounterInPeriod = 0;
+				for(int j = 0; j < getEmployees().get(i).getAssignedActivites().size(); j++){
+
+				}
+			}
+		}
 
 		return(AvailableEmployees);
 	}

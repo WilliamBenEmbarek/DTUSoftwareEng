@@ -43,6 +43,7 @@ public class Project {
 	public static ArrayList<Activity> getActivities() {
 		return activities;
 	}
+
 	public void addActivity(Activity activity) {
 		activities.add(activity);
 	}
