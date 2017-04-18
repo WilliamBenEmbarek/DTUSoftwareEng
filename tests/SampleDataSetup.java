@@ -17,6 +17,7 @@ public class SampleDataSetup {
 			STM.Employees.add(new Employee("e"+i));
 		}
 		Project testProject = new Project("TestProject",1);
+		STM.Projects.add(testProject);
 
 		ProjectLeader projectManager = new ProjectLeader("ProjectLeader","testProject",testProject);
 		STM.ProjectLeaders.add(projectManager);
