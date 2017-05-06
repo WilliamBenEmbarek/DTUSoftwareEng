@@ -17,9 +17,6 @@ public class GUI extends JFrame implements ActionListener{
     private Employee currentLoggedOn;
     private ProjectLeader loggedOnProjectLeader;
 
-    private String ID;
-    private String pass;
-
     // Textfields to be added
     private JTextField userName;
     private JTextField password;
@@ -30,6 +27,8 @@ public class GUI extends JFrame implements ActionListener{
     private JFormattedTextField projectStartWeek;
     private JFormattedTextField activityStartWeek;
     private JFormattedTextField activityEndWeek;
+    private JFormattedTextField editActivityStartWeek;
+    private JFormattedTextField editActivityEndWeek;
 
     // Drop-down menus
     private JComboBox boxOfEmployees;
@@ -48,6 +47,7 @@ public class GUI extends JFrame implements ActionListener{
     private JButton addProjectLeader;
     private JButton createActivityPage;
     private JButton editActivityPage;
+    private JButton editActivity;
     private JButton assignEmployeeToActivityPage;
     private JButton assignEmployeeToActivity;
     private JButton addActivity;
@@ -56,13 +56,13 @@ public class GUI extends JFrame implements ActionListener{
     private NumberFormat longFormat = NumberFormat.getIntegerInstance();
     private NumberFormatter numberFormatter = new NumberFormatter(longFormat);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NameAlreadyExistException {
         GUI mainFrame = new GUI();
 
         mainFrame.windowProperties(mainFrame);
     }
 
-    private GUI(){
+    private GUI() throws NameAlreadyExistException {
         STM = new SystemTimeManager();
         STM.setUpEmployees();
         loginPage();
@@ -120,6 +120,8 @@ public class GUI extends JFrame implements ActionListener{
         assignProjectLeader = new JButton("Assign Project Leader");
         assignProjectLeader.addActionListener(this);
         employeePanel.add(assignProjectLeader);
+
+
 
         logout = new JButton("Log Out");
         logout.addActionListener(this);
@@ -378,6 +380,71 @@ public class GUI extends JFrame implements ActionListener{
         getContentPane().add(assignEmployeePanel);
     }
 
+    private void editActivityPage(){
+        JPanel editActivityPanel = new JPanel(new GridBagLayout());
+
+        // Sets contrains to organize components in the panel.
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel labelActivity = new JLabel("Activity ");
+        cs.gridx     = 0;
+        cs.gridy     = 0;
+        cs.gridwidth = 1;
+        editActivityPanel.add(labelActivity, cs);
+
+        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.getAssignedProject().getActivities()));
+        cs.gridx     = 1;
+        cs.gridy     = 0;
+        cs.gridwidth = 3;
+        editActivityPanel.add(boxOfActivities, cs);
+
+
+        JLabel labelStartWeek = new JLabel("New start week (optional): ");
+        cs.gridx     = 0;
+        cs.gridy     = 1;
+        cs.gridwidth = 1;
+        editActivityPanel.add(labelStartWeek, cs);
+
+        numberFormatter.setAllowsInvalid(false);
+        editActivityStartWeek = new JFormattedTextField(numberFormatter);
+        cs.gridx     = 1;
+        cs.gridy     = 1;
+        cs.gridwidth = 3;
+        editActivityPanel.add(editActivityStartWeek, cs);
+
+        JLabel labelEndWeek = new JLabel("New end week (optional): ");
+        cs.gridx     = 0;
+        cs.gridy     = 2;
+        cs.gridwidth = 1;
+        editActivityPanel.add(labelEndWeek, cs);
+
+        numberFormatter.setAllowsInvalid(false);
+        editActivityEndWeek = new JFormattedTextField(numberFormatter);
+        cs.gridx     = 1;
+        cs.gridy     = 2;
+        cs.gridwidth = 3;
+        editActivityPanel.add(editActivityEndWeek, cs);
+
+        editActivity = new JButton("Edit Activity");
+        cs.gridx     = 1;
+        cs.gridy     = 3;
+        cs.gridwidth = 3;
+        editActivity.addActionListener(this);
+        editActivityPanel.add(editActivity, cs);
+
+        backProjectLeader = new JButton("Back");
+        cs.gridx     = 0;
+        cs.gridy     = 3;
+        cs.gridwidth = 3;
+        backProjectLeader.addActionListener(this);
+        editActivityPanel.add(backProjectLeader, cs);
+
+
+
+        getContentPane().add(editActivityPanel);
+    }
+
     public void actionPerformed(ActionEvent e) {
         System.out.println(Arrays.toString(STM.getProjectLeaders().toArray()));
         System.out.println(Arrays.toString(STM.getEmployees().toArray()));
@@ -519,7 +586,58 @@ public class GUI extends JFrame implements ActionListener{
         }
         if(e.getSource() == assignEmployeeToActivity){
             loggedOnProjectLeader.assignEmployee((Employee)boxOfAvaliableEmployees.getSelectedItem(),(ProjectActivity)boxOfActivities.getSelectedItem());
-
+            assignEmployeeToActivity.setText("Employee has been assigned");
+            revalidate();
+            repaint();
+        }
+        if(e.getSource() == editActivityPage){
+            getContentPane().removeAll();
+            editActivityPage();
+            revalidate();
+            repaint();
+        }
+        if(e.getSource() == editActivity){
+            System.out.println(editActivityStartWeek.getText().trim());
+            System.out.println(editActivityEndWeek.getText().trim());
+            if((editActivityStartWeek.getText().trim().equals("") && editActivityEndWeek.getText().trim().equals("")) || boxOfActivities.getSelectedItem()==null){
+                editActivity.setText("Nothing has changed");
+                revalidate();
+                repaint();
+            }
+            else if(editActivityEndWeek.getText().trim().equals("")) {
+                if(loggedOnProjectLeader.getAssignedProject().getStartWeek()>Integer.parseInt(editActivityStartWeek.getText().trim())){
+                    editActivity.setText("The start week is before project start week, try again");
+                    revalidate();
+                    repaint();
+                }
+                else{
+                    Activity a = (Activity) boxOfActivities.getSelectedItem();
+                    a.setStartWeek(Integer.parseInt(editActivityStartWeek.getText().trim()));
+                    editActivity.setText("The start week has been changed");
+                    revalidate();
+                    repaint();
+                }
+            }
+            else {
+                if(loggedOnProjectLeader.getAssignedProject().getStartWeek()>Integer.parseInt(editActivityStartWeek.getText().trim())){
+                    editActivity.setText("The start week is before project start week, try again");
+                    revalidate();
+                    repaint();
+                }
+                else if(Integer.parseInt(editActivityStartWeek.getText().trim())>Integer.parseInt(editActivityEndWeek.getText().trim())){
+                    editActivity.setText("Please set start week before an end week");
+                    revalidate();
+                    repaint();
+                }
+                else{
+                    Activity A = (Activity) boxOfActivities.getSelectedItem();
+                    A.setStartWeek(Integer.parseInt(editActivityStartWeek.getText().trim()));
+                    A.setEndWeek(Integer.parseInt(editActivityEndWeek.getText().trim()));
+                    editActivity.setText("The start week and end week has been changed");
+                    revalidate();
+                    repaint();
+                }
+            }
         }
     }
 
