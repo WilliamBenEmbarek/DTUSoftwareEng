@@ -41,6 +41,7 @@ public class GUI extends JFrame implements ActionListener{
     private JButton backEmployee;
     private JButton backProjectLeader;
     private JButton login;
+    private JButton registerHours;
     private JButton createProject;
     private JButton addProject;
     private JButton assignProjectLeader;
@@ -51,6 +52,9 @@ public class GUI extends JFrame implements ActionListener{
     private JButton assignEmployeeToActivityPage;
     private JButton assignEmployeeToActivity;
     private JButton addActivity;
+    private JButton registerTimePage;
+    private JButton assistancePage;
+    private JButton editHoursPage;
 
     // Allows only numbers in some fields
     private NumberFormat longFormat = NumberFormat.getIntegerInstance();
@@ -121,13 +125,37 @@ public class GUI extends JFrame implements ActionListener{
         assignProjectLeader.addActionListener(this);
         employeePanel.add(assignProjectLeader);
 
-
+        registerHours = new JButton("Register Hours");
+        registerHours.addActionListener(this);
+        employeePanel.add(registerHours);
 
         logout = new JButton("Log Out");
         logout.addActionListener(this);
         employeePanel.add(logout);
 
         getContentPane().add(employeePanel);
+    }
+
+    private void registerHoursPage(){
+        JPanel registerHopursPanel = new JPanel(new GridBagLayout());
+
+        registerTimePage = new JButton("Register Time");
+        registerTimePage.addActionListener(this);
+        registerHopursPanel.add(registerTimePage);
+
+        assistancePage = new JButton("Assistance on Activity");
+        assistancePage.addActionListener(this);
+        registerHopursPanel.add(assistancePage);
+
+        editHoursPage = new JButton("Edit hours worked");
+        editHoursPage.addActionListener(this);
+        registerHopursPanel.add(editHoursPage);
+
+        backEmployee = new JButton("Back");
+        backEmployee.addActionListener(this);
+        registerHopursPanel.add(backEmployee);
+
+        getContentPane().add(registerHopursPanel);
     }
 
     private void createProjectPage(){
@@ -455,7 +483,7 @@ public class GUI extends JFrame implements ActionListener{
         } catch (NameAlreadyExistException e1) {
             e1.printStackTrace();
         }
-
+        actionCommandsRegisterHours(e);
         actionCommandsProjectLeaderPage(e);
 
         if (e.getSource() == login) {
@@ -480,6 +508,15 @@ public class GUI extends JFrame implements ActionListener{
         if (e.getSource() == logout){
             getContentPane().removeAll();
             loginPage();
+            revalidate();
+            repaint();
+        }
+    }
+
+    private void actionCommandsRegisterHours(ActionEvent e){
+        if(e.getSource()==registerHours){
+            getContentPane().removeAll();
+            registerHoursPage();
             revalidate();
             repaint();
         }
