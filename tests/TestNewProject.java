@@ -16,13 +16,13 @@ public class TestNewProject extends SampleDataSetup{
 
     @Test
     public void testNewProject() throws NameAlreadyExistException {
-        int numberOfProjects = STM.getProjects().size();
+        int numberOfProjects = stm.getProjects().size();
 
-        Employee E = STM.getEmployeeByID("Emil");
+        Employee E = stm.getEmployeeByID("Emil");
 
         E.AddProject("test",1);
 
-        assertEquals( STM.getProjects().size(),numberOfProjects+1);
+        assertEquals( stm.getProjects().size(),numberOfProjects+1);
     }
 
     /*
@@ -31,7 +31,7 @@ public class TestNewProject extends SampleDataSetup{
 
     @Test
     public void testNewProjectWithInvalidName() throws NameAlreadyExistException {
-        Employee E = STM.getEmployeeByID("Emil");
+        Employee E = stm.getEmployeeByID("Emil");
 
         E.AddProject("testName",1);
 
@@ -53,21 +53,21 @@ public class TestNewProject extends SampleDataSetup{
 
     @Test
     public void testNewProjectWithProjectLeader() throws NameAlreadyExistException {
-        Employee E = STM.getEmployeeByID("Emil");
+        Employee E = stm.getEmployeeByID("Emil");
 
         E.AddProject("test1",2,E);
 
-        ProjectLeader PL = STM.getProjectLeaderByID("Emil");
+        ProjectLeader PL = stm.getProjectLeaderByID("Emil");
 
-        assertEquals(STM.getProjectByID("test1").getProjectLeader(), PL);
+        assertEquals(stm.getProjectByID("test1").getProjectLeader(), PL);
     }
 
     @Test
     public void testNewProjectWithEmployees() throws NameAlreadyExistException { //Written by William
-        Employee E = STM.getEmployeeByID("Emil");
+        Employee E = stm.getEmployeeByID("Emil");
         E.AddProject("test2",2,E);
-        ProjectLeader PL = STM.getProjectLeaderByID("Emil");
-		ArrayList<Employee> employees = STM.getEmployees();
+        ProjectLeader PL = stm.getProjectLeaderByID("Emil");
+		ArrayList<Employee> employees = stm.getEmployees();
 		Project p = PL.getAssignedProject();
 		for (int i = 0; i < employees.size();i++) {
 			PL.assignProject(employees.get(i),p);

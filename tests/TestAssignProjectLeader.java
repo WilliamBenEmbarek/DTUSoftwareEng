@@ -13,16 +13,16 @@ public class TestAssignProjectLeader extends SampleDataSetup{
 
     @Test
     public void testAssignProjectLeader() {
-        assertTrue(STM.getProjectLeaders().size()==1);
-        Employee employee = STM.getEmployeeByID("Emil");
-        Project project = STM.projectsWithoutAProjectLeader().get(0);
-        STM.AssignProjectLeader(employee,project);
+        assertTrue(stm.getProjectLeaders().size()==1);
+        Employee employee = stm.getEmployeeByID("Emil");
+        Project project = stm.projectsWithoutAProjectLeader().get(0);
+        stm.AssignProjectLeader(employee,project);
 
-        assertEquals(STM.getProjectLeaders().size(),2);
-        assertEquals(STM.getProjectLeaderByID("Emil").getID(),employee.getID());
+        assertEquals(stm.getProjectLeaders().size(),2);
+        assertEquals(stm.getProjectLeaderByID("Emil").getID(),employee.getID());
 
         // The employee by ID: Emil should not be a employee anymore
-        assertEquals(STM.getEmployeeByID("Emil"),null);
+        assertEquals(stm.getEmployeeByID("Emil"),null);
     }
 
     /*
@@ -31,13 +31,13 @@ public class TestAssignProjectLeader extends SampleDataSetup{
      */
     @Test
     public void testAssignProjectLeaderToAProjectWithAProjectLeader() {
-        Project project = STM.projectsWithoutAProjectLeader().get(0);
+        Project project = stm.projectsWithoutAProjectLeader().get(0);
 
-        assertTrue(STM.projectsWithoutAProjectLeader().contains(project));
+        assertTrue(stm.projectsWithoutAProjectLeader().contains(project));
 
-        STM.AssignProjectLeader(STM.getEmployeeByID("Emil"),project);
+        stm.AssignProjectLeader(stm.getEmployeeByID("Emil"),project);
 
-        assertFalse(STM.projectsWithoutAProjectLeader().contains(project));
+        assertFalse(stm.projectsWithoutAProjectLeader().contains(project));
     }
 
 }

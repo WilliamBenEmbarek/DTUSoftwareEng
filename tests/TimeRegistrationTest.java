@@ -20,11 +20,11 @@ public class TimeRegistrationTest extends SampleDataSetup{
 	@Test
 	public void testRegisterHours() throws Exception {
 		//Step 0
-		ArrayList<Employee> employees = STM.getEmployees();
+		ArrayList<Employee> employees = stm.getEmployees();
 		String ID = "Test person";
-		Employee test = STM.getEmployeeByID(ID);
-		ProjectLeader p1 = STM.getProjectLeaders().get(0);
-		Project testP = STM.getProjects().get(0);
+		Employee test = stm.getEmployeeByID(ID);
+		ProjectLeader p1 = stm.getProjectLeaders().get(0);
+		Project testP = stm.getProjects().get(0);
 		ArrayList<ProjectActivity> activities = testP.getActivities();
 
 		for (ProjectActivity activity : activities) {
@@ -33,18 +33,18 @@ public class TimeRegistrationTest extends SampleDataSetup{
 		//Step 1
 		test.refreshActivties();
 		test.registerHours(1, 10);
-		assertEquals(test.getHoursWorkedDay(STM.getCurrentWeek(), 1), 10);
+		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(), 1), 10);
 
 
 	}
 
 	@Test
 	public void testEditHours() throws Exception {
-		ArrayList<Employee> employees = STM.getEmployees();
+		ArrayList<Employee> employees = stm.getEmployees();
 		String ID = "Test person";
-		Employee test = STM.getEmployeeByID(ID);
-		ProjectLeader p1 = STM.getProjectLeaders().get(0);
-		Project testP = STM.getProjects().get(0);
+		Employee test = stm.getEmployeeByID(ID);
+		ProjectLeader p1 = stm.getProjectLeaders().get(0);
+		Project testP = stm.getProjects().get(0);
 		ArrayList<ProjectActivity> activities = testP.getActivities();
 		for (ProjectActivity activity : activities) {
 			p1.assignEmployee(test, activity);
@@ -54,11 +54,11 @@ public class TimeRegistrationTest extends SampleDataSetup{
 		test.registerHours(1, 4);
 		test.registerHours(6,2);
 		test.registerHours(0,3);
-		assertEquals(test.getHoursWorkedDay(STM.getCurrentWeek(),1),9);
+		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(),1),9);
 
-		test.editHours(6,STM.getCurrentDay(),8);
-		test.editHours(1,STM.getCurrentDay(),2);
-		assertEquals(test.getHoursWorkedDay(STM.getCurrentWeek(),1),13);
+		test.editHours(6,stm.getCurrentDay(),8);
+		test.editHours(1,stm.getCurrentDay(),2);
+		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(),1),13);
 
 	}
 }

@@ -46,8 +46,9 @@ public class GUI extends JFrame implements ActionListener{
     private JButton addProject;
     private JButton assignProjectLeader;
     private JButton addProjectLeader;
-    private JButton createActivity;
-    private JButton editActivity;
+    private JButton createActivityPage;
+    private JButton editActivityPage;
+    private JButton assignEmployeeToActivityPage;
     private JButton assignEmployeeToActivity;
     private JButton addActivity;
 
@@ -112,11 +113,11 @@ public class GUI extends JFrame implements ActionListener{
     private void employeePage(){
         JPanel employeePanel = new JPanel(new GridBagLayout());
 
-        createProject = new JButton("Create TimeManagement.Domain.Project");
+        createProject = new JButton("Create Project");
         createProject.addActionListener(this);
         employeePanel.add(createProject);
 
-        assignProjectLeader = new JButton("Assign TimeManagement.Domain.Project Leader");
+        assignProjectLeader = new JButton("Assign Project Leader");
         assignProjectLeader.addActionListener(this);
         employeePanel.add(assignProjectLeader);
 
@@ -134,7 +135,7 @@ public class GUI extends JFrame implements ActionListener{
         GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel labelProjectName = new JLabel("TimeManagement.Domain.Project Name: ");
+        JLabel labelProjectName = new JLabel("Project Name: ");
         cs.gridx     = 0;
         cs.gridy     = 0;
         cs.gridwidth = 1;
@@ -146,7 +147,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 3;
         createProjectPanel.add(newProjectName, cs);
 
-        JLabel labelProjectStartWeek = new JLabel("TimeManagement.Domain.Project Start Week: ");
+        JLabel labelProjectStartWeek = new JLabel("Project Start Week: ");
         cs.gridx     = 0;
         cs.gridy     = 1;
         cs.gridwidth = 1;
@@ -159,13 +160,13 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 3;
         createProjectPanel.add(projectStartWeek, cs);
 
-        JLabel labelProjectLeader = new JLabel("TimeManagement.Domain.Project Leader (optional): ");
+        JLabel labelProjectLeader = new JLabel("Project Leader (optional): ");
         cs.gridx     = 0;
         cs.gridy     = 2;
         cs.gridwidth = 1;
         createProjectPanel.add(labelProjectLeader, cs);
 
-        boxOfEmployees = new JComboBox(new Vector(STM.employees));
+        boxOfEmployees = new JComboBox(new Vector(STM.getEmployees()));
         // Remove the index because this function is optional
         boxOfEmployees.setSelectedIndex(-1);
         cs.gridx     = 1;
@@ -173,7 +174,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 3;
         createProjectPanel.add(boxOfEmployees, cs);
 
-        addProject = new JButton("Add TimeManagement.Domain.Project");
+        addProject = new JButton("Add Project");
         cs.gridx     = 1;
         cs.gridy     = 3;
         cs.gridwidth = 3;
@@ -198,19 +199,19 @@ public class GUI extends JFrame implements ActionListener{
         GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel labelUsername = new JLabel("TimeManagement.Domain.Project Leader: ");
+        JLabel labelUsername = new JLabel("Project Leader: ");
         cs.gridx     = 0;
         cs.gridy     = 0;
         cs.gridwidth = 1;
         assignProjectLeaderPanel.add(labelUsername, cs);
 
-        boxOfEmployees = new JComboBox(new Vector(STM.employees));
+        boxOfEmployees = new JComboBox(new Vector(STM.getEmployees()));
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 2;
         assignProjectLeaderPanel.add(boxOfEmployees, cs);
 
-        JLabel labelPassword = new JLabel("TimeManagement.Domain.Project: ");
+        JLabel labelPassword = new JLabel("Project: ");
         cs.gridx     = 0;
         cs.gridy     = 1;
         cs.gridwidth = 1;
@@ -244,19 +245,20 @@ public class GUI extends JFrame implements ActionListener{
     private void projectLeaderPage(){
         JPanel projectLeaderPanel = new JPanel(new GridBagLayout());
 
-        JLabel labelProject = new JLabel();
+        JLabel labelProject = new JLabel("Project: "+loggedOnProjectLeader.getCurrentProject());
+        projectLeaderPanel.add(labelProject);
 
-        createActivity = new JButton("Create TimeManagement.Domain.Activity");
-        createActivity.addActionListener(this);
-        projectLeaderPanel.add(createActivity);
+        createActivityPage = new JButton("Create Activity");
+        createActivityPage.addActionListener(this);
+        projectLeaderPanel.add(createActivityPage);
 
-        editActivity = new JButton("Edit TimeManagement.Domain.Activity");
-        editActivity.addActionListener(this);
-        projectLeaderPanel.add(editActivity);
+        editActivityPage = new JButton("Edit Activity");
+        editActivityPage.addActionListener(this);
+        projectLeaderPanel.add(editActivityPage);
 
-        assignEmployeeToActivity = new JButton("Assign TimeManagement.Domain.Employee");
-        assignEmployeeToActivity.addActionListener(this);
-        projectLeaderPanel.add(assignEmployeeToActivity);
+        assignEmployeeToActivityPage = new JButton("Assign Employee");
+        assignEmployeeToActivityPage.addActionListener(this);
+        projectLeaderPanel.add(assignEmployeeToActivityPage);
 
         logout = new JButton("Log Out");
         logout.addActionListener(this);
@@ -284,7 +286,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 3;
         createActivityPanel.add(newActivityName, cs);
 
-        JLabel labelActivityStartWeek = new JLabel("TimeManagement.Domain.Activity Start Week: ");
+        JLabel labelActivityStartWeek = new JLabel("Activity Start Week: ");
         cs.gridx     = 0;
         cs.gridy     = 1;
         cs.gridwidth = 1;
@@ -296,7 +298,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 3;
         createActivityPanel.add(activityStartWeek, cs);
 
-        JLabel labelActivityEndWeek = new JLabel("TimeManagement.Domain.Activity End Week: ");
+        JLabel labelActivityEndWeek = new JLabel("Activity End Week: ");
         cs.gridx     = 0;
         cs.gridy     = 2;
         cs.gridwidth = 1;
@@ -308,7 +310,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 3;
         createActivityPanel.add(activityEndWeek, cs);
 
-        addActivity = new JButton("Add TimeManagement.Domain.Activity");
+        addActivity = new JButton("Add Activity");
         cs.gridx     = 1;
         cs.gridy     = 3;
         cs.gridwidth = 3;
@@ -333,7 +335,7 @@ public class GUI extends JFrame implements ActionListener{
         GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel labelActivities = new JLabel("TimeManagement.Domain.Activity to be assigned: ");
+        JLabel labelActivities = new JLabel("Activity to be assigned: ");
         cs.gridx     = 0;
         cs.gridy     = 0;
         cs.gridwidth = 1;
@@ -345,17 +347,33 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 3;
         assignEmployeePanel.add(boxOfActivities, cs);
 
-        JLabel labelAvaliableEmployees = new JLabel("TimeManagement.Domain.Employee to be assigned: ");
+        JLabel labelAvaliableEmployees = new JLabel("Employee to be assigned: ");
         cs.gridx     = 0;
         cs.gridy     = 1;
         cs.gridwidth = 1;
-        assignEmployeePanel.add(labelActivities, cs);
+        assignEmployeePanel.add(labelAvaliableEmployees, cs);
 
-        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.assignedProject.activities));
+        boxOfAvaliableEmployees = new JComboBox(new Vector(STM.AvailableEmployeesForAGivenWeek(1)));
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 3;
         assignEmployeePanel.add(boxOfActivities, cs);
+
+        assignEmployeeToActivity = new JButton("Assign to activity");
+        cs.gridx     = 1;
+        cs.gridy     = 2;
+        cs.gridwidth = 3;
+        assignEmployeeToActivity.addActionListener(this);
+        assignEmployeePanel.add(assignEmployeeToActivity, cs);
+
+        backProjectLeader = new JButton("Back");
+        cs.gridx     = 0;
+        cs.gridy     = 2;
+        cs.gridwidth = 3;
+        backProjectLeader.addActionListener(this);
+        assignEmployeePanel.add(backProjectLeader, cs);
+
+
 
         getContentPane().add(assignEmployeePanel);
     }
@@ -370,7 +388,9 @@ public class GUI extends JFrame implements ActionListener{
         } catch (NameAlreadyExistException e1) {
             e1.printStackTrace();
         }
+
         actionCommandsProjectLeaderPage(e);
+
         if (e.getSource() == login) {
             if(STM.checkLogin(userName.getText().trim(), password.getText().trim())) {
                 currentLoggedOn = STM.getEmployeeByID(userName.getText().trim());
@@ -420,13 +440,13 @@ public class GUI extends JFrame implements ActionListener{
             }
             else if(boxOfEmployees.getSelectedIndex()==-1){
                 currentLoggedOn.AddProject(name,Integer.parseInt(startWeek));
-                addProject.setText("TimeManagement.Domain.Project has been added");
+                addProject.setText("Project has been added");
                 revalidate();
                 repaint();
             }
             else{
                 currentLoggedOn.AddProject(name,Integer.parseInt(startWeek),(Employee)boxOfEmployees.getSelectedItem());
-                addProject.setText("TimeManagement.Domain.Project has been added");
+                addProject.setText("Project has been added");
                 revalidate();
                 repaint();
             }
@@ -439,7 +459,7 @@ public class GUI extends JFrame implements ActionListener{
         }
         if(e.getSource() == addProjectLeader){
             STM.AssignProjectLeader((Employee)boxOfEmployees.getSelectedItem(),(Project)boxOfProjects.getSelectedItem());
-            addProjectLeader.setText("TimeManagement.Domain.Project Leader is assigned!");
+            addProjectLeader.setText("Project Leader is assigned!");
             revalidate();
             repaint();
         }
@@ -452,7 +472,7 @@ public class GUI extends JFrame implements ActionListener{
     }
 
     private void actionCommandsProjectLeaderPage(ActionEvent e){
-        if(e.getSource()==createActivity){
+        if(e.getSource()==createActivityPage){
             getContentPane().removeAll();
             createActivityPage();
             revalidate();
@@ -485,17 +505,21 @@ public class GUI extends JFrame implements ActionListener{
             }
             else{
                 loggedOnProjectLeader.addActivity(name, Integer.parseInt(startWeek), Integer.parseInt(endWeek));
-                addActivity.setText("TimeManagement.Domain.Activity is added!");
+                addActivity.setText("Activity is added!");
                 revalidate();
                 repaint();
             }
             System.out.println(Arrays.toString(loggedOnProjectLeader.assignedProject.activities.toArray()));
         }
-        if(e.getSource() == assignEmployeeToActivity){
+        if(e.getSource() == assignEmployeeToActivityPage){
             getContentPane().removeAll();
             assignEmployeePage();
             revalidate();
             repaint();
+        }
+        if(e.getSource() == assignEmployeeToActivity){
+            loggedOnProjectLeader.assignEmployee((Employee)boxOfAvaliableEmployees.getSelectedItem(),(ProjectActivity)boxOfActivities.getSelectedItem());
+
         }
     }
 
