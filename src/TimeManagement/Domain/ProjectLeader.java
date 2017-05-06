@@ -29,15 +29,11 @@ public class ProjectLeader {
         assignedProject.addActivity(A);
     }
 
-    public void editActivity(Activity a, int newStartWeek){
-
-    }
-
-
     public void assignEmployee(Employee e, ProjectActivity a) {
     	a.assignEmployee(e);
     	e.assignActivity(a);
 	}
+
 	public void assignProject(Employee e, Project p) {
         e.assignProject(p);
     }

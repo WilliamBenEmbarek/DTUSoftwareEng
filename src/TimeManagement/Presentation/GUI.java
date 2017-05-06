@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Vector;
@@ -29,19 +30,22 @@ public class GUI extends JFrame implements ActionListener{
     private JFormattedTextField activityEndWeek;
     private JFormattedTextField editActivityStartWeek;
     private JFormattedTextField editActivityEndWeek;
+    private JFormattedTextField hours;
 
     // Drop-down menus
     private JComboBox boxOfEmployees;
     private JComboBox boxOfProjects;
     private JComboBox boxOfAvaliableEmployees;
     private JComboBox boxOfActivities;
+    private JComboBox boxOfAssignedActivities;
 
     // Functional buttons
     private JButton logout;
     private JButton backEmployee;
     private JButton backProjectLeader;
+    private JButton backRegisterTimeMenue;
     private JButton login;
-    private JButton registerHours;
+    private JButton registerHoursMenue;
     private JButton createProject;
     private JButton addProject;
     private JButton assignProjectLeader;
@@ -55,10 +59,14 @@ public class GUI extends JFrame implements ActionListener{
     private JButton registerTimePage;
     private JButton assistancePage;
     private JButton editHoursPage;
+    private JButton registerTime;
 
     // Allows only numbers in some fields
-    private NumberFormat longFormat = NumberFormat.getIntegerInstance();
-    private NumberFormatter numberFormatter = new NumberFormatter(longFormat);
+    private NumberFormat intFormat = NumberFormat.getIntegerInstance();
+    private NumberFormatter intFormatter = new NumberFormatter(intFormat);
+
+    private NumberFormat doubleFormat = new DecimalFormat("#0.00");
+    private NumberFormatter doubleFormatter = new NumberFormatter(doubleFormat);
 
     public static void main(String[] args) throws NameAlreadyExistException {
         GUI mainFrame = new GUI();
@@ -125,9 +133,9 @@ public class GUI extends JFrame implements ActionListener{
         assignProjectLeader.addActionListener(this);
         employeePanel.add(assignProjectLeader);
 
-        registerHours = new JButton("Register Hours");
-        registerHours.addActionListener(this);
-        employeePanel.add(registerHours);
+        registerHoursMenue = new JButton("Register Hours");
+        registerHoursMenue.addActionListener(this);
+        employeePanel.add(registerHoursMenue);
 
         logout = new JButton("Log Out");
         logout.addActionListener(this);
@@ -158,6 +166,59 @@ public class GUI extends JFrame implements ActionListener{
         getContentPane().add(registerHopursPanel);
     }
 
+    private void registerHoursTable(){
+        JPanel registerHourPanel = new JPanel(new GridBagLayout());
+
+        // Sets contrains to organize components in the panel.
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel labelActivity = new JLabel("Activity: ");
+        cs.gridx     = 0;
+        cs.gridy     = 0;
+        cs.gridwidth = 1;
+        registerHourPanel.add(labelActivity, cs);
+
+        boxOfAssignedActivities = new JComboBox(new Vector(currentLoggedOn.getAssignedActivites()));
+        cs.gridx     = 1;
+        cs.gridy     = 0;
+        cs.gridwidth = 3;
+        registerHourPanel.add(boxOfAssignedActivities, cs);
+
+
+        JLabel labelHours = new JLabel("Hours worked: ");
+        cs.gridx     = 0;
+        cs.gridy     = 1;
+        cs.gridwidth = 1;
+        registerHourPanel.add(labelHours, cs);
+
+        doubleFormatter.setAllowsInvalid(false);
+        hours = new JFormattedTextField(doubleFormatter);
+        cs.gridx     = 1;
+        cs.gridy     = 1;
+        cs.gridwidth = 3;
+        registerHourPanel.add(hours, cs);
+
+
+        registerTime = new JButton("Register Time");
+        cs.gridx     = 1;
+        cs.gridy     = 3;
+        cs.gridwidth = 3;
+        registerTime.addActionListener(this);
+        registerHourPanel.add(registerTime, cs);
+
+        backRegisterTimeMenue = new JButton("Back");
+        cs.gridx     = 0;
+        cs.gridy     = 3;
+        cs.gridwidth = 3;
+        backRegisterTimeMenue.addActionListener(this);
+        registerHourPanel.add( backRegisterTimeMenue, cs);
+
+
+
+        getContentPane().add(registerHourPanel);
+    }
+
     private void createProjectPage(){
         JPanel createProjectPanel = new JPanel(new GridBagLayout());
 
@@ -183,8 +244,8 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         createProjectPanel.add(labelProjectStartWeek, cs);
 
-        numberFormatter.setAllowsInvalid(false);
-        projectStartWeek = new JFormattedTextField(numberFormatter);
+        intFormatter.setAllowsInvalid(false);
+        projectStartWeek = new JFormattedTextField(intFormatter);
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 3;
@@ -322,7 +383,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         createActivityPanel.add(labelActivityStartWeek, cs);
 
-        activityStartWeek = new JFormattedTextField(numberFormatter);
+        activityStartWeek = new JFormattedTextField(intFormatter);
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 3;
@@ -334,7 +395,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         createActivityPanel.add(labelActivityEndWeek, cs);
 
-        activityEndWeek = new JFormattedTextField(numberFormatter);
+        activityEndWeek = new JFormattedTextField(intFormatter);
         cs.gridx     = 1;
         cs.gridy     = 2;
         cs.gridwidth = 3;
@@ -357,6 +418,7 @@ public class GUI extends JFrame implements ActionListener{
 
         getContentPane().add(createActivityPanel);
     }
+    // Problem her!!! Kig på den anden vector herunder
 
     private void assignEmployeePage(){
         JPanel assignEmployeePanel = new JPanel(new GridBagLayout());
@@ -371,7 +433,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         assignEmployeePanel.add(labelActivities, cs);
 
-        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.assignedProject.activities));
+        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.getAssignedProject().getActivities()));
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 3;
@@ -387,7 +449,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 3;
-        assignEmployeePanel.add(boxOfActivities, cs);
+        assignEmployeePanel.add(boxOfAvaliableEmployees, cs);
 
         assignEmployeeToActivity = new JButton("Assign to activity");
         cs.gridx     = 1;
@@ -434,8 +496,8 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         editActivityPanel.add(labelStartWeek, cs);
 
-        numberFormatter.setAllowsInvalid(false);
-        editActivityStartWeek = new JFormattedTextField(numberFormatter);
+        intFormatter.setAllowsInvalid(false);
+        editActivityStartWeek = new JFormattedTextField(intFormatter);
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 3;
@@ -447,8 +509,8 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         editActivityPanel.add(labelEndWeek, cs);
 
-        numberFormatter.setAllowsInvalid(false);
-        editActivityEndWeek = new JFormattedTextField(numberFormatter);
+        intFormatter.setAllowsInvalid(false);
+        editActivityEndWeek = new JFormattedTextField(intFormatter);
         cs.gridx     = 1;
         cs.gridy     = 2;
         cs.gridwidth = 3;
@@ -514,12 +576,19 @@ public class GUI extends JFrame implements ActionListener{
     }
 
     private void actionCommandsRegisterHours(ActionEvent e){
-        if(e.getSource()==registerHours){
+        if(e.getSource()==registerHoursMenue || e.getSource()==backRegisterTimeMenue){
             getContentPane().removeAll();
             registerHoursPage();
             revalidate();
             repaint();
         }
+        if(e.getSource()==registerTimePage){
+            getContentPane().removeAll();
+            registerHoursTable();
+            revalidate();
+            repaint();
+        }
+
     }
 
     private void actionCommandsEmployeePage(ActionEvent e) throws NameAlreadyExistException {
