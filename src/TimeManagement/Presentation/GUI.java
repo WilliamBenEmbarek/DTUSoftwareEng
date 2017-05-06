@@ -237,6 +237,81 @@ public class GUI extends JFrame implements ActionListener{
         getContentPane().add(registerHourPanel);
     }
 
+    private void assistancePage(){
+        JPanel assistancePanel = new JPanel(new GridBagLayout());
+
+        // Sets contrains to organize components in the panel.
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+
+        // Possible activities to assist
+        ArrayList<Activity> possibleAssistActivities = new ArrayList<>();
+        for(int i = 0; i<currentLoggedOn.getCurrentProject().getActivities().size();i++){
+            if(currentLoggedOn.getAssignedActivites().contains(currentLoggedOn.getCurrentProject().getActivities().get(i))){
+                // Don't add to list
+            }
+            else{
+                possibleAssistActivities.add(currentLoggedOn.getCurrentProject().getActivities().get(i));
+            }
+        }
+
+        JLabel labelActivity = new JLabel("Activity: ");
+        cs.gridx     = 0;
+        cs.gridy     = 0;
+        cs.gridwidth = 1;
+        assistancePanel.add(labelActivity, cs);
+
+        boxOfAssignedActivities = new JComboBox(new Vector(possibleAssistActivities));
+        cs.gridx     = 1;
+        cs.gridy     = 0;
+        cs.gridwidth = 3;
+        assistancePanel.add(boxOfAssignedActivities, cs);
+
+
+        JLabel labelHours = new JLabel("Hours worked: ");
+        cs.gridx     = 0;
+        cs.gridy     = 1;
+        cs.gridwidth = 1;
+        assistancePanel.add(labelHours, cs);
+
+        doubleFormatter.setAllowsInvalid(false);
+        hours = new JFormattedTextField(doubleFormatter);
+        cs.gridx     = 1;
+        cs.gridy     = 1;
+        cs.gridwidth = 3;
+        assistancePanel.add(hours, cs);
+
+        JLabel labelDate = new JLabel("Day: ");
+        cs.gridx     = 0;
+        cs.gridy     = 2;
+        cs.gridwidth = 1;
+        assistancePanel.add(labelDate, cs);
+
+        days = new JComboBox(new Vector(new ArrayList<String>(Arrays.asList(weekDays))));
+        cs.gridx     = 1;
+        cs.gridy     = 2;
+        cs.gridwidth = 3;
+        assistancePanel.add(days, cs);
+
+        registerTime = new JButton("Register Time");
+        cs.gridx     = 1;
+        cs.gridy     = 3;
+        cs.gridwidth = 3;
+        registerTime.addActionListener(this);
+        assistancePanel.add(registerTime, cs);
+
+        backRegisterTimeMenue = new JButton("Back");
+        cs.gridx     = 0;
+        cs.gridy     = 3;
+        cs.gridwidth = 3;
+        backRegisterTimeMenue.addActionListener(this);
+        assistancePanel.add( backRegisterTimeMenue, cs);
+
+
+
+        getContentPane().add(assistancePanel);
+    }
+
     private void createProjectPage(){
         JPanel createProjectPanel = new JPanel(new GridBagLayout());
 
@@ -631,7 +706,12 @@ public class GUI extends JFrame implements ActionListener{
                 repaint();
             }
         }
-
+        if(e.getSource() == assistancePage){
+            getContentPane().removeAll();
+            assistancePage();
+            revalidate();
+            repaint();
+        }
 
     }
 
