@@ -29,7 +29,7 @@ public class Employee {
 		this.stm = stm;
 	}
 
-	public void registerHours(int activityID, Double hours) {
+	public void registerHours(int activityID, double hours) {
 		int totalActivities = week.get(currentWeek).size();
 		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
@@ -38,7 +38,7 @@ public class Employee {
 		}
 	}
 
-	public void editHours(int activityID, int date, double hours) {
+	public void editHours(double activityID, int date, double hours) {
 		int totalActivities = week.get(currentWeek).size();
 		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.

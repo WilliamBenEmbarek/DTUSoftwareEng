@@ -8,8 +8,11 @@ import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Vector;
 
 public class GUI extends JFrame implements ActionListener{
@@ -38,6 +41,10 @@ public class GUI extends JFrame implements ActionListener{
     private JComboBox boxOfAvaliableEmployees;
     private JComboBox boxOfActivities;
     private JComboBox boxOfAssignedActivities;
+    private JComboBox days;
+
+    // Week days
+    private String[] weekDays = new String[]{"Monday","Tuesday","Wednesday","Thursday","Friday"};
 
     // Functional buttons
     private JButton logout;
@@ -65,7 +72,7 @@ public class GUI extends JFrame implements ActionListener{
     private NumberFormat intFormat = NumberFormat.getIntegerInstance();
     private NumberFormatter intFormatter = new NumberFormatter(intFormat);
 
-    private NumberFormat doubleFormat = new DecimalFormat("#0.00");
+    private NumberFormat doubleFormat = new DecimalFormat("#0.00",new DecimalFormatSymbols(Locale.ENGLISH));
     private NumberFormatter doubleFormatter = new NumberFormatter(doubleFormat);
 
     public static void main(String[] args) throws NameAlreadyExistException {
@@ -199,6 +206,17 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 3;
         registerHourPanel.add(hours, cs);
 
+        JLabel labelDate = new JLabel("Day: ");
+        cs.gridx     = 0;
+        cs.gridy     = 2;
+        cs.gridwidth = 1;
+        registerHourPanel.add(labelDate, cs);
+
+        days = new JComboBox(new Vector(new ArrayList<String>(Arrays.asList(weekDays))));
+        cs.gridx     = 1;
+        cs.gridy     = 2;
+        cs.gridwidth = 3;
+        registerHourPanel.add(days, cs);
 
         registerTime = new JButton("Register Time");
         cs.gridx     = 1;
@@ -588,6 +606,32 @@ public class GUI extends JFrame implements ActionListener{
             revalidate();
             repaint();
         }
+        if(e.getSource() == registerTime){
+            if(boxOfAssignedActivities.getSelectedItem() == null || hours.getText().trim().equals("")){
+                registerTime.setText("Something went wrong, try again");
+                revalidate();
+                repaint();
+            }
+            else{
+                Activity A = (Activity) boxOfAssignedActivities.getSelectedItem();
+                double activityID = A.getID();
+                Double time = Double.valueOf(hours.getText().trim());
+                // Convert from string monday etc. to number 1-5
+                int dayNumber = 0;
+                for(int i = 0; i<weekDays.length ; i++){
+                    if(weekDays[i]==days.getSelectedItem().toString()){
+                        dayNumber = i+1;
+                    }
+                }
+
+                currentLoggedOn.editHours(activityID,dayNumber,time);
+
+                registerTime.setText("Time is registered");
+                revalidate();
+                repaint();
+            }
+        }
+
 
     }
 
