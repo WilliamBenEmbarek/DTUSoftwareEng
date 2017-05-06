@@ -1,4 +1,4 @@
-package TimeManagement.System;
+package TimeManagement.Domain;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Project {
 	private int ProjectNumber;
 	private String ProjectName;
-	public static ArrayList<ProjectActivity> activities = new ArrayList<ProjectActivity>(0);
+	public ArrayList<ProjectActivity> activities = new ArrayList<ProjectActivity>(0);
 	private int StartWeek;
 	private ProjectLeader projectLeader;
 
@@ -42,7 +42,7 @@ public class Project {
 		return activities.size();
 	}
 
-	public static ArrayList<ProjectActivity> getActivities() {
+	public ArrayList<ProjectActivity> getActivities() {
 		return activities;
 	}
 

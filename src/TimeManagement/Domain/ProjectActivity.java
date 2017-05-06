@@ -1,4 +1,4 @@
-package TimeManagement.System;
+package TimeManagement.Domain;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,5 @@
-import TimeManagement.System.Employee;
-import TimeManagement.System.Project;
+import TimeManagement.Domain.Employee;
+import TimeManagement.Domain.Project;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

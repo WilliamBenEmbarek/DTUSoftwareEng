@@ -1,7 +1,7 @@
-import TimeManagement.System.Employee;
-import TimeManagement.System.Project;
-import TimeManagement.System.ProjectActivity;
-import TimeManagement.System.ProjectLeader;
+import TimeManagement.Domain.Employee;
+import TimeManagement.Domain.Project;
+import TimeManagement.Domain.ProjectActivity;
+import TimeManagement.Domain.ProjectLeader;
 import org.junit.Test;
 
 import java.util.ArrayList;

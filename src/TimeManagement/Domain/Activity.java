@@ -1,4 +1,4 @@
-package TimeManagement.System;
+package TimeManagement.Domain;
 
 /**
  * Created by Emil on 27/03/2017.

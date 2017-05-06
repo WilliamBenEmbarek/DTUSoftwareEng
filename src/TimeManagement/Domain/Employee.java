@@ -1,4 +1,4 @@
-package TimeManagement.System;
+package TimeManagement.Domain;
 
 import java.util.ArrayList;
 
@@ -14,16 +14,18 @@ public class Employee {
 	private ArrayList<Activity> assignedActivites = new ArrayList<Activity>();
 	private int currentWeek;
 	private int currentDay;
+	private SystemTimeManager stm;
 
-	public Employee(String ID) {
+	public Employee(String ID,SystemTimeManager stm) {
 		this.ID = ID;
-		currentWeek = SystemTimeManager.getCurrentWeek();
-		currentDay = SystemTimeManager.getCurrentDay();
+		currentWeek = stm.getCurrentWeek();
+		currentDay = stm.getCurrentDay();
 		projectWeek.add(new ArrayList<Integer>());
 		for (int i = 0; i <6; i++) {
 			projectWeek.get(0).add(0);
 		}
 		week.add(currentWeek, projectWeek);
+		this.stm = stm;
 	}
 
 	public void registerHours(int activityID, int hours) {
@@ -81,11 +83,11 @@ public class Employee {
 	}
 
 	public void AddProject (String ProjectName, int StartWeek) throws NameAlreadyExistException {
-		SystemTimeManager.newProject(ProjectName,StartWeek);
+		stm.newProject(ProjectName,StartWeek);
 	}
 
 	public void AddProject (String ProjectName, int StartWeek, Employee projectLeader) throws NameAlreadyExistException {
-		SystemTimeManager.newProject(ProjectName,StartWeek,projectLeader);
+		stm.newProject(ProjectName,StartWeek,projectLeader);
 	}
 
 	public String getID() {
