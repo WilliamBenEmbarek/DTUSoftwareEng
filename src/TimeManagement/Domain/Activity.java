@@ -7,15 +7,15 @@ public abstract class Activity {
     private String name;
     private int startWeek;
     private int  endWeek;
-    private int ID;
+    private double ID;
 
-    public Activity(String name,int ID, int startWeek) {
+    public Activity(String name,double ID, int startWeek) {
         this.name = name;
         this.startWeek = startWeek;
         this.ID = ID;
     }
 
-    public Activity(String name,int ID, int startWeek, int endWeek) {
+    public Activity(String name,double ID, int startWeek, int endWeek) {
         this.name = name;
         this.ID = ID;
         this.startWeek = startWeek;
@@ -50,7 +50,7 @@ public abstract class Activity {
         return this.name;
     }
 
-    public int getID() {
+    public double getID() {
         return ID;
     }
 }
