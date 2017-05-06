@@ -1,3 +1,5 @@
+package TimeManagement.System;
+
 /**
  * Created by Emil on 27/03/2017.
  */
@@ -16,9 +18,6 @@ public class ProjectLeader {
         return ID;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
-    }
 
     public void addActivity(String activity, int ID, int startWeek){
         ProjectActivity A = new ProjectActivity(activity,ID,startWeek);

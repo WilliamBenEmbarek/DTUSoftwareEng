@@ -1,7 +1,10 @@
+import TimeManagement.System.Employee;
+import TimeManagement.System.NameAlreadyExistException;
+import TimeManagement.System.Project;
+import TimeManagement.System.ProjectLeader;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -34,7 +37,7 @@ public class TestNewProject extends SampleDataSetup{
 
         try {
             E.AddProject("testName",2);
-            fail("NameAlreadyExistException exception should have been thrown");
+            fail("TimeManagement.System.NameAlreadyExistException exception should have been thrown");
         } catch (NameAlreadyExistException e) {
 
             assertEquals("This name already exist.", e.getMessage());
