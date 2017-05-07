@@ -51,11 +51,7 @@ public class Employee {
 		refreshActivties();
 	}
 	public void assignActivity(Activity a) {
-		if (a.getStartWeek() <= currentWeek) {
-			assignedActivites.add(a);
-		} else {
-			futureAssignedActivties.add(a);
-		}
+		assignedActivites.add(a);
 	}
 
 	public void refreshActivties() { //Needs to be called everytime an activity is created / changed with the employee.
