@@ -127,9 +127,11 @@ public class SystemTimeManager {
 	}
 
 	// Hardcode employees
-	public void setUpEmployees(){
+	public void setUpEmployees() throws NameAlreadyExistException {
 		Employee e1 = new Employee("Emil",this);
 		employees.add(e1);
+		// To test
+		newProject("test",1,e1);
 		Employee e2 = new Employee("William",this);
 		employees.add(e2);
 		Employee e3 = new Employee("Test person",this);
@@ -148,9 +150,6 @@ public class SystemTimeManager {
 		if(ID.equals("Emil") && pass.equals("123")){
 			return true;
 		}
-		if(ID.equals("William") && pass.equals("321")){
-			return true;
-		}
-		return false;
-	}
+        return ID.equals("William") && pass.equals("321");
+    }
 }

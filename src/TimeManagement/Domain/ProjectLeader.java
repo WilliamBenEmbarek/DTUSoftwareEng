@@ -33,6 +33,7 @@ public class ProjectLeader {
     	a.assignEmployee(e);
     	e.assignActivity(a);
 	}
+
 	public void assignProject(Employee e, Project p) {
         e.assignProject(p);
     }

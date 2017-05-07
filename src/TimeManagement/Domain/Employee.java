@@ -1,6 +1,7 @@
 package TimeManagement.Domain;
 
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 
 /**
  * Created by Emil on 27/03/2017.
@@ -9,8 +10,8 @@ public class Employee {
 	private String ID;
 	private Project CurrentProject;
 	private String CurrentProjectName;
-	private ArrayList<ArrayList<ArrayList<Integer>>> week = new ArrayList<ArrayList<ArrayList<Integer>>>(); //Outer Arraylist. Keeps track of current week.
-	private ArrayList<ArrayList<Integer>> projectWeek = new ArrayList<ArrayList<Integer>>(1); //Middle ArrayList. Keeps track of Activties
+	private ArrayList<ArrayList<ArrayList<Double>>> week = new ArrayList<ArrayList<ArrayList<Double>>>(); //Outer Arraylist. Keeps track of current week.
+	private ArrayList<ArrayList<Double>> projectWeek = new ArrayList<ArrayList<Double>>(1); //Middle ArrayList. Keeps track of Activties
 	private ArrayList<Activity> assignedActivites = new ArrayList<Activity>();
 	private int currentWeek;
 	private int currentDay;
@@ -20,34 +21,34 @@ public class Employee {
 		this.ID = ID;
 		currentWeek = stm.getCurrentWeek();
 		currentDay = stm.getCurrentDay();
-		projectWeek.add(new ArrayList<Integer>());
+		projectWeek.add(new ArrayList<Double>());
 		for (int i = 0; i <6; i++) {
-			projectWeek.get(0).add(0);
+			projectWeek.get(0).add(0.0);
 		}
 		week.add(currentWeek, projectWeek);
 		this.stm = stm;
 	}
 
-	public void registerHours(int activityID, int hours) {
+	public void registerHours(int activityID, double hours) {
 		int totalActivities = week.get(currentWeek).size();
-		for (ArrayList<Integer> aProjectWeek : week.get(currentWeek)) {
+		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
 				aProjectWeek.set(currentDay, aProjectWeek.get(currentDay) + hours);
 			}
 		}
 	}
 
-	public void editHours(int activityID, int date, int hours) {
+	public void editHours(double activityID, int date, double hours) {
 		int totalActivities = week.get(currentWeek).size();
-		for (ArrayList<Integer> aProjectWeek : week.get(currentWeek)) {
+		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
 				aProjectWeek.set(date, hours);
 			}
 		}
 	}
-	public int getHoursWorkedDay(int gWeek, int gDate) {
-		int hours = 0;
-		for (ArrayList<Integer> aProjectWeek : week.get(gWeek)) {
+	public double getHoursWorkedDay(int gWeek, int gDate) {
+		double hours = 0;
+		for (ArrayList<Double> aProjectWeek : week.get(gWeek)) {
 				hours = hours + aProjectWeek.get(gDate);
 			}
 		return hours;
@@ -57,7 +58,7 @@ public class Employee {
 		CurrentProject = project;
 		week.add(currentWeek, week.get(currentWeek)); //Fill up arraylist with activties
 		for (int i = 0; i < CurrentProject.getNumberOfActivties(); i++) {
-			week.get(currentWeek).add(new ArrayList<Integer>(1)); //Inner ArrayList. Keeps track of hours on what days.
+			week.get(currentWeek).add(new ArrayList<Double>(1)); //Inner ArrayList. Keeps track of hours on what days.
 		}
 		refreshActivties();
 	}
@@ -69,9 +70,9 @@ public class Employee {
 		int x = week.get(currentWeek).size();
 		if (x != assignedActivites.size()) {
 			for (int i = 0; i < assignedActivites.size()-x; i++) {
-				week.get(currentWeek).add(new ArrayList<Integer>());
+				week.get(currentWeek).add(new ArrayList<Double>());
 				for (int y = 0; y <6; y++) {
-					week.get(currentWeek).get(week.get(currentWeek).size()-1).add(0);
+					week.get(currentWeek).get(week.get(currentWeek).size()-1).add(0.0);
 				}
 			}
 		}
