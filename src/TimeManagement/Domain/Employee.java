@@ -143,6 +143,16 @@ public class Employee {
 		}
 		return x;
 	}
+
+	public String[] getActivitiesAssigned(){
+	    String[] tempArray = new String[this.assignedActivites.size()+1];
+	    tempArray[0]="";
+	    for(int i=0; i<this.assignedActivites.size();i++){
+	        tempArray[i+1]=this.assignedActivites.get(i).getName();
+        }
+        return tempArray;
+    }
+
 	public void updateWeek() {
 		currentWeek = stm.getCurrentWeek();
 		if (assignedActivites.size() != 0) {

@@ -177,10 +177,13 @@ public class GUI extends JFrame implements ActionListener{
         JPanel registerHoursPanel = new JPanel(new GridBagLayout());
 
         Object rowData[][] = currentLoggedOn.getActivityHours();
-        Object columnNames[] = { "Column One", "Column Two" };
+        Object columnNames[] = currentLoggedOn.getActivitiesAssigned();
         System.out.println(Arrays.deepToString(rowData));
         JTable table = new JTable(rowData, columnNames);
-        panel.add(table,BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setPreferredSize(new Dimension(100,100));
+
+        panel.add(scrollPane,BorderLayout.CENTER);
 
         registerTimePage = new JButton("Register Time");
         registerTimePage.addActionListener(this);
@@ -943,5 +946,7 @@ public class GUI extends JFrame implements ActionListener{
         mainFrame.setLayout(new GridBagLayout());
         mainFrame.setVisible(true);
     }
+
+
 
 }

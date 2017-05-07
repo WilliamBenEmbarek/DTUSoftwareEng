@@ -152,12 +152,12 @@ public class SystemTimeManager {
 	public void setUpEmployees() throws NameAlreadyExistException {
 		Employee e1 = new Employee("Emil",this);
 		employees.add(e1);
-		// To test
-		newProject("test",0,e1);
 		Employee e2 = new Employee("William",this);
 		employees.add(e2);
-		Employee e3 = new Employee("Test person",this);
-		employees.add(e3);
+		for(int i=0; i<10;i++){
+		    Employee e = new Employee("E"+i,this);
+		    employees.add(e);
+        }
 	}
 	public void nextWeek(){
 		CurrentWeek = CurrentWeek+1;
