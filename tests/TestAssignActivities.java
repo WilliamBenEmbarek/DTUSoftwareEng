@@ -22,7 +22,7 @@ public class TestAssignActivities extends SampleDataSetup {
 		Employee test = stm.getEmployeeByID(ID);
 		ProjectLeader p1 = stm.getProjectLeaders().get(0);
 		Project testP = stm.getProjects().get(0);
-		ArrayList<ProjectActivity> activities = testP.getActivities();
+		ArrayList<ProjectActivity> activities = testP.getActivities(stm.getCurrentWeek());
 		//Step 1
 		assertEquals(ID, test.getID());
 

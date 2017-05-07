@@ -279,12 +279,12 @@ public class GUI extends JFrame implements ActionListener{
 
         // Possible activities to assist
         ArrayList<Activity> possibleAssistActivities = new ArrayList<>();
-        for(int i = 0; i<currentLoggedOn.getCurrentProject().getActivities().size();i++){
-            if(currentLoggedOn.getAssignedActivites().contains(currentLoggedOn.getCurrentProject().getActivities().get(i))){
+        for(int i = 0; i<currentLoggedOn.getCurrentProject().getActivities(STM.getCurrentWeek()).size();i++){
+            if(currentLoggedOn.getAssignedActivites().contains(currentLoggedOn.getCurrentProject().getActivities(STM.getCurrentWeek()).get(i))){
                 // Don't add to list
             }
             else{
-                possibleAssistActivities.add(currentLoggedOn.getCurrentProject().getActivities().get(i));
+                possibleAssistActivities.add(currentLoggedOn.getCurrentProject().getActivities(STM.getCurrentWeek()).get(i));
             }
         }
 
@@ -460,10 +460,13 @@ public class GUI extends JFrame implements ActionListener{
     }
 
     private void projectLeaderPage(){
+        Panel p = new Panel();
+        p.setLayout(new BorderLayout());
+
         JPanel projectLeaderPanel = new JPanel(new GridBagLayout());
 
         JLabel labelProject = new JLabel("Project: "+loggedOnProjectLeader.getCurrentProject());
-        projectLeaderPanel.add(labelProject);
+        p.add(labelProject, BorderLayout.CENTER);
 
         createActivityPage = new JButton("Create Activity");
         createActivityPage.addActionListener(this);
@@ -481,7 +484,8 @@ public class GUI extends JFrame implements ActionListener{
         logout.addActionListener(this);
         projectLeaderPanel.add(logout);
 
-        getContentPane().add(projectLeaderPanel);
+        p.add(projectLeaderPanel, BorderLayout.SOUTH);
+        getContentPane().add(p);
     }
 
     private void createActivityPage(){
@@ -558,7 +562,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         assignEmployeePanel.add(labelActivities, cs);
 
-        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.getAssignedProject().getActivities()));
+        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.getAssignedProject().getActivities(STM.getCurrentWeek())));
         boxOfActivities.setSelectedIndex(selectAIndex);
         boxOfActivities.addActionListener(this);
         cs.gridx     = 1;
@@ -612,7 +616,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         editActivityPanel.add(labelActivity, cs);
 
-        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.getAssignedProject().getActivities()));
+        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.getAssignedProject().getActivities(STM.getCurrentWeek())));
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 3;
@@ -863,7 +867,7 @@ public class GUI extends JFrame implements ActionListener{
             }
         }
         if(e.getSource() == assignEmployeeToActivityPage){
-            if(loggedOnProjectLeader.getAssignedProject().getActivities().size()==0){
+            if(loggedOnProjectLeader.getAssignedProject().getActivities(STM.getCurrentWeek()).size()==0){
                 assignEmployeeToActivityPage.setText("Create some activities first");
                 revalidate();
                 repaint();
@@ -946,7 +950,6 @@ public class GUI extends JFrame implements ActionListener{
         mainFrame.setLayout(new GridBagLayout());
         mainFrame.setVisible(true);
     }
-
 
 
 }

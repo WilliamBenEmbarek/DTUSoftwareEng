@@ -42,9 +42,15 @@ public class Project {
 		return activities.size();
 	}
 
-	public ArrayList<ProjectActivity> getActivities() {
+	public ArrayList<ProjectActivity> getActivities(int week) {
+		for(int i=0; i<this.activities.size(); i++){
+			if(this.activities.get(i).getEndWeek()<week){
+				this.activities.remove(this.activities.get(i));
+			}
+		}
 		return activities;
 	}
+
 
 	public void addActivity(ProjectActivity activity) {
 		activities.add(activity);
