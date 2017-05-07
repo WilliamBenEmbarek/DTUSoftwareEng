@@ -178,7 +178,7 @@ public class GUI extends JFrame implements ActionListener{
 
         Object rowData[][] = currentLoggedOn.getActivityHours();
         Object columnNames[] = currentLoggedOn.getActivitiesAssigned();
-        System.out.println(Arrays.deepToString(rowData));
+
         JTable table = new JTable(rowData, columnNames);
         JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setPreferredSize(new Dimension(100,100));
@@ -578,7 +578,6 @@ public class GUI extends JFrame implements ActionListener{
 
         Activity A = (Activity)boxOfActivities.getSelectedItem();
         boxOfAvaliableEmployees = new JComboBox(new Vector(STM.AvailableEmployeesForAGivenActivity(A)));
-        System.out.println(Arrays.toString(STM.AvailableEmployeesForAGivenActivity(A).toArray()));
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 3;
@@ -709,7 +708,6 @@ public class GUI extends JFrame implements ActionListener{
             loginPage();
             revalidate();
             repaint();
-            System.out.println(""+STM.getCurrentWeek());
         }
     }
 
@@ -895,6 +893,8 @@ public class GUI extends JFrame implements ActionListener{
             repaint();
         }
         if(e.getSource() == editActivity){
+            Activity A = (Activity)boxOfActivities.getSelectedItem();
+            int currentEndWeek = A.getEndWeek();
             if((editActivityStartWeek.getText().trim().equals("") && editActivityEndWeek.getText().trim().equals("")) || boxOfActivities.getSelectedItem()==null){
                 editActivity.setText("Nothing has changed");
                 revalidate();
@@ -903,6 +903,11 @@ public class GUI extends JFrame implements ActionListener{
             else if(editActivityEndWeek.getText().trim().equals("")) {
                 if(loggedOnProjectLeader.getAssignedProject().getStartWeek()>Integer.parseInt(editActivityStartWeek.getText().trim())){
                     editActivity.setText("The start week is before project start week, try again");
+                    revalidate();
+                    repaint();
+                }
+                else if(Integer.parseInt(editActivityStartWeek.getText().trim())>currentEndWeek){
+                    editActivity.setText("The start week is after end week, try again");
                     revalidate();
                     repaint();
                 }
