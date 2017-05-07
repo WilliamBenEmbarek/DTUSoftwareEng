@@ -124,18 +124,18 @@ public class Employee {
 	}
 
 	public String[][] getActivityHours() {
-		String[][] x = new String[6][assignedActivites.size()+1];
+		String[][] x = new String[5][assignedActivites.size()+1];
 		x[0][0] = "Monday";
 		x[1][0] = "Tuesday";
 		x[2][0] = "Wednesday";
 		x[3][0] = "Thursday";
 		x[4][0] = "Friday";
 		for (int i = 0; i < assignedActivites.size(); i++) {
-			for (int j = 0; j < 4;j++)
+			for (int j = 0; j < 5;j++)
 			{
-				if (week.get(currentWeek).get(0).get(j) != null)
+				if (week.get(currentWeek).get(i).get(j) != null)
 				{
-					x[j][i+1] = week.get(currentWeek).get(0).get(j).toString();
+					x[j][i+1] = week.get(currentWeek).get(0).get(i).toString();
 				}
 			}
 		}
