@@ -48,6 +48,7 @@ public class GUI extends JFrame implements ActionListener{
 
     // JPanel
     private JPanel assignEmployeePanel;
+    private int selectAIndex=0;
 
     // Functional buttons
     private JButton logout;
@@ -157,6 +158,11 @@ public class GUI extends JFrame implements ActionListener{
     private void registerHoursPage(){
         JPanel registerHopursPanel = new JPanel(new GridBagLayout());
 
+        Object rowData[][] = currentLoggedOn.getActivityHours();
+        Object columnNames[] = { "Column One", "Column Two", "Column Three" };
+        JTable table = new JTable(rowData, columnNames);
+        registerHopursPanel.add(table);
+
         registerTimePage = new JButton("Register Time");
         registerTimePage.addActionListener(this);
         registerHopursPanel.add(registerTimePage);
@@ -190,6 +196,8 @@ public class GUI extends JFrame implements ActionListener{
         registerHourPanel.add(labelActivity, cs);
 
         boxOfAssignedActivities = new JComboBox(new Vector(currentLoggedOn.getAssignedActivites()));
+        System.out.println(Arrays.toString(currentLoggedOn.getAssignedActivites().toArray()));
+        System.out.println(Arrays.toString(currentLoggedOn.getFutureAssignedActivties().toArray()));
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 3;
@@ -514,7 +522,6 @@ public class GUI extends JFrame implements ActionListener{
 
         getContentPane().add(createActivityPanel);
     }
-    // Problem her!!! Kig på den anden vector herunder
 
     private void assignEmployeePage(){
         assignEmployeePanel = new JPanel(new GridBagLayout());
@@ -530,6 +537,7 @@ public class GUI extends JFrame implements ActionListener{
         assignEmployeePanel.add(labelActivities, cs);
 
         boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.getAssignedProject().getActivities()));
+        boxOfActivities.setSelectedIndex(selectAIndex);
         boxOfActivities.addActionListener(this);
         cs.gridx     = 1;
         cs.gridy     = 0;
@@ -544,6 +552,7 @@ public class GUI extends JFrame implements ActionListener{
 
         Activity A = (Activity)boxOfActivities.getSelectedItem();
         boxOfAvaliableEmployees = new JComboBox(new Vector(STM.AvailableEmployeesForAGivenActivity(A)));
+        System.out.println(Arrays.toString(STM.AvailableEmployeesForAGivenActivity(A).toArray()));
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 3;
@@ -634,9 +643,6 @@ public class GUI extends JFrame implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
-        System.out.println(Arrays.toString(STM.getProjectLeaders().toArray()));
-        System.out.println(Arrays.toString(STM.getEmployees().toArray()));
-        System.out.println(Arrays.toString(STM.getProjects().toArray()));
 
         try {
             actionCommandsEmployeePage(e);
@@ -644,11 +650,7 @@ public class GUI extends JFrame implements ActionListener{
             e1.printStackTrace();
         }
         actionCommandsRegisterHours(e);
-        try {
-            actionCommandsProjectLeaderPage(e);
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        }
+        actionCommandsProjectLeaderPage(e);
 
         if (e.getSource() == login) {
             if(STM.checkLogin(userName.getText().trim(), password.getText().trim())) {
@@ -731,6 +733,9 @@ public class GUI extends JFrame implements ActionListener{
             revalidate();
             repaint();
         }
+        if(e.getSource() == editHoursPage){
+
+        }
 
     }
 
@@ -787,7 +792,7 @@ public class GUI extends JFrame implements ActionListener{
         }
     }
 
-    private void actionCommandsProjectLeaderPage(ActionEvent e) throws InterruptedException {
+    private void actionCommandsProjectLeaderPage(ActionEvent e)  {
         if(e.getSource()==createActivityPage){
             getContentPane().removeAll();
             createActivityPage();
@@ -825,7 +830,6 @@ public class GUI extends JFrame implements ActionListener{
                 revalidate();
                 repaint();
             }
-            System.out.println(Arrays.toString(loggedOnProjectLeader.assignedProject.activities.toArray()));
         }
         if(e.getSource() == assignEmployeeToActivityPage){
             getContentPane().removeAll();
@@ -836,10 +840,8 @@ public class GUI extends JFrame implements ActionListener{
         if(e.getSource() == assignEmployeeToActivity){
             loggedOnProjectLeader.assignEmployee((Employee)boxOfAvaliableEmployees.getSelectedItem(),(ProjectActivity)boxOfActivities.getSelectedItem());
             assignEmployeeToActivity.setText("Employee has been assigned");
-
             getContentPane().removeAll();
             assignEmployeePage();
-
             revalidate();
             repaint();
 
@@ -851,8 +853,6 @@ public class GUI extends JFrame implements ActionListener{
             repaint();
         }
         if(e.getSource() == editActivity){
-            System.out.println(editActivityStartWeek.getText().trim());
-            System.out.println(editActivityEndWeek.getText().trim());
             if((editActivityStartWeek.getText().trim().equals("") && editActivityEndWeek.getText().trim().equals("")) || boxOfActivities.getSelectedItem()==null){
                 editActivity.setText("Nothing has changed");
                 revalidate();
@@ -894,13 +894,9 @@ public class GUI extends JFrame implements ActionListener{
             }
         }
         if(e.getSource()==boxOfActivities){
-
-
-            Activity A = (Activity) boxOfActivities.getSelectedItem();
-
-            boxOfAvaliableEmployees = new JComboBox(new Vector(STM.AvailableEmployeesForAGivenActivity(A)));
-            System.out.println(Arrays.toString(STM.AvailableEmployeesForAGivenActivity(A).toArray()));
-
+            selectAIndex = boxOfActivities.getSelectedIndex();
+            getContentPane().removeAll();
+            assignEmployeePage();
             revalidate();
             repaint();
         }

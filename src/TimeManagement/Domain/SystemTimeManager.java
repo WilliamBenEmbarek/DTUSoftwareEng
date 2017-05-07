@@ -10,7 +10,7 @@ public class SystemTimeManager {
 	public ArrayList<ProjectLeader> projectLeaders = new ArrayList<ProjectLeader>();
 	public ArrayList<Employee> employees = new ArrayList<Employee>(0);
 	public ArrayList<Project> projects = new ArrayList<Project>(0);
-	private int CurrentWeek = 1;
+	private int CurrentWeek = 0;
 	private int CurrentDay = 1;
 
 	public SystemTimeManager(){
@@ -32,7 +32,7 @@ public class SystemTimeManager {
 			if (employees.get(i).getCurrentProject() == null) {
 				AvailableEmployees.add(employees.get(i));
 			}
-			else if(employees.get(i).getAssignedActivites().contains(A)){
+			else if(employees.get(i).getAssignedActivites().contains(A) || employees.get(i).getFutureAssignedActivties().contains(A)){
 			    // Already assigned this activity
             }
 			/*
@@ -153,7 +153,7 @@ public class SystemTimeManager {
 		Employee e1 = new Employee("Emil",this);
 		employees.add(e1);
 		// To test
-		newProject("test",1,e1);
+		newProject("test",0,e1);
 		Employee e2 = new Employee("William",this);
 		employees.add(e2);
 		Employee e3 = new Employee("Test person",this);

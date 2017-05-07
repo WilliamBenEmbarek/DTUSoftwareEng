@@ -105,7 +105,12 @@ public class Employee {
 	public ArrayList<Activity> getAssignedActivites() {
 		return assignedActivites;
 	}
-	public void assignPersonalActivity(Activity a) {
+
+    public ArrayList<Activity> getFutureAssignedActivties() {
+        return futureAssignedActivties;
+    }
+
+    public void assignPersonalActivity(Activity a) {
 		unableToWork = true;
 		assignedActivites.add(a);
 	}
