@@ -25,6 +25,9 @@ public class ProjectLeader {
     }
 
     public void addActivity(String activity, int ID, int startWeek, int endWeek){
+        if (startWeek > endWeek) {
+
+        }
         ProjectActivity A = new ProjectActivity(activity,ID,startWeek,endWeek);
         assignedProject.addActivity(A);
     }

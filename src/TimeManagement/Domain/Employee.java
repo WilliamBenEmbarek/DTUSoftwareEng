@@ -1,5 +1,7 @@
 package TimeManagement.Domain;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
 
@@ -51,7 +53,10 @@ public class Employee {
 		}
 		refreshActivties();
 	}
-	public void assignActivity(Activity a) {
+	public void assignActivity(Activity a) throws InvalidWeekException{
+		if (a.getStartWeek() > a.getEndWeek()) {
+			throw new InvalidWeekException("The week is invalid.");
+		}
 		if (a.getStartWeek() <= currentWeek) {
 			assignedActivites.add(a);
 		} else {
