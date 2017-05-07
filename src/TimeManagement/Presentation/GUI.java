@@ -931,9 +931,9 @@ public class GUI extends JFrame implements ActionListener{
                     repaint();
                 }
                 else{
-                    Activity A = (Activity) boxOfActivities.getSelectedItem();
-                    A.setStartWeek(Integer.parseInt(editActivityStartWeek.getText().trim()));
-                    A.setEndWeek(Integer.parseInt(editActivityEndWeek.getText().trim()));
+                    Activity A1 = (Activity) boxOfActivities.getSelectedItem();
+                    A1.setStartWeek(Integer.parseInt(editActivityStartWeek.getText().trim()));
+                    A1.setEndWeek(Integer.parseInt(editActivityEndWeek.getText().trim()));
                     editActivity.setText("The start week and end week has been changed");
                     revalidate();
                     repaint();

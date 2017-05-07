@@ -14,6 +14,9 @@ import static org.junit.Assert.fail;
  */
 public class TestNewProject extends SampleDataSetup{
 
+    /*
+        Create new project
+     */
     @Test
     public void testNewProject() throws NameAlreadyExistException {
         int numberOfProjects = stm.getProjects().size();
@@ -61,6 +64,10 @@ public class TestNewProject extends SampleDataSetup{
 
         assertEquals(stm.getProjectByID("test1").getProjectLeader(), PL);
     }
+
+    /*
+
+     */
 
     @Test
     public void testNewProjectWithEmployees() throws NameAlreadyExistException { //Written by William
