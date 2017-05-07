@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class TestAssignActivities extends SampleDataSetup {
 
 	/*
-		Assign employee to Activty
+		Assign employee to activty
 	 */
 	@Test
 	public void testAssignActivites() throws Exception {
@@ -39,6 +39,28 @@ public class TestAssignActivities extends SampleDataSetup {
 		}
 		test.refreshActivties();
 		assertEquals(activities,test.getAssignedActivites()); //Check if the employees assigned activities matches the activities list.
+	}
+
+	/*
+		After assigned to activity the employee is assigned to project
+	 */
+	@Test
+	public void testAssignActivityAndProject(){
+
+	}
+	/*
+		An employee can not be assigned to an activity twice
+	 */
+	@Test
+	public void testAssignTwice(){
+
+	}
+	/*
+		If a employee has 10 activities assigned, they can not be assigned to one more
+	 */
+	@Test
+	public void testEmployeeAssigned10Activities(){
+
 	}
 
 }
