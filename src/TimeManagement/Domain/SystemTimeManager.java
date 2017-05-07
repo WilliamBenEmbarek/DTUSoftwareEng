@@ -10,7 +10,7 @@ public class SystemTimeManager {
 	public ArrayList<ProjectLeader> projectLeaders = new ArrayList<ProjectLeader>();
 	public ArrayList<Employee> employees = new ArrayList<Employee>(0);
 	public ArrayList<Project> projects = new ArrayList<Project>(0);
-	private int CurrentWeek = 0;
+	private int CurrentWeek = 1;
 	private int CurrentDay = 1;
 
 	public SystemTimeManager(){
