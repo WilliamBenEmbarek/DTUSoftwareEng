@@ -17,9 +17,6 @@ public class GUI extends JFrame implements ActionListener{
     private Employee currentLoggedOn;
     private ProjectLeader loggedOnProjectLeader;
 
-    private String ID;
-    private String pass;
-
     // Textfields to be added
     private JTextField userName;
     private JTextField password;

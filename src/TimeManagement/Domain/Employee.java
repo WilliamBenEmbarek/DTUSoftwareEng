@@ -110,4 +110,22 @@ public class Employee {
 	public ArrayList<Activity> getAssignedActivites() {
 		return assignedActivites;
 	}
+	public String[][] getActivityHours() {
+		String[][] x = new String[assignedActivites.size()+1][6];
+		x[0][1] = "Monday";
+		x[0][2] = "Tuesday";
+		x[0][3] = "Wednesday";
+		x[0][4] = "Thursday";
+		x[0][5] = "Friday";
+		for (int i = 1; i < assignedActivites.size(); i++) {
+			for (int j = 1; i < week.get(currentWeek).get(0).size();j++)
+			{
+				if (week.get(currentWeek).get(0).get(j) != null)
+				{
+					x[i][j] = week.get(currentWeek).get(0).get(j).toString();
+				}
+			}
+		}
+		return x;
+	}
 }

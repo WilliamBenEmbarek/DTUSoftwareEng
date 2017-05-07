@@ -30,7 +30,7 @@ public class SystemTimeManager {
 				AvailableEmployees.add(employees.get(i));
 			} else if (employees.get(i).getAssignedActivites().size() < 10) {
 				AvailableEmployees.add(employees.get(i));
-			} else if (AvailableEmployees.size() < 5) {
+			} else if (AvailableEmployees.size() < 2) {
 				if (employees.get(i).getAssignedActivites().size() < 15) {
 					AvailableEmployees.add(employees.get(i));
 				}
@@ -135,7 +135,9 @@ public class SystemTimeManager {
 		Employee e3 = new Employee("Test person",this);
 		employees.add(e3);
 	}
-
+	public void nextWeek(){
+		CurrentWeek = CurrentWeek+1;
+	}
 	public int getCurrentDay() {
 		return CurrentDay;
 	}
