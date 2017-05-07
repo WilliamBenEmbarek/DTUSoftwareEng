@@ -23,17 +23,39 @@ public class SystemTimeManager {
 		employees.remove(E);
 	}
 
-	public ArrayList<Employee> AvailableEmployeesForAGivenWeek () {
+	public ArrayList<Employee> AvailableEmployeesForAGivenActivity (Activity A) {
+	    int startWeek = A.getStartWeek();
+	    int endWeek = A.getEndWeek();
+
 		ArrayList<Employee> AvailableEmployees = new ArrayList<Employee>(0);
 		for (int i = 0; i < employees.size(); i++) {
 			if (employees.get(i).getCurrentProject() == null) {
 				AvailableEmployees.add(employees.get(i));
-			} else if (employees.get(i).getAssignedActivites().size() < 10) {
-				AvailableEmployees.add(employees.get(i));
-			} else if (AvailableEmployees.size() < 2) {
-				if (employees.get(i).getAssignedActivites().size() < 15) {
-					AvailableEmployees.add(employees.get(i));
-				}
+			}
+			else if(employees.get(i).getAssignedActivites().contains(A)){
+			    // Already assigned this activity
+            }
+			/*
+			else if(){
+			    // Personal Activity in period
+            }
+            */
+			else {
+                ArrayList<Activity> ActivitiesInPeriod = new ArrayList<>();
+                for(int j=0; j<employees.get(i).getAssignedActivites().size(); j++){
+                    int activityStartWeek = employees.get(i).getAssignedActivites().get(j).getStartWeek();
+                    int activityEndWeek = employees.get(i).getAssignedActivites().get(j).getEndWeek();
+                    if((activityStartWeek<startWeek || activityStartWeek>endWeek) && (activityEndWeek<startWeek || activityEndWeek>endWeek)){
+                        // Activity is not in the current period
+                    }
+                    else{
+                        ActivitiesInPeriod.add(employees.get(i).getAssignedActivites().get(j));
+                    }
+                }
+                if(!(ActivitiesInPeriod.size()>5)){
+                    AvailableEmployees.add(employees.get(i));
+                }
+
 			}
 
 		}

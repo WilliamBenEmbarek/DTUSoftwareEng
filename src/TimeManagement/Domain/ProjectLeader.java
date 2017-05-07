@@ -32,7 +32,9 @@ public class ProjectLeader {
     public void assignEmployee(Employee e, ProjectActivity a) {
     	a.assignEmployee(e);
     	e.assignActivity(a);
-	}
+    	e.setCurrentProject(this.assignedProject);
+    	e.refreshActivties();
+    }
 
 	public void assignProject(Employee e, Project p) {
         e.assignProject(p);
@@ -41,6 +43,7 @@ public class ProjectLeader {
     public String getCurrentProject() {
         return currentProject;
     }
+
     public Project getAssignedProject() {
         return assignedProject;
     }
