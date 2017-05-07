@@ -71,10 +71,10 @@ public class Employee {
 	public void refreshActivties() { //Needs to be called everytime an activity is created / changed with the employee.
 		int x = week.get(currentWeek).size();
 		if (x != assignedActivites.size()) {
-			for (int i = 0; i < assignedActivites.size()-x; i++) {
-				week.get(currentWeek).add(new ArrayList<Double>());
+			for (int i = x; i < assignedActivites.size(); i++) {
+				week.get(currentWeek).add(x,new ArrayList<Double>());
 				for (int y = 0; y <6; y++) {
-					week.get(currentWeek).get(week.get(currentWeek).size()-1).add(0.0);
+					week.get(currentWeek).get(x).add(y,0.0);
 				}
 			}
 		}
@@ -155,10 +155,13 @@ public class Employee {
 
 	public void updateWeek() {
 		currentWeek = stm.getCurrentWeek();
+		projectWeek.clear();
 		week.add(currentWeek, projectWeek);
 		for (int i = 0; i < assignedActivites.size(); i++) {
 			week.get(currentWeek).add(new ArrayList<Double>(1)); //Inner ArrayList. Keeps track of hours on what days.
-			week.get(currentWeek).get(0).set(0,0.0);
+			for (int j = 0; j < 6; j++) {
+				week.get(currentWeek).get(i).add(j,0.0);
+			}
 		}
 		if (assignedActivites.size() != 0) {
 			for (int i = 0; i < assignedActivites.size(); i++) {
@@ -169,6 +172,7 @@ public class Employee {
 					}
 				}
 			}
+			System.out.println(assignedActivites.size());
 			refreshActivties();
 		}
 		if (futureAssignedActivties.size() != 0) {
@@ -177,6 +181,7 @@ public class Employee {
 					assignedActivites.add(futureAssignedActivties.get(i));
 				}
 			}
+			System.out.println(futureAssignedActivties.size());
 			refreshActivties();
 		}
 	}
