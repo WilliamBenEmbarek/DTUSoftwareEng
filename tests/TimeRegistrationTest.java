@@ -8,6 +8,7 @@ import TimeManagement.Domain.Employee;
 import TimeManagement.Domain.Project;
 import TimeManagement.Domain.ProjectActivity;
 import TimeManagement.Domain.ProjectLeader;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -32,9 +33,8 @@ public class TimeRegistrationTest extends SampleDataSetup{
 		}
 		//Step 1
 		test.refreshActivties();
-		test.registerHours(1, 10.0);
-		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(), 1), 10);
-
+		test.registerHours(1, 1,10.0);
+		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(), 1), 10,0);
 
 	}
 
@@ -51,14 +51,14 @@ public class TimeRegistrationTest extends SampleDataSetup{
 		}
 		//Step 1
 		test.refreshActivties();
-		test.registerHours(1, 4.0);
-		test.registerHours(6,2.0);
-		test.registerHours(0,3.0);
-		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(),1),9);
+		test.registerHours(1.0, 1,4.0);
+		test.registerHours(6.0,1,3.0);
+		test.registerHours(0.0,1,2.0);
+		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(), 1), 9,0);
 
-		test.registerHours(6,stm.getCurrentDay(),8);
-		test.registerHours(1,stm.getCurrentDay(),2);
-		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(),1),13);
+		test.registerHours(6,1,8);
+		test.registerHours(1,1,2);
+		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(),1),12,0);
 
 	}
 }

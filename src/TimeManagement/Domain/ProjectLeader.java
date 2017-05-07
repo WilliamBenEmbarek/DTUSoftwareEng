@@ -24,10 +24,7 @@ public class ProjectLeader {
         assignedProject.addActivity(A);
     }
 
-    public void addActivity(String activity, int ID, int startWeek, int endWeek) throws InvalidWeekException{
-        if (startWeek > endWeek) {
-            throw new InvalidWeekException("The week is invalid.");
-        }
+    public void addActivity(String activity, int ID, int startWeek, int endWeek) {
         ProjectActivity A = new ProjectActivity(activity,ID,startWeek,endWeek);
         assignedProject.addActivity(A);
     }

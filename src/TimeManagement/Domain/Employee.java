@@ -1,9 +1,6 @@
 package TimeManagement.Domain;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
 
 /**
  * Created by Emil on 27/03/2017.
@@ -120,6 +117,7 @@ public class Employee {
 		x[0][3] = "Wednesday";
 		x[0][4] = "Thursday";
 		x[0][5] = "Friday";
+		x[0][0] = "Days";
 		for (int i = 1; i < assignedActivites.size(); i++) {
 			for (int j = 1; i < week.get(currentWeek).get(0).size();j++)
 			{
