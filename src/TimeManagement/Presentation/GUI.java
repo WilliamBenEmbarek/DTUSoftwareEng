@@ -171,30 +171,36 @@ public class GUI extends JFrame implements ActionListener{
     }
 
     private void registerHoursPage(){
-        JPanel registerHopursPanel = new JPanel(new GridBagLayout());
+        Panel panel = new Panel();
+        panel.setLayout(new BorderLayout());
+
+        JPanel registerHoursPanel = new JPanel(new GridBagLayout());
 
         Object rowData[][] = currentLoggedOn.getActivityHours();
-        Object columnNames[] = { "Column One", "Column Two", "Column Three" };
+        Object columnNames[] = { "Column One", "Column Two" };
+        System.out.println(Arrays.deepToString(rowData));
         JTable table = new JTable(rowData, columnNames);
-        registerHopursPanel.add(table);
+        panel.add(table,BorderLayout.CENTER);
 
         registerTimePage = new JButton("Register Time");
         registerTimePage.addActionListener(this);
-        registerHopursPanel.add(registerTimePage);
+        registerHoursPanel.add(registerTimePage);
 
         assistancePage = new JButton("Assistance on Activity");
         assistancePage.addActionListener(this);
-        registerHopursPanel.add(assistancePage);
+        registerHoursPanel.add(assistancePage);
 
         editHoursPage = new JButton("Edit hours worked");
         editHoursPage.addActionListener(this);
-        registerHopursPanel.add(editHoursPage);
+        registerHoursPanel.add(editHoursPage);
 
         backEmployee = new JButton("Back");
         backEmployee.addActionListener(this);
-        registerHopursPanel.add(backEmployee);
+        registerHoursPanel.add(backEmployee);
 
-        getContentPane().add(registerHopursPanel);
+        panel.add(registerHoursPanel,BorderLayout.SOUTH);
+
+        getContentPane().add(panel);
     }
 
     private void registerHoursTable(){
@@ -211,8 +217,6 @@ public class GUI extends JFrame implements ActionListener{
         registerHourPanel.add(labelActivity, cs);
 
         boxOfAssignedActivities = new JComboBox(new Vector(currentLoggedOn.getAssignedActivites()));
-        System.out.println(Arrays.toString(currentLoggedOn.getAssignedActivites().toArray()));
-        System.out.println(Arrays.toString(currentLoggedOn.getFutureAssignedActivties().toArray()));
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 3;
@@ -739,7 +743,7 @@ public class GUI extends JFrame implements ActionListener{
                 int dayNumber = 0;
                 for(int i = 0; i<weekDays.length ; i++){
                     if(weekDays[i]==days.getSelectedItem().toString()){
-                        dayNumber = i+1;
+                        dayNumber = i;
                     }
                 }
 
