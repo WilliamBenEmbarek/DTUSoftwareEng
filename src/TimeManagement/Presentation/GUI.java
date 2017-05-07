@@ -747,7 +747,7 @@ public class GUI extends JFrame implements ActionListener{
                     }
                 }
 
-                currentLoggedOn.registerHours(activityID,dayNumber,time);
+                currentLoggedOn.registerHours(activityID,dayNumber+1,time);
 
                 registerTime.setText("Time is registered");
                 revalidate();

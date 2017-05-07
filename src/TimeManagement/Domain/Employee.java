@@ -31,6 +31,8 @@ public class Employee {
 		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
 				aProjectWeek.set(date, hours);
+				System.out.println(date);
+				System.out.println(hours);
 			}
 		}
 	}
@@ -131,11 +133,11 @@ public class Employee {
 		x[3][0] = "Thursday";
 		x[4][0] = "Friday";
 		for (int i = 0; i < assignedActivites.size(); i++) {
-			for (int j = 0; j < 5;j++)
+			for (int j = 1; j < 6;j++)
 			{
 				if (week.get(currentWeek).get(i).get(j) != null)
 				{
-					x[j][i+1] = week.get(currentWeek).get(0).get(i).toString();
+					x[j-1][i+1] = week.get(currentWeek).get(i).get(j).toString();
 				}
 			}
 		}
