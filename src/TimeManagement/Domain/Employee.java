@@ -46,7 +46,7 @@ public class Employee {
 
 	public void assignProject(Project project) {
 		CurrentProject = project;
-		week.add(currentWeek, week.get(currentWeek)); //Fill up arraylist with activties
+		week.add(currentWeek, projectWeek); //Fill up arraylist with activties
 		for (int i = 0; i < CurrentProject.getNumberOfActivties(); i++) {
 			week.get(currentWeek).add(new ArrayList<Double>(1)); //Inner ArrayList. Keeps track of hours on what days.
 		}
@@ -155,6 +155,11 @@ public class Employee {
 
 	public void updateWeek() {
 		currentWeek = stm.getCurrentWeek();
+		week.add(currentWeek, projectWeek);
+		for (int i = 0; i < assignedActivites.size(); i++) {
+			week.get(currentWeek).add(new ArrayList<Double>(1)); //Inner ArrayList. Keeps track of hours on what days.
+			week.get(currentWeek).get(0).set(0,0.0);
+		}
 		if (assignedActivites.size() != 0) {
 			for (int i = 0; i < assignedActivites.size(); i++) {
 				if (assignedActivites.get(i).getEndWeek() > currentWeek) {

@@ -35,11 +35,9 @@ public class SystemTimeManager {
 			else if(employees.get(i).getAssignedActivites().contains(A) || employees.get(i).getFutureAssignedActivties().contains(A)){
 			    // Already assigned this activity
             }
-			/*
-			else if(){
-			    // Personal Activity in period
+			else if(employees.get(i).unableToWork){
+
             }
-            */
 			else {
                 ArrayList<Activity> ActivitiesInPeriod = new ArrayList<>();
                 for(int j=0; j<employees.get(i).getAssignedActivites().size(); j++){
