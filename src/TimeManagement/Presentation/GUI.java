@@ -908,6 +908,7 @@ public class GUI extends JFrame implements ActionListener{
         if(e.getSource() == editActivity){
             Activity A = (Activity)boxOfActivities.getSelectedItem();
             int currentEndWeek = A.getEndWeek();
+            int currentStartWeek = A.getStartWeek();
             if((editActivityStartWeek.getText().trim().equals("") && editActivityEndWeek.getText().trim().equals("")) || boxOfActivities.getSelectedItem()==null){
                 editActivity.setText("Nothing has changed");
                 revalidate();
@@ -928,6 +929,20 @@ public class GUI extends JFrame implements ActionListener{
                     Activity a = (Activity) boxOfActivities.getSelectedItem();
                     a.setStartWeek(Integer.parseInt(editActivityStartWeek.getText().trim()));
                     editActivity.setText("The start week has been changed");
+                    revalidate();
+                    repaint();
+                }
+            }
+            else if(editActivityStartWeek.getText().trim().equals("")){
+                if(currentStartWeek>Integer.parseInt(editActivityEndWeek.getText().trim())){
+                    editActivity.setText("The end week is before start week, try again");
+                    revalidate();
+                    repaint();
+                }
+                else{
+                    Activity a = (Activity) boxOfActivities.getSelectedItem();
+                    a.setEndWeek(Integer.parseInt(editActivityEndWeek.getText().trim()));
+                    editActivity.setText("The end week has been changed");
                     revalidate();
                     repaint();
                 }

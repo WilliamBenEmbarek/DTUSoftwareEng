@@ -34,16 +34,26 @@ public abstract class Activity {
         return startWeek;
     }
 
-    public void setStartWeek(int startWeek) {
-        this.startWeek = startWeek;
+    public void setStartWeek(int startWeek) throws InvalidInputException {
+        if(startWeek>this.endWeek){
+            throw new InvalidInputException("The input is invalid.");
+        }
+        else{
+            this.startWeek = startWeek;
+        }
     }
 
     public int getEndWeek() {
         return endWeek;
     }
 
-    public void setEndWeek(int endWeek) {
-        this.endWeek = endWeek;
+    public void setEndWeek(int endWeek) throws InvalidInputException {
+        if(endWeek<this.startWeek){
+            throw new InvalidInputException("The input is invalid.");
+        }
+        else {
+            this.endWeek = endWeek;
+        }
     }
 
     public String toString(){
