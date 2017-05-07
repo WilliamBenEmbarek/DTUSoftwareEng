@@ -14,6 +14,10 @@ import static org.junit.Assert.assertTrue;
  * Created by William Ben Embarek on 18/04/2017.
  */
 public class TestAssignActivities extends SampleDataSetup {
+
+	/*
+		Assign employee to Activty
+	 */
 	@Test
 	public void testAssignActivites() throws Exception {
 		//Step 0
@@ -35,6 +39,6 @@ public class TestAssignActivities extends SampleDataSetup {
 		}
 		test.refreshActivties();
 		assertEquals(activities,test.getAssignedActivites()); //Check if the employees assigned activities matches the activities list.
-
 	}
+
 }

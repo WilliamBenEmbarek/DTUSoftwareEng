@@ -65,19 +65,4 @@ public class TestNewProject extends SampleDataSetup{
         assertEquals(stm.getProjectByID("test1").getProjectLeader(), PL);
     }
 
-    /*
-
-     */
-
-    @Test
-    public void testNewProjectWithEmployees() throws NameAlreadyExistException { //Written by William
-        Employee E = stm.getEmployeeByID("Emil");
-        E.AddProject("test2",2,E);
-        ProjectLeader PL = stm.getProjectLeaderByID("Emil");
-		ArrayList<Employee> employees = stm.getEmployees();
-		Project p = PL.getAssignedProject();
-		for (int i = 0; i < employees.size();i++) {
-			PL.assignProject(employees.get(i),p);
-		}
-    }
 }

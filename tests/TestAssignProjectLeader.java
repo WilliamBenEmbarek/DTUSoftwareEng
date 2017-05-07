@@ -11,6 +11,9 @@ import static org.junit.Assert.assertTrue;
  */
 public class TestAssignProjectLeader extends SampleDataSetup{
 
+    /*
+        Assign a leader, and thereby remove the person as Employee
+     */
     @Test
     public void testAssignProjectLeader() {
         assertTrue(stm.getProjectLeaders().size()==1);

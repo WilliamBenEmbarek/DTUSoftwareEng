@@ -21,7 +21,7 @@ public class SampleDataSetup {
 		for (int i  = 0; i< 10; i++){
 			stm.employees.add(new Employee("e"+i,stm));
 		}
-		Project testProject = new Project("TestProject",1);
+		Project testProject = new Project("TestProject",stm.getCurrentWeek());
 		stm.projects.add(testProject);
 
 		ProjectLeader projectManager = new ProjectLeader("TimeManagement.Domain.ProjectLeader","testProject",testProject);

@@ -674,8 +674,16 @@ public class GUI extends JFrame implements ActionListener{
         } catch (NameAlreadyExistException e1) {
             e1.printStackTrace();
         }
+
         actionCommandsRegisterHours(e);
-        actionCommandsProjectLeaderPage(e);
+
+        try {
+            actionCommandsProjectLeaderPage(e);
+        } catch (InvalidInputException e1) {
+            e1.printStackTrace();
+        } catch (NameAlreadyExistException e1) {
+            e1.printStackTrace();
+        }
 
         if (e.getSource() == login) {
             if(STM.checkLogin(userName.getText().trim(), password.getText().trim())) {
@@ -824,7 +832,7 @@ public class GUI extends JFrame implements ActionListener{
         }
     }
 
-    private void actionCommandsProjectLeaderPage(ActionEvent e)  {
+    private void actionCommandsProjectLeaderPage(ActionEvent e) throws InvalidInputException, NameAlreadyExistException {
         if(e.getSource()==createActivityPage){
             getContentPane().removeAll();
             createActivityPage();
@@ -853,6 +861,11 @@ public class GUI extends JFrame implements ActionListener{
             }
             else if(Integer.parseInt(startWeek)<loggedOnProjectLeader.assignedProject.getStartWeek()){
                 addActivity.setText("Start week is before project start week, try again");
+                revalidate();
+                repaint();
+            }
+            else if(loggedOnProjectLeader.getAssignedProject().doesActivityNameExist(name)){
+                addActivity.setText("The activity name already exist, try again");
                 revalidate();
                 repaint();
             }
