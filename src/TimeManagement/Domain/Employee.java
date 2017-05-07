@@ -106,6 +106,8 @@ public class Employee {
 		return CurrentProject;
 	}
 
+	public void setCurrentProject(Project P){this.CurrentProject=P;}
+
 	public ArrayList<Activity> getAssignedActivites() {
 		return assignedActivites;
 	}

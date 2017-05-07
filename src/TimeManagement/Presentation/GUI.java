@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 public class GUI extends JFrame implements ActionListener{
 
@@ -45,6 +46,9 @@ public class GUI extends JFrame implements ActionListener{
 
     // Week days
     private String[] weekDays = new String[]{"Monday","Tuesday","Wednesday","Thursday","Friday"};
+
+    // JPanel
+    private JPanel assignEmployeePanel;
 
     // Functional buttons
     private JButton logout;
@@ -514,7 +518,7 @@ public class GUI extends JFrame implements ActionListener{
     // Problem her!!! Kig på den anden vector herunder
 
     private void assignEmployeePage(){
-        JPanel assignEmployeePanel = new JPanel(new GridBagLayout());
+        assignEmployeePanel = new JPanel(new GridBagLayout());
 
         // Sets contrains to organize components in the panel.
         GridBagConstraints cs = new GridBagConstraints();
@@ -527,6 +531,7 @@ public class GUI extends JFrame implements ActionListener{
         assignEmployeePanel.add(labelActivities, cs);
 
         boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.getAssignedProject().getActivities()));
+        boxOfActivities.addActionListener(this);
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 3;
@@ -538,7 +543,8 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         assignEmployeePanel.add(labelAvaliableEmployees, cs);
 
-        boxOfAvaliableEmployees = new JComboBox(new Vector(STM.AvailableEmployeesForAGivenWeek(1)));
+        Activity A = (Activity)boxOfActivities.getSelectedItem();
+        boxOfAvaliableEmployees = new JComboBox(new Vector(STM.AvailableEmployeesForAGivenActivity(A)));
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 3;
@@ -639,7 +645,11 @@ public class GUI extends JFrame implements ActionListener{
             e1.printStackTrace();
         }
         actionCommandsRegisterHours(e);
-        actionCommandsProjectLeaderPage(e);
+        try {
+            actionCommandsProjectLeaderPage(e);
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
 
         if (e.getSource() == login) {
             if(STM.checkLogin(userName.getText().trim(), password.getText().trim())) {
@@ -670,16 +680,26 @@ public class GUI extends JFrame implements ActionListener{
 
     private void actionCommandsRegisterHours(ActionEvent e){
         if(e.getSource()==registerHoursMenue || e.getSource()==backRegisterTimeMenue){
-            getContentPane().removeAll();
-            registerHoursPage();
-            revalidate();
-            repaint();
+            if(currentLoggedOn.getCurrentProject()==null){
+                registerHoursMenue.setText("You are not on a project");
+                registerHoursMenue.setBackground(Color.RED);
+                registerHoursMenue.setOpaque(true);
+                registerHoursMenue.setBorderPainted(false);
+                revalidate();
+                repaint();
+            }
+            else {
+                getContentPane().removeAll();
+                registerHoursPage();
+                revalidate();
+                repaint();
+            }
         }
         if(e.getSource()==registerTimePage){
-            getContentPane().removeAll();
-            registerHoursTable();
-            revalidate();
-            repaint();
+                getContentPane().removeAll();
+                registerHoursTable();
+                revalidate();
+                repaint();
         }
         if(e.getSource() == registerTime){
             if(boxOfAssignedActivities.getSelectedItem() == null || hours.getText().trim().equals("")){
@@ -737,13 +757,13 @@ public class GUI extends JFrame implements ActionListener{
             }
             else if(boxOfEmployees.getSelectedIndex()==-1){
                 currentLoggedOn.AddProject(name,Integer.parseInt(startWeek));
-                addProject.setText("Project has been added");
+                addProject.setText("Project "+name+" has been added");
                 revalidate();
                 repaint();
             }
             else{
                 currentLoggedOn.AddProject(name,Integer.parseInt(startWeek),(Employee)boxOfEmployees.getSelectedItem());
-                addProject.setText("Project has been added");
+                addProject.setText("Project "+name+" has been added");
                 revalidate();
                 repaint();
             }
@@ -756,7 +776,7 @@ public class GUI extends JFrame implements ActionListener{
         }
         if(e.getSource() == addProjectLeader){
             STM.AssignProjectLeader((Employee)boxOfEmployees.getSelectedItem(),(Project)boxOfProjects.getSelectedItem());
-            addProjectLeader.setText("Project Leader is assigned!");
+            addProjectLeader.setText("Project Leader "+(Employee)boxOfEmployees.getSelectedItem()+" is assigned!");
             revalidate();
             repaint();
         }
@@ -768,7 +788,7 @@ public class GUI extends JFrame implements ActionListener{
         }
     }
 
-    private void actionCommandsProjectLeaderPage(ActionEvent e){
+    private void actionCommandsProjectLeaderPage(ActionEvent e) throws InterruptedException {
         if(e.getSource()==createActivityPage){
             getContentPane().removeAll();
             createActivityPage();
@@ -802,7 +822,7 @@ public class GUI extends JFrame implements ActionListener{
             }
             else{
                 loggedOnProjectLeader.addActivity(name, Integer.parseInt(startWeek), Integer.parseInt(endWeek));
-                addActivity.setText("Activity is added!");
+                addActivity.setText("Activity "+name+" is added!");
                 revalidate();
                 repaint();
             }
@@ -817,8 +837,13 @@ public class GUI extends JFrame implements ActionListener{
         if(e.getSource() == assignEmployeeToActivity){
             loggedOnProjectLeader.assignEmployee((Employee)boxOfAvaliableEmployees.getSelectedItem(),(ProjectActivity)boxOfActivities.getSelectedItem());
             assignEmployeeToActivity.setText("Employee has been assigned");
+
+            getContentPane().removeAll();
+            assignEmployeePage();
+
             revalidate();
             repaint();
+
         }
         if(e.getSource() == editActivityPage){
             getContentPane().removeAll();
@@ -868,6 +893,17 @@ public class GUI extends JFrame implements ActionListener{
                     repaint();
                 }
             }
+        }
+        if(e.getSource()==boxOfActivities){
+
+
+            Activity A = (Activity) boxOfActivities.getSelectedItem();
+
+            boxOfAvaliableEmployees = new JComboBox(new Vector(STM.AvailableEmployeesForAGivenActivity(A)));
+            System.out.println(Arrays.toString(STM.AvailableEmployeesForAGivenActivity(A).toArray()));
+
+            revalidate();
+            repaint();
         }
     }
 
