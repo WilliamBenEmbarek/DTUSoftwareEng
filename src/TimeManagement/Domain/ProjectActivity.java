@@ -9,10 +9,10 @@ public class ProjectActivity extends Activity{
 
 	ArrayList<Employee> assignedEmployees = new ArrayList<Employee>();
 
-    public ProjectActivity(String activityName,int id, int startWeek){
+    public ProjectActivity(String activityName,double id, int startWeek){
         super(activityName,id,startWeek);
     }
-	public ProjectActivity(String activityName,int id, int startWeek, int endWeek){
+	public ProjectActivity(String activityName,double id, int startWeek, int endWeek){
 		super(activityName,id,startWeek,endWeek);
 	}
 	public void assignEmployee(Employee e) {

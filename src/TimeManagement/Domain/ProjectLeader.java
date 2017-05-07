@@ -19,12 +19,12 @@ public class ProjectLeader {
     }
 
 
-    public void addActivity(String activity, int ID, int startWeek){
+    public void addActivity(String activity, double ID, int startWeek){
         ProjectActivity A = new ProjectActivity(activity,ID,startWeek);
         assignedProject.addActivity(A);
     }
 
-    public void addActivity(String activity, int ID, int startWeek, int endWeek) {
+    public void addActivity(String activity, double ID, int startWeek, int endWeek) {
         ProjectActivity A = new ProjectActivity(activity,ID,startWeek,endWeek);
         assignedProject.addActivity(A);
     }

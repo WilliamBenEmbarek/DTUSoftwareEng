@@ -20,6 +20,7 @@ public class GUI extends JFrame implements ActionListener{
     private SystemTimeManager STM;
     private Employee currentLoggedOn;
     private ProjectLeader loggedOnProjectLeader;
+    private double idCounter = 0.0;
 
     // Textfields to be added
     private JTextField userName;
@@ -51,6 +52,7 @@ public class GUI extends JFrame implements ActionListener{
     private int selectAIndex=0;
 
     // Functional buttons
+    private JButton nextWeek;
     private JButton logout;
     private JButton backEmployee;
     private JButton backProjectLeader;
@@ -129,6 +131,19 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 2;
         login.addActionListener(this);
         loginPanel.add(login, cs);
+
+        nextWeek     = new JButton("Next Week");
+        cs.gridx     = 1;
+        cs.gridy     = 3;
+        cs.gridwidth = 2;
+        nextWeek.addActionListener(this);
+        loginPanel.add(nextWeek, cs);
+
+        JLabel labelWeek = new JLabel("Week: "+STM.getCurrentWeek());
+        cs.gridx     = 0;
+        cs.gridy     = 3;
+        cs.gridwidth = 1;
+        loginPanel.add(labelWeek, cs);
 
         getContentPane().add(loginPanel);
     }
@@ -677,6 +692,14 @@ public class GUI extends JFrame implements ActionListener{
             revalidate();
             repaint();
         }
+        if(e.getSource()== nextWeek){
+            STM.nextWeek();
+            getContentPane().removeAll();
+            loginPage();
+            revalidate();
+            repaint();
+            System.out.println(""+STM.getCurrentWeek());
+        }
     }
 
     private void actionCommandsRegisterHours(ActionEvent e){
@@ -825,7 +848,8 @@ public class GUI extends JFrame implements ActionListener{
                 repaint();
             }
             else{
-                loggedOnProjectLeader.addActivity(name, Integer.parseInt(startWeek), Integer.parseInt(endWeek));
+                loggedOnProjectLeader.addActivity(name, idCounter, Integer.parseInt(startWeek), Integer.parseInt(endWeek));
+                idCounter++;
                 addActivity.setText("Activity "+name+" is added!");
                 revalidate();
                 repaint();
