@@ -53,10 +53,7 @@ public class Employee {
 		}
 		refreshActivties();
 	}
-	public void assignActivity(Activity a) throws InvalidWeekException{
-		if (a.getStartWeek() > a.getEndWeek()) {
-			throw new InvalidWeekException("The week is invalid.");
-		}
+	public void assignActivity(Activity a) {
 		if (a.getStartWeek() <= currentWeek) {
 			assignedActivites.add(a);
 		} else {
