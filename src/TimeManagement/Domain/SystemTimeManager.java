@@ -161,13 +161,16 @@ public class SystemTimeManager {
 	}
 	public void nextWeek(){
 		CurrentWeek = CurrentWeek+1;
+		for (Employee e : employees) {
+			e.updateWeek();
+		}
 	}
 	public int getCurrentDay() {
 		return CurrentDay;
 	}
 
 	// Hardcoding of login for each employee
-	public  boolean checkLogin(String ID, String pass){
+	public boolean checkLogin(String ID, String pass){
 
 		if(ID.equals("Emil") && pass.equals("123")){
 			return true;
