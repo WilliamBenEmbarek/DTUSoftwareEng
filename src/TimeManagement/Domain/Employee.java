@@ -53,6 +53,9 @@ public class Employee {
 	public void assignActivity(Activity a) {
 		assignedActivites.add(a);
 	}
+	public void assignFutureActivity(Activity a) {
+		futureAssignedActivties.add(a);
+	}
 
 	public void refreshActivties() { //Needs to be called everytime an activity is created / changed with the employee.
 		int x = week.get(currentWeek).size();
