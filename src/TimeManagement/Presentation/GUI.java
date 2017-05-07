@@ -832,10 +832,17 @@ public class GUI extends JFrame implements ActionListener{
             }
         }
         if(e.getSource() == assignEmployeeToActivityPage){
-            getContentPane().removeAll();
-            assignEmployeePage();
-            revalidate();
-            repaint();
+            if(loggedOnProjectLeader.getAssignedProject().getActivities().size()==0){
+                assignEmployeeToActivityPage.setText("Create some activities first");
+                revalidate();
+                repaint();
+            }
+            else{
+                getContentPane().removeAll();
+                assignEmployeePage();
+                revalidate();
+                repaint();
+            }
         }
         if(e.getSource() == assignEmployeeToActivity){
             loggedOnProjectLeader.assignEmployee((Employee)boxOfAvaliableEmployees.getSelectedItem(),(ProjectActivity)boxOfActivities.getSelectedItem());
