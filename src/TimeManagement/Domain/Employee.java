@@ -131,11 +131,11 @@ public class Employee {
 		x[0][3] = "Thursday";
 		x[0][4] = "Friday";
 		for (int i = 0; i < assignedActivites.size(); i++) {
-			for (int j = 1; i < week.get(currentWeek).get(0).size();j++)
+			for (int j = 0; j < 4;j++)
 			{
 				if (week.get(currentWeek).get(0).get(j) != null)
 				{
-					x[i][j] = week.get(currentWeek).get(0).get(j).toString();
+					x[i+1][j] = week.get(currentWeek).get(0).get(j).toString();
 				}
 			}
 		}
