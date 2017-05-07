@@ -56,8 +56,8 @@ public class TimeRegistrationTest extends SampleDataSetup{
 		test.registerHours(0,3.0);
 		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(),1),9);
 
-		test.editHours(6,stm.getCurrentDay(),8);
-		test.editHours(1,stm.getCurrentDay(),2);
+		test.registerHours(6,stm.getCurrentDay(),8);
+		test.registerHours(1,stm.getCurrentDay(),2);
 		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(),1),13);
 
 	}

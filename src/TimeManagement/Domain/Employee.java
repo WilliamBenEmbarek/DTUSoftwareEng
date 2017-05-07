@@ -9,18 +9,16 @@ import java.util.DoubleSummaryStatistics;
 public class Employee {
 	private String ID;
 	private Project CurrentProject;
-	private String CurrentProjectName;
 	private ArrayList<ArrayList<ArrayList<Double>>> week = new ArrayList<ArrayList<ArrayList<Double>>>(); //Outer Arraylist. Keeps track of current week.
 	private ArrayList<ArrayList<Double>> projectWeek = new ArrayList<ArrayList<Double>>(1); //Middle ArrayList. Keeps track of Activties
 	private ArrayList<Activity> assignedActivites = new ArrayList<Activity>();
+	private ArrayList<Activity> futureAssignedActivties = new ArrayList<Activity>();
 	private int currentWeek;
-	private int currentDay;
 	private SystemTimeManager stm;
-
+	boolean unableToWork = false;
 	public Employee(String ID,SystemTimeManager stm) {
 		this.ID = ID;
 		currentWeek = stm.getCurrentWeek();
-		currentDay = stm.getCurrentDay();
 		projectWeek.add(new ArrayList<Double>());
 		for (int i = 0; i <6; i++) {
 			projectWeek.get(0).add(0.0);
@@ -29,16 +27,7 @@ public class Employee {
 		this.stm = stm;
 	}
 
-	public void registerHours(int activityID, double hours) {
-		int totalActivities = week.get(currentWeek).size();
-		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
-			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
-				aProjectWeek.set(currentDay, aProjectWeek.get(currentDay) + hours);
-			}
-		}
-	}
-
-	public void editHours(double activityID, int date, double hours) {
+	public void registerHours(double activityID, int date, double hours) {
 		int totalActivities = week.get(currentWeek).size();
 		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
@@ -63,7 +52,11 @@ public class Employee {
 		refreshActivties();
 	}
 	public void assignActivity(Activity a) {
-		assignedActivites.add(a);
+		if (a.getStartWeek() <= currentWeek) {
+			assignedActivites.add(a);
+		} else {
+			futureAssignedActivties.add(a);
+		}
 	}
 
 	public void refreshActivties() { //Needs to be called everytime an activity is created / changed with the employee.
@@ -111,6 +104,11 @@ public class Employee {
 	public ArrayList<Activity> getAssignedActivites() {
 		return assignedActivites;
 	}
+	public void assignPersonalActivity(Activity a) {
+		unableToWork = true;
+		assignedActivites.add(a);
+	}
+
 	public String[][] getActivityHours() {
 		String[][] x = new String[assignedActivites.size()+1][6];
 		x[0][1] = "Monday";
@@ -128,5 +126,23 @@ public class Employee {
 			}
 		}
 		return x;
+	}
+	public void updateWeek() {
+		currentWeek = stm.getCurrentWeek();
+		for (Activity assignedActivity : assignedActivites) {
+			if (assignedActivity.getEndWeek() > currentWeek) {
+				assignedActivites.remove(assignedActivity);
+				if (assignedActivity instanceof PersonalActivity
+						) {
+					unableToWork = false;
+				}
+			}
+		}
+		for (Activity futureActivity : futureAssignedActivties) {
+			if (futureActivity.getStartWeek() <= currentWeek) {
+				assignedActivites.add(futureActivity);
+			}
+		}
+		refreshActivties();
 	}
 }

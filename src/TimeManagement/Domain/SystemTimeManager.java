@@ -23,7 +23,7 @@ public class SystemTimeManager {
 		employees.remove(E);
 	}
 
-	public ArrayList<Employee> AvailableEmployeesForAGivenWeek (int gWeek) {
+	public ArrayList<Employee> AvailableEmployeesForAGivenWeek () {
 		ArrayList<Employee> AvailableEmployees = new ArrayList<Employee>(0);
 		for (int i = 0; i < employees.size(); i++) {
 			if (employees.get(i).getCurrentProject() == null) {
