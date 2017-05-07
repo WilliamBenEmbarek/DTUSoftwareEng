@@ -24,8 +24,6 @@ public class Employee {
 		}
 		week.add(currentWeek, projectWeek);
 		this.stm = stm;
-		ProjectActivity assist = new ProjectActivity("Assist",999,0,9999);
-		assignedActivites.add(assist);
 	}
 
 	public void registerHours(double activityID, int date, double hours) {
@@ -146,19 +144,24 @@ public class Employee {
 	}
 	public void updateWeek() {
 		currentWeek = stm.getCurrentWeek();
-		for (Activity assignedActivity : assignedActivites) {
-			if (assignedActivity.getEndWeek() > currentWeek) {
-				assignedActivites.remove(assignedActivity);
-				if (assignedActivity instanceof PersonalActivity) {
-					unableToWork = false;
+		if (assignedActivites.size() != 0) {
+			for (int i = 0; i < assignedActivites.size(); i++) {
+				if (assignedActivites.get(i).getEndWeek() > currentWeek) {
+					assignedActivites.remove(assignedActivites.get(i));
+					if (assignedActivites.get(i) instanceof PersonalActivity) {
+						unableToWork = false;
+					}
 				}
 			}
+			refreshActivties();
 		}
-		for (Activity futureActivity : futureAssignedActivties) {
-			if (futureActivity.getStartWeek() <= currentWeek) {
-				assignedActivites.add(futureActivity);
+		if (futureAssignedActivties.size() != 0) {
+			for (int i = 0; i < futureAssignedActivties.size(); i++) {
+				if (futureAssignedActivties.get(i).getStartWeek() <= currentWeek) {
+					assignedActivites.add(futureAssignedActivties.get(i));
+				}
 			}
+			refreshActivties();
 		}
-		refreshActivties();
 	}
 }

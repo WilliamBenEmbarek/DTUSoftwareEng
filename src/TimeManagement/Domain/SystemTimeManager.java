@@ -161,8 +161,8 @@ public class SystemTimeManager {
 	}
 	public void nextWeek(){
 		CurrentWeek = CurrentWeek+1;
-		for (Employee e : employees) {
-			e.updateWeek();
+		for (int i = 0; i < this.employees.size(); i++) {
+			this.employees.get(i).updateWeek();
 		}
 	}
 	public int getCurrentDay() {
