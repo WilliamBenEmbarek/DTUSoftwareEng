@@ -171,9 +171,9 @@ public class Employee {
 
 	public void updateWeek() {
 		currentWeek = stm.getCurrentWeek();
+		week.set(currentWeek-1,projectWeek);
 		projectWeek.clear();
-
-		week.add(projectWeek);
+		week.add(currentWeek,projectWeek);
 		for (int i = 0; i < assignedActivites.size(); i++) {
 			week.get(currentWeek).add(new ArrayList<Double>(1)); //Inner ArrayList. Keeps track of hours on what days.
 			for (int j = 0; j < 6; j++) {
