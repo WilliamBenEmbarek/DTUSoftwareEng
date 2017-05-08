@@ -30,10 +30,32 @@ public class TimeRegistrationTest extends SampleDataSetup{
 		}
 		//Step 1
 		test.refreshActivties(); // refresh the activities in the employees personal 3d array
-		test.registerHours(1, 1,10.0); //Register 10 hours on monday
-		// assertEquals(test.getHoursWorkedDayActivity(stm.getCurrentWeek(), 1), 10,0);
+		test.registerHours(1, 1,17); //Register 10 hours on monday
+		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(), 1), 17,0);
 
 	}
+
+	@Test
+	public void testRegisterHoursAdd() throws Exception {
+		//Step 0
+		ArrayList<Employee> employees = stm.getEmployees();
+		String ID = "Test person";
+		Employee test = stm.getEmployeeByID(ID);
+		ProjectLeader p1 = stm.getProjectLeaders().get(0);
+		Project testP = stm.getProjects().get(0); //Set up employees
+		ArrayList<ProjectActivity> activities = testP.getActivities(stm.getCurrentWeek()); // Get a list of the activities
+
+		for (ProjectActivity activity : activities) { // For every activity in the activities have Project Leader P1 assign it to employee Test
+			p1.assignEmployee(test, activity);
+		}
+		//Step 1
+		test.refreshActivties(); // refresh the activities in the employees personal 3d array
+		test.registerHours(1, 1,5); //Register 10 hours on monday
+		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(), 1), 5,0);
+		test.registerHours(2, 1,4);
+		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(), 1), 9,0);
+	}
+
 	@Test
 	public void testRegisterHoursNoInput() throws Exception {
 		ArrayList<Employee> employees = stm.getEmployees();
@@ -118,6 +140,23 @@ public class TimeRegistrationTest extends SampleDataSetup{
 		test.registerHours(2,1,16.0);
 		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(), 1), 24.0,0);
 		assertEquals(test.getHoursWorkedDayActivity(stm.getCurrentWeek(), 1,activities.get(2)), 10.0,0);
+	}
+	@Test
+	public void testRegisterHoursNegative() throws Exception {
+		ArrayList<Employee> employees = stm.getEmployees();
+		String ID = "Test person";
+		Employee test = stm.getEmployeeByID(ID);
+		ProjectLeader p1 = stm.getProjectLeaders().get(0);
+		Project testP = stm.getProjects().get(0); //Set up employees
+		ArrayList<ProjectActivity> activities = testP.getActivities(stm.getCurrentWeek()); // Get a list of the activities
+
+		for (ProjectActivity activity : activities) { // For every activity in the activities have Project Leader P1 assign it to employee Test
+			p1.assignEmployee(test, activity);
+		}
+		//Step 1
+		test.refreshActivties();
+		test.registerHours(1,1,-3);
+		Assert.fail("Number of hours cannot be negative.");
 	}
 
 }

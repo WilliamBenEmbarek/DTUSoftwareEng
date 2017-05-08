@@ -11,7 +11,7 @@ public class Project {
 	public ArrayList<ProjectActivity> activities = new ArrayList<ProjectActivity>(0);
 	private int startWeek;
 	private ProjectLeader projectLeader;
-
+	private ArrayList<PersonalActivity> personalActivities = new ArrayList<PersonalActivity>(0);
 	public Project(String projectName, int startWeek) {
 		this.projectName = projectName;
 		this.startWeek = startWeek;
@@ -51,7 +51,6 @@ public class Project {
 		return activities;
 	}
 
-
 	public void addActivity(ProjectActivity activity) throws InvalidInputException, NameAlreadyExistException {
 		if(activity.getStartWeek()<this.startWeek){
 			throw new InvalidInputException("The input is invalid.");
@@ -61,6 +60,18 @@ public class Project {
 		}
 		else {
 			activities.add(activity);
+		}
+	}
+
+	public void addPersonalActivity(PersonalActivity activity) throws InvalidInputException, NameAlreadyExistException {
+		if(activity.getStartWeek()<this.startWeek){
+			throw new InvalidInputException("The input is invalid.");
+		}
+		else if(doesActivityNameExist(activity.getName())){
+			throw new NameAlreadyExistException("This name already exist.");
+		}
+		else {
+			personalActivities.add(activity);
 		}
 	}
 	public boolean doesActivityNameExist(String name){

@@ -26,9 +26,12 @@ public class Employee {
 		this.stm = stm;
 	}
 
-	public void registerHours(double activityID, int date, double hours) {
+	public void registerHours(double activityID, int date, double hours) throws InvalidInputException{
 		if (hours > 24) {
 			hours = 24;
+		}
+		if (hours < 0) {
+			throw new InvalidInputException("Number of hours cannot be negative.");
 		}
 		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
@@ -46,9 +49,12 @@ public class Employee {
 			}
 		}
 	}
-	public void editHours(double activityID, int date, double hours) {
+	public void editHours(double activityID, int date, double hours) throws InvalidInputException{
 		if (hours > 24) {
 			hours = 24;
+		}
+		if (hours < 0) {
+			throw new InvalidInputException("Number of hours cannot be negative.");
 		}
 		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.

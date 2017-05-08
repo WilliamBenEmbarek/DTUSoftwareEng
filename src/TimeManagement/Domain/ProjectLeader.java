@@ -22,6 +22,10 @@ public class ProjectLeader {
         ProjectActivity A = new ProjectActivity(activity,ID,startWeek,endWeek);
         assignedProject.addActivity(A);
     }
+    public void addPersonalActivity(String activity, double ID, int startWeek, int endWeek) throws InvalidInputException, NameAlreadyExistException {
+        PersonalActivity A = new PersonalActivity(activity,ID,startWeek,endWeek);
+        assignedProject.addPersonalActivity(A);
+    }
 
     public void assignEmployee(Employee e, ProjectActivity a) throws UnableToAssignException {
         if(a.getAssignedEmployees().contains(e)){
