@@ -18,12 +18,6 @@ public class ProjectLeader {
         return ID;
     }
 
-
-    public void addActivity(String activity, double ID, int startWeek) throws InvalidInputException, NameAlreadyExistException {
-        ProjectActivity A = new ProjectActivity(activity,ID,startWeek);
-        assignedProject.addActivity(A);
-    }
-
     public void addActivity(String activity, double ID, int startWeek, int endWeek) throws InvalidInputException, NameAlreadyExistException {
         ProjectActivity A = new ProjectActivity(activity,ID,startWeek,endWeek);
         assignedProject.addActivity(A);
@@ -41,20 +35,12 @@ public class ProjectLeader {
         }
     }
 
-	public void assignProject(Employee e, Project p) {
-        e.assignProject(p);
-    }
-
     public String getCurrentProject() {
         return currentProject;
     }
 
     public Project getAssignedProject() {
         return assignedProject;
-    }
-
-    public void setCurrentProject(String currentProject) {
-        this.currentProject = currentProject;
     }
 
     public String toString(){

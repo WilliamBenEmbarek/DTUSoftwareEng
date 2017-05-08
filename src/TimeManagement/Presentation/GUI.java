@@ -858,14 +858,8 @@ public class GUI extends JFrame implements ActionListener{
             revalidate();
             repaint();
         }
-        if(e.getSource() == days){
+        if(e.getSource() == days || e.getSource()==boxOfAssignedActivitiesToEdit){
             daySelect = days.getSelectedIndex();
-            getContentPane().removeAll();
-            editHoursPage();
-            revalidate();
-            repaint();
-        }
-        if(e.getSource()==boxOfAssignedActivitiesToEdit){
             editSelect = boxOfAssignedActivitiesToEdit.getSelectedIndex();
             getContentPane().removeAll();
             editHoursPage();
