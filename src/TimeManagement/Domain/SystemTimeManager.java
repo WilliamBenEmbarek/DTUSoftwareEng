@@ -11,7 +11,6 @@ public class SystemTimeManager {
 	public ArrayList<Employee> employees = new ArrayList<Employee>(0);
 	public ArrayList<Project> projects = new ArrayList<Project>(0);
 	private int CurrentWeek = 0;
-	private int CurrentDay = 1;
 
 	public SystemTimeManager(){
 	}
@@ -28,31 +27,27 @@ public class SystemTimeManager {
 	    int endWeek = A.getEndWeek();
 
 		ArrayList<Employee> AvailableEmployees = new ArrayList<Employee>(0);
-		for (int i = 0; i < employees.size(); i++) {
-			if (employees.get(i).getCurrentProject() == null) {
-				AvailableEmployees.add(employees.get(i));
-			}
-			else if(employees.get(i).getAssignedActivites().contains(A) || employees.get(i).getFutureAssignedActivties().contains(A)){
-			    // Already assigned this activity
-            }
-			else if(employees.get(i).unableToWork){
+		for (Employee employee : employees) {
+			if (employee.getCurrentProject() == null) {
+				AvailableEmployees.add(employee);
+			} else if (employee.getAssignedActivites().contains(A) || employee.getFutureAssignedActivties().contains(A)) {
+				// Already assigned this activity
+			} else if (employee.unableToWork) {
 
-            }
-			else {
-                ArrayList<Activity> ActivitiesInPeriod = new ArrayList<>();
-                for(int j=0; j<employees.get(i).getAssignedActivites().size(); j++){
-                    int activityStartWeek = employees.get(i).getAssignedActivites().get(j).getStartWeek();
-                    int activityEndWeek = employees.get(i).getAssignedActivites().get(j).getEndWeek();
-                    if((activityStartWeek<startWeek || activityStartWeek>endWeek) && (activityEndWeek<startWeek || activityEndWeek>endWeek)){
-                        // Activity is not in the current period
-                    }
-                    else{
-                        ActivitiesInPeriod.add(employees.get(i).getAssignedActivites().get(j));
-                    }
-                }
-                if(!(ActivitiesInPeriod.size()>10)){
-                    AvailableEmployees.add(employees.get(i));
-                }
+			} else {
+				ArrayList<Activity> ActivitiesInPeriod = new ArrayList<>();
+				for (int j = 0; j < employee.getAssignedActivites().size(); j++) {
+					int activityStartWeek = employee.getAssignedActivites().get(j).getStartWeek();
+					int activityEndWeek = employee.getAssignedActivites().get(j).getEndWeek();
+					if ((activityStartWeek < startWeek || activityStartWeek > endWeek) && (activityEndWeek < startWeek || activityEndWeek > endWeek)) {
+						// Activity is not in the current period
+					} else {
+						ActivitiesInPeriod.add(employee.getAssignedActivites().get(j));
+					}
+				}
+				if (!(ActivitiesInPeriod.size() > 10)) {
+					AvailableEmployees.add(employee);
+				}
 
 			}
 
@@ -162,9 +157,6 @@ public class SystemTimeManager {
 		for (int i = 0; i < this.employees.size(); i++) {
 			this.employees.get(i).updateWeek();
 		}
-	}
-	public int getCurrentDay() {
-		return CurrentDay;
 	}
 
 	// Hardcoding of login for each employee
