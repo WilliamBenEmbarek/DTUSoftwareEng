@@ -31,7 +31,7 @@ public class Employee {
 			hours = 24;
 		}
 		if (hours < 0) {
-			throw new InvalidInputException("Number of hours cannot be negative.");
+			throw new InvalidInputException("The input is invalid.");
 		}
 		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
@@ -54,7 +54,7 @@ public class Employee {
 			hours = 24;
 		}
 		if (hours < 0) {
-			throw new InvalidInputException("Number of hours cannot be negative.");
+			throw new InvalidInputException("The input is invalid.");
 		}
 		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.

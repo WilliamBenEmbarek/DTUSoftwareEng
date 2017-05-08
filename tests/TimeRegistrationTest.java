@@ -160,8 +160,13 @@ public class TimeRegistrationTest extends SampleDataSetup{
 		}
 		//Step 1
 		test.refreshActivties();
-		test.registerHours(1,1,-3);
-		Assert.fail("Number of hours cannot be negative.");
+        try {test.registerHours(1,1,-3);test.editHours(1, 1, -3);
+            fail("TimeManagement.Domain.InvalidInputException exception should have been thrown");
+        } catch (InvalidInputException e) {
+
+            assertEquals("The input is invalid.", e.getMessage());
+            assertEquals("Try again", e.getOperation());
+        }
 	}
 
 }

@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Created by William Ben Embarek on 08/05/2017.
@@ -112,6 +113,7 @@ public class TestEditHours extends SampleDataSetup{
 		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(), 1), 24.0,0);
 		assertEquals(test.getHoursWorkedDayActivity(stm.getCurrentWeek(), 1,activities.get(2)), 10.0,0);
 	}
+
 	@Test
 	public void testEditHoursNegative() throws Exception {
 		ArrayList<Employee> employees = stm.getEmployees();
@@ -126,7 +128,13 @@ public class TestEditHours extends SampleDataSetup{
 		}
 		//Step 1
 		test.refreshActivties();
-		test.editHours(1,1,-3);
-		Assert.fail("Number of hours cannot be negative.");
+		try {
+			test.editHours(1, 1, -3);
+			fail("TimeManagement.Domain.InvalidInputException exception should have been thrown");
+		} catch (InvalidInputException e) {
+
+			assertEquals("The input is invalid.", e.getMessage());
+			assertEquals("Try again", e.getOperation());
+		}
 	}
 }

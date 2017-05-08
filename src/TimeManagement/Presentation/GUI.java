@@ -17,7 +17,7 @@ import java.util.Vector;
 
 public class GUI extends JFrame implements ActionListener{
 
-    private SystemTimeManager STM;
+    private SystemTimeManager stm;
     private Employee currentLoggedOn;
     private ProjectLeader loggedOnProjectLeader;
     private double idCounter = 0.0;
@@ -77,6 +77,7 @@ public class GUI extends JFrame implements ActionListener{
     private JButton editHoursPage;
     private JButton registerTime;
     private JButton editTime;
+    private JButton assignEmployeeToPersonalActivityPage;
 
     // Allows only numbers in some fields
     private NumberFormat intFormat = NumberFormat.getIntegerInstance();
@@ -92,8 +93,8 @@ public class GUI extends JFrame implements ActionListener{
     }
 
     private GUI() throws NameAlreadyExistException {
-        STM = new SystemTimeManager();
-        STM.setUpEmployees();
+        stm = new SystemTimeManager();
+        stm.setUpEmployees();
         loginPage();
     }
 
@@ -143,7 +144,7 @@ public class GUI extends JFrame implements ActionListener{
         nextWeek.addActionListener(this);
         loginPanel.add(nextWeek, cs);
 
-        JLabel labelWeek = new JLabel("Week: "+STM.getCurrentWeek());
+        JLabel labelWeek = new JLabel("Week: "+ stm.getCurrentWeek());
         cs.gridx     = 0;
         cs.gridy     = 3;
         cs.gridwidth = 1;
@@ -177,7 +178,7 @@ public class GUI extends JFrame implements ActionListener{
     private void registerHoursPage(){
         Panel panel = new Panel();
         panel.setLayout(new BorderLayout());
-        JLabel week = new JLabel("Week: "+STM.getCurrentWeek());
+        JLabel week = new JLabel("Week: "+ stm.getCurrentWeek());
         panel.add(week,BorderLayout.NORTH);
         JPanel registerHoursPanel = new JPanel(new GridBagLayout());
 
@@ -284,12 +285,12 @@ public class GUI extends JFrame implements ActionListener{
 
         // Possible activities to assist
         ArrayList<Activity> possibleAssistActivities = new ArrayList<>();
-        for(int i = 0; i<currentLoggedOn.getCurrentProject().getActivities(STM.getCurrentWeek()).size();i++){
-            if(currentLoggedOn.getAssignedActivites().contains(currentLoggedOn.getCurrentProject().getActivities(STM.getCurrentWeek()).get(i))){
+        for(int i = 0; i<currentLoggedOn.getCurrentProject().getActivities(stm.getCurrentWeek()).size(); i++){
+            if(currentLoggedOn.getAssignedActivites().contains(currentLoggedOn.getCurrentProject().getActivities(stm.getCurrentWeek()).get(i))){
                 // Don't add to list
             }
             else{
-                possibleAssistActivities.add(currentLoggedOn.getCurrentProject().getActivities(STM.getCurrentWeek()).get(i));
+                possibleAssistActivities.add(currentLoggedOn.getCurrentProject().getActivities(stm.getCurrentWeek()).get(i));
             }
         }
 
@@ -394,7 +395,7 @@ public class GUI extends JFrame implements ActionListener{
         if(S.equals("Friday"))day=5;
 
         Activity A = (Activity) boxOfAssignedActivitiesToEdit.getSelectedItem();
-        JLabel labelHours = new JLabel("Hours registered: "+currentLoggedOn.getHoursWorkedDayActivity(STM.getCurrentWeek(),day,A));
+        JLabel labelHours = new JLabel("Hours registered: "+currentLoggedOn.getHoursWorkedDayActivity(stm.getCurrentWeek(),day,A));
         cs.gridx     = 0;
         cs.gridy     = 1;
         cs.gridwidth = 1;
@@ -464,7 +465,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         createProjectPanel.add(labelProjectLeader, cs);
 
-        boxOfEmployees = new JComboBox(new Vector(STM.getEmployees()));
+        boxOfEmployees = new JComboBox(new Vector(stm.getEmployees()));
         // Remove the index because this function is optional
         boxOfEmployees.setSelectedIndex(-1);
         cs.gridx     = 1;
@@ -503,7 +504,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         assignProjectLeaderPanel.add(labelUsername, cs);
 
-        boxOfEmployees = new JComboBox(new Vector(STM.getEmployees()));
+        boxOfEmployees = new JComboBox(new Vector(stm.getEmployees()));
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 2;
@@ -515,7 +516,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         assignProjectLeaderPanel.add(labelPassword, cs);
 
-        boxOfProjects     = new JComboBox(new Vector(STM.projectsWithoutAProjectLeader()));
+        boxOfProjects     = new JComboBox(new Vector(stm.projectsWithoutAProjectLeader()));
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 2;
@@ -560,6 +561,10 @@ public class GUI extends JFrame implements ActionListener{
         assignEmployeeToActivityPage = new JButton("Assign Employee");
         assignEmployeeToActivityPage.addActionListener(this);
         projectLeaderPanel.add(assignEmployeeToActivityPage);
+
+        assignEmployeeToPersonalActivityPage = new JButton("Assign Employee Personal Activity");
+        assignEmployeeToPersonalActivityPage.addActionListener(this);
+        projectLeaderPanel.add(assignEmployeeToPersonalActivityPage);
 
         logout = new JButton("Log Out");
         logout.addActionListener(this);
@@ -643,7 +648,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         assignEmployeePanel.add(labelActivities, cs);
 
-        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.getAssignedProject().getActivities(STM.getCurrentWeek())));
+        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.getAssignedProject().getActivities(stm.getCurrentWeek())));
         boxOfActivities.setSelectedIndex(selectAIndex);
         boxOfActivities.addActionListener(this);
         cs.gridx     = 1;
@@ -658,7 +663,7 @@ public class GUI extends JFrame implements ActionListener{
         assignEmployeePanel.add(labelAvaliableEmployees, cs);
 
         Activity A = (Activity)boxOfActivities.getSelectedItem();
-        boxOfAvaliableEmployees = new JComboBox(new Vector(STM.AvailableEmployeesForAGivenActivity(A)));
+        boxOfAvaliableEmployees = new JComboBox(new Vector(stm.AvailableEmployeesForAGivenActivity(A)));
         cs.gridx     = 1;
         cs.gridy     = 1;
         cs.gridwidth = 3;
@@ -696,7 +701,7 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         editActivityPanel.add(labelActivity, cs);
 
-        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.getAssignedProject().getActivities(STM.getCurrentWeek())));
+        boxOfActivities = new JComboBox(new Vector(loggedOnProjectLeader.getAssignedProject().getActivities(stm.getCurrentWeek())));
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 3;
@@ -748,6 +753,10 @@ public class GUI extends JFrame implements ActionListener{
         getContentPane().add(editActivityPanel);
     }
 
+    private void assignEmployeeToPersonalActivityPage(){
+
+    }
+
     public void actionPerformed(ActionEvent e) {
 
         try {
@@ -765,11 +774,11 @@ public class GUI extends JFrame implements ActionListener{
         }
 
         if (e.getSource() == login) {
-            if(STM.checkLogin(userName.getText().trim(), password.getText().trim())) {
-                currentLoggedOn = STM.getEmployeeByID(userName.getText().trim());
+            if(stm.checkLogin(userName.getText().trim(), password.getText().trim())) {
+                currentLoggedOn = stm.getEmployeeByID(userName.getText().trim());
                 // If the currentLoggedOn is null, then it is a project leader
                 if(currentLoggedOn == null ){
-                    loggedOnProjectLeader = STM.getProjectLeaderByID(userName.getText().trim());
+                    loggedOnProjectLeader = stm.getProjectLeaderByID(userName.getText().trim());
                     getContentPane().removeAll();
                     projectLeaderPage();
                     revalidate();
@@ -790,7 +799,7 @@ public class GUI extends JFrame implements ActionListener{
             repaint();
         }
         if(e.getSource()== nextWeek){
-            STM.nextWeek();
+            stm.nextWeek();
             getContentPane().removeAll();
             loginPage();
             revalidate();
@@ -916,7 +925,7 @@ public class GUI extends JFrame implements ActionListener{
                 revalidate();
                 repaint();
             }
-            else if(STM.doesProjectIDExist(name)){
+            else if(stm.doesProjectIDExist(name)){
                 addProject.setText("The name already exist, try again");
                 revalidate();
                 repaint();
@@ -941,7 +950,7 @@ public class GUI extends JFrame implements ActionListener{
             repaint();
         }
         if(e.getSource() == addProjectLeader){
-            STM.AssignProjectLeader((Employee)boxOfEmployees.getSelectedItem(),(Project)boxOfProjects.getSelectedItem());
+            stm.AssignProjectLeader((Employee)boxOfEmployees.getSelectedItem(),(Project)boxOfProjects.getSelectedItem());
             addProjectLeader.setText("Project Leader "+(Employee)boxOfEmployees.getSelectedItem()+" is assigned!");
             revalidate();
             repaint();
@@ -1000,7 +1009,7 @@ public class GUI extends JFrame implements ActionListener{
             }
         }
         if(e.getSource() == assignEmployeeToActivityPage){
-            if(loggedOnProjectLeader.getAssignedProject().getActivities(STM.getCurrentWeek()).size()==0){
+            if(loggedOnProjectLeader.getAssignedProject().getActivities(stm.getCurrentWeek()).size()==0){
                 assignEmployeeToActivityPage.setText("Create some activities first");
                 revalidate();
                 repaint();
@@ -1094,6 +1103,12 @@ public class GUI extends JFrame implements ActionListener{
             selectAIndex = boxOfActivities.getSelectedIndex();
             getContentPane().removeAll();
             assignEmployeePage();
+            revalidate();
+            repaint();
+        }
+        if(e.getSource() == assignEmployeeToPersonalActivityPage){
+            getContentPane().removeAll();
+            assignEmployeeToPersonalActivityPage();
             revalidate();
             repaint();
         }
