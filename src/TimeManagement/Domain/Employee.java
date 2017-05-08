@@ -92,7 +92,7 @@ public class Employee {
 		int x = week.get(currentWeek).size();
 		if (x != assignedActivites.size()) {
 			for (int i = x; i < assignedActivites.size(); i++) {
-				week.get(currentWeek).add(x, new ArrayList<Double>());
+				week.get(currentWeek).add(i, new ArrayList<Double>());
 				for (int y = 0; y < 6; y++) {
 					week.get(currentWeek).get(x).add(y, 0.0);
 				}
@@ -182,7 +182,7 @@ public class Employee {
 		}
 		if (assignedActivites.size() != 0) {
 			for (int i = 0; i < assignedActivites.size(); i++) {
-				if (assignedActivites.get(i).getEndWeek() > currentWeek) {
+				if (assignedActivites.get(i).getEndWeek() < currentWeek) {
 					assignedActivites.remove(assignedActivites.get(i));
 					if (assignedActivites.get(i) instanceof PersonalActivity) {
 						unableToWork = false;
@@ -193,7 +193,7 @@ public class Employee {
 		}
 		if (futureAssignedActivties.size() != 0) {
 			for (int i = 0; i < futureAssignedActivties.size(); i++) {
-				if (futureAssignedActivties.get(i).getStartWeek() <= currentWeek) {
+				if (futureAssignedActivties.get(i).getStartWeek() >= currentWeek) {
 					assignedActivites.add(futureAssignedActivties.get(i));
 				}
 			}
