@@ -115,10 +115,6 @@ public class Employee {
     	return this.ID;
 	}
 
-	public void setID(String ID) {
-		this.ID = ID;
-	}
-
 	public Project getCurrentProject() {
 		return CurrentProject;
 	}

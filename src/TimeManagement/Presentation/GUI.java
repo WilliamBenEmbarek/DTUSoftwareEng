@@ -50,6 +50,7 @@ public class GUI extends JFrame implements ActionListener{
     // JPanel
     private JPanel assignEmployeePanel;
     private int selectAIndex=0;
+    private int daySelect=0;
 
     // Functional buttons
     private JButton nextWeek;
@@ -343,6 +344,79 @@ public class GUI extends JFrame implements ActionListener{
 
 
         getContentPane().add(assistancePanel);
+    }
+
+    private void editHoursPage(){
+        JPanel editHourPanel = new JPanel(new GridBagLayout());
+
+        // Sets contrains to organize components in the panel.
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel labelActivity = new JLabel("Activity to Edit: ");
+        cs.gridx     = 0;
+        cs.gridy     = 0;
+        cs.gridwidth = 1;
+        editHourPanel.add(labelActivity, cs);
+
+        boxOfAssignedActivities = new JComboBox(new Vector(currentLoggedOn.getAssignedActivites()));
+        cs.gridx     = 1;
+        cs.gridy     = 0;
+        cs.gridwidth = 3;
+        editHourPanel.add(boxOfAssignedActivities, cs);
+
+        JLabel labelDate = new JLabel("Day: ");
+        cs.gridx     = 0;
+        cs.gridy     = 2;
+        cs.gridwidth = 1;
+        editHourPanel.add(labelDate, cs);
+
+        days = new JComboBox(new Vector(new ArrayList<String>(Arrays.asList(weekDays))));
+        days.setSelectedIndex(daySelect);
+        days.addActionListener(this);
+        cs.gridx     = 1;
+        cs.gridy     = 2;
+        cs.gridwidth = 3;
+        editHourPanel.add(days, cs);
+
+        String S = (String)days.getSelectedItem();
+        int day = 0;
+        if(S.equals("Monday"))day=1;
+        if(S.equals("Tuesday"))day=2;
+        if(S.equals("Wednesday"))day=3;
+        if(S.equals("Thursday"))day=4;
+        if(S.equals("Friday"))day=5;
+
+        JLabel labelHours = new JLabel("Hours registered: "+currentLoggedOn.getHoursWorkedDay(STM.getCurrentWeek(),day));
+        cs.gridx     = 0;
+        cs.gridy     = 1;
+        cs.gridwidth = 1;
+        editHourPanel.add(labelHours, cs);
+
+        doubleFormatter.setAllowsInvalid(false);
+        hours = new JFormattedTextField(doubleFormatter);
+        cs.gridx     = 1;
+        cs.gridy     = 1;
+        cs.gridwidth = 3;
+        editHourPanel.add(hours, cs);
+
+        registerTime = new JButton("Edit Time");
+        cs.gridx     = 1;
+        cs.gridy     = 3;
+        cs.gridwidth = 3;
+        registerTime.addActionListener(this);
+        editHourPanel.add(registerTime, cs);
+
+        backRegisterTimeMenue = new JButton("Back");
+        cs.gridx     = 0;
+        cs.gridy     = 3;
+        cs.gridwidth = 3;
+        backRegisterTimeMenue.addActionListener(this);
+        editHourPanel.add( backRegisterTimeMenue, cs);
+
+
+
+        getContentPane().add(editHourPanel);
     }
 
     private void createProjectPage(){
@@ -679,9 +753,7 @@ public class GUI extends JFrame implements ActionListener{
 
         try {
             actionCommandsProjectLeaderPage(e);
-        } catch (InvalidInputException e1) {
-            e1.printStackTrace();
-        } catch (NameAlreadyExistException e1) {
+        } catch (InvalidInputException | NameAlreadyExistException | UnableToAssignException e1) {
             e1.printStackTrace();
         }
 
@@ -774,7 +846,17 @@ public class GUI extends JFrame implements ActionListener{
             repaint();
         }
         if(e.getSource() == editHoursPage){
-
+            getContentPane().removeAll();
+            editHoursPage();
+            revalidate();
+            repaint();
+        }
+        if(e.getSource() == days){
+            daySelect = days.getSelectedIndex();
+            getContentPane().removeAll();
+            editHoursPage();
+            revalidate();
+            repaint();
         }
 
     }
@@ -832,7 +914,7 @@ public class GUI extends JFrame implements ActionListener{
         }
     }
 
-    private void actionCommandsProjectLeaderPage(ActionEvent e) throws InvalidInputException, NameAlreadyExistException {
+    private void actionCommandsProjectLeaderPage(ActionEvent e) throws InvalidInputException, NameAlreadyExistException, UnableToAssignException {
         if(e.getSource()==createActivityPage){
             getContentPane().removeAll();
             createActivityPage();

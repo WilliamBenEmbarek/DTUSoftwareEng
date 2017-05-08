@@ -29,11 +29,16 @@ public class ProjectLeader {
         assignedProject.addActivity(A);
     }
 
-    public void assignEmployee(Employee e, ProjectActivity a) {
-    	a.assignEmployee(e);
-    	e.assignActivity(a);
-    	e.setCurrentProject(this.assignedProject);
-    	e.refreshActivties();
+    public void assignEmployee(Employee e, ProjectActivity a) throws UnableToAssignException {
+        if(a.getAssignedEmployees().contains(e)){
+            throw new UnableToAssignException("Unable to assign exception.");
+        }
+        else {
+            a.assignEmployee(e);
+            e.assignActivity(a);
+            e.setCurrentProject(this.assignedProject);
+            e.refreshActivties();
+        }
     }
 
 	public void assignProject(Employee e, Project p) {

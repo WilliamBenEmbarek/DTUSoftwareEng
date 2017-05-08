@@ -50,7 +50,7 @@ public class SystemTimeManager {
                         ActivitiesInPeriod.add(employees.get(i).getAssignedActivites().get(j));
                     }
                 }
-                if(!(ActivitiesInPeriod.size()>5)){
+                if(!(ActivitiesInPeriod.size()>10)){
                     AvailableEmployees.add(employees.get(i));
                 }
 
