@@ -44,8 +44,6 @@ public class Employee {
 					x = 24-getHoursWorkedDay(currentWeek,date);
 				}
 				aProjectWeek.set(date,x);
-				System.out.println(date);
-				System.out.println(hours);
 			}
 		}
 	}
@@ -62,8 +60,6 @@ public class Employee {
 					hours = 24-getHoursWorkedDay(currentWeek,date);
 				}
 				aProjectWeek.set(date, hours);
-				System.out.println(date);
-				System.out.println(hours);
 			}
 		}
 	}
@@ -90,9 +86,6 @@ public class Employee {
 	}
 	public void assignActivity(Activity a) {
 	    if(a.getStartWeek()>currentWeek){
-			System.out.println(a.getStartWeek());
-			System.out.println(a.getEndWeek());
-			System.out.println(currentWeek);
 			futureAssignedActivties.add(a);
         }
         else{
@@ -201,7 +194,6 @@ public class Employee {
 					}
 				}
 			}
-			System.out.println(assignedActivites.size());
 			refreshActivties();
 		}
 		if (futureAssignedActivties.size() != 0) {
@@ -210,7 +202,6 @@ public class Employee {
 					assignedActivites.add(futureAssignedActivties.get(i));
 				}
 			}
-			System.out.println(futureAssignedActivties.size());
 			refreshActivties();
 		}
 	}
