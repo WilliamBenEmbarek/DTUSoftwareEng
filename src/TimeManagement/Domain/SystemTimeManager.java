@@ -1,5 +1,7 @@
 package TimeManagement.Domain;
 
+import sun.security.x509.AVA;
+
 import java.util.ArrayList;
 
 /**
@@ -32,9 +34,7 @@ public class SystemTimeManager {
 				AvailableEmployees.add(employee);
 			} else if (employee.getAssignedActivites().contains(A) || employee.getFutureAssignedActivties().contains(A)) {
 				// Already assigned this activity
-			} else if (employee.unableToWork) {
-
-			} else {
+			} else{
 				ArrayList<Activity> ActivitiesInPeriod = new ArrayList<>();
 				for (int j = 0; j < employee.getAssignedActivites().size(); j++) {
 					int activityStartWeek = employee.getAssignedActivites().get(j).getStartWeek();
@@ -49,6 +49,8 @@ public class SystemTimeManager {
 					AvailableEmployees.add(employee);
 				}
 
+			} if (employee.unableToWork) {
+				AvailableEmployees.remove(employee);
 			}
 
 		}
