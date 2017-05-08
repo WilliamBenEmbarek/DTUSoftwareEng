@@ -150,9 +150,9 @@ public class Employee {
 		x[2][0] = "Wednesday";
 		x[3][0] = "Thursday";
 		x[4][0] = "Friday";
-		for (int i = 0; i < assignedActivites.size(); i++) {
-			for (int j = 1; j < 6; j++) {
-				if (week.get(currentWeek).get(i).get(j) != null) {
+		for (int i = 0; i < assignedActivites.size(); i++) { // 1
+			for (int j = 1; j < 6; j++) { // 2
+				if (week.get(currentWeek).get(i).get(j) != null) { // 3
 					x[j - 1][i + 1] = week.get(currentWeek).get(i).get(j).toString();
 				}
 			}
