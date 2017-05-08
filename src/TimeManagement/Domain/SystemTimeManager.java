@@ -33,7 +33,7 @@ public class SystemTimeManager {
 		for (Employee employee : employees) { //1
 			if (employee.getCurrentProject() == null) { //2
 				AvailableEmployees.add(employee);
-			} else if (employee.getAssignedActivites().contains(A) || employee.getFutureAssignedActivties().contains(A)) { //3
+			} else if (employee.getAssignedActivites().contains(A) || employee.getFutureAssignedActivties().contains(A)) { // 3
 				// Already assigned this activity
 			} else{
 				ArrayList<Activity> ActivitiesInPeriod = new ArrayList<>();
