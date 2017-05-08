@@ -47,6 +47,7 @@ public class GUI extends JFrame implements ActionListener{
     private JComboBox boxOfAssignedActivities;
     private JComboBox days;
     private JComboBox boxOfAssignedActivitiesToEdit;
+    private JComboBox assistActivity;
 
     // Week days
     private String[] weekDays = new String[]{"Monday","Tuesday","Wednesday","Thursday","Friday"};
@@ -82,6 +83,7 @@ public class GUI extends JFrame implements ActionListener{
     private JButton editTime;
     private JButton assignEmployeeToPersonalActivityPage;
     private JButton assignEmployeeToPersonalActivity;
+    private JButton requestAssist;
 
     // Allows only numbers in some fields
     private NumberFormat intFormat = NumberFormat.getIntegerInstance();
@@ -353,6 +355,54 @@ public class GUI extends JFrame implements ActionListener{
 
 
         getContentPane().add(assistancePanel);
+    }
+
+    private void assistancePanel(){
+        JPanel assistPanel = new JPanel(new GridBagLayout());
+
+        // Sets contrains to organize components in the panel.
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel labelEmployee = new JLabel("Employee to ask: ");
+        cs.gridx     = 0;
+        cs.gridy     = 0;
+        cs.gridwidth = 1;
+        assistPanel.add(labelEmployee, cs);
+
+        boxOfEmployees = new JComboBox(new Vector(stm.getEmployees()));
+        cs.gridx     = 1;
+        cs.gridy     = 0;
+        cs.gridwidth = 3;
+        assistPanel.add(boxOfEmployees, cs);
+
+        JLabel labelActivities = new JLabel("Activity to assist: ");
+        cs.gridx     = 0;
+        cs.gridy     = 1;
+        cs.gridwidth = 1;
+        assistPanel.add(labelActivities, cs);
+
+        assistActivity = new JComboBox(new Vector(currentLoggedOn.getAssignedActivites()));
+        cs.gridx     = 1;
+        cs.gridy     = 1;
+        cs.gridwidth = 3;
+        assistPanel.add(assistActivity, cs);
+
+        requestAssist = new JButton("Request assist");
+        cs.gridx     = 1;
+        cs.gridy     = 2;
+        cs.gridwidth = 3;
+        requestAssist.addActionListener(this);
+        assistPanel.add(requestAssist,cs);
+
+        backRegisterTimeMenue = new JButton("Back");
+        cs.gridx     = 0;
+        cs.gridy     = 2;
+        cs.gridwidth = 3;
+        backRegisterTimeMenue.addActionListener(this);
+        assistPanel.add( backRegisterTimeMenue, cs);
+
+        getContentPane().add(assistPanel);
     }
 
     private void editHoursPage(){
@@ -843,7 +893,11 @@ public class GUI extends JFrame implements ActionListener{
             e1.printStackTrace();
         }
 
-        actionCommandsRegisterHours(e);
+        try {
+            actionCommandsRegisterHours(e);
+        } catch (UnableToAssignException e1) {
+            e1.printStackTrace();
+        }
 
         try {
             actionCommandsProjectLeaderPage(e);
@@ -885,7 +939,7 @@ public class GUI extends JFrame implements ActionListener{
         }
     }
 
-    private void actionCommandsRegisterHours(ActionEvent e){
+    private void actionCommandsRegisterHours(ActionEvent e) throws UnableToAssignException {
         if(e.getSource()==registerHoursMenue || e.getSource()==backRegisterTimeMenue){
             if(currentLoggedOn.getCurrentProject()==null){
                 registerHoursMenue.setText("You are not on a project");
@@ -982,6 +1036,35 @@ public class GUI extends JFrame implements ActionListener{
 				}
 
 				editTime.setText("Time is edited");
+                revalidate();
+                repaint();
+            }
+        }
+        if(e.getSource() == assistancePage){
+            getContentPane().removeAll();
+            assistancePanel();
+            revalidate();
+            repaint();
+        }
+        if(e.getSource() == requestAssist){
+            Employee E = (Employee) boxOfEmployees.getSelectedItem();
+            Activity A = (Activity) assistActivity.getSelectedItem();
+            if(E==null || A==null){
+                requestAssist.setText("Something went wrong, try again");
+                revalidate();
+                repaint();
+            }
+            else{
+                ProjectLeader pL = currentLoggedOn.getCurrentProject().getProjectLeader();
+                try {
+                    pL.addActivity("Assist",idCounter,stm.getCurrentWeek(),stm.getCurrentWeek()+1);
+                } catch (InvalidInputException | NameAlreadyExistException e1) {
+                    e1.printStackTrace();
+                }
+
+                pL.assignEmployee(E, pL.getAssignedProject().activities.get((int)idCounter));
+                idCounter++;
+                requestAssist.setText("You have requested assist");
                 revalidate();
                 repaint();
             }
