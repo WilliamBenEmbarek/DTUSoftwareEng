@@ -147,6 +147,8 @@ public class SystemTimeManager {
 		employees.add(e1);
 		Employee e2 = new Employee("William", this);
 		employees.add(e2);
+		Employee e3 = new Employee("Tobias",this);
+		employees.add(e3);
 		for (int i = 0; i < 10; i++) {
 			Employee e = new Employee("E" + i, this);
 			employees.add(e);
