@@ -511,6 +511,7 @@ public class GUI extends JFrame implements ActionListener{
         createProjectPanel.add(labelProjectStartWeek, cs);
 
         intFormatter.setAllowsInvalid(false);
+        intFormatter.setMaximum(100);
         projectStartWeek = new JFormattedTextField(intFormatter);
         cs.gridx     = 1;
         cs.gridy     = 1;
@@ -880,7 +881,7 @@ public class GUI extends JFrame implements ActionListener{
         backProjectLeader = new JButton("Back");
         cs.gridx     = 0;
         cs.gridy     = 4;
-        cs.gridwidth = 3;
+        cs.gridwidth = 1;
         backProjectLeader.addActionListener(this);
         assignEmployeeToPersonalActivityPanel.add(backProjectLeader, cs);
 
