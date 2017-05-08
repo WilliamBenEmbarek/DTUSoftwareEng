@@ -401,7 +401,7 @@ public class GUI extends JFrame implements ActionListener{
         backRegisterTimeMenue = new JButton("Back");
         cs.gridx     = 0;
         cs.gridy     = 2;
-        cs.gridwidth = 3;
+        cs.gridwidth = 1;
         backRegisterTimeMenue.addActionListener(this);
         assistPanel.add( backRegisterTimeMenue, cs);
 
@@ -1091,6 +1091,11 @@ public class GUI extends JFrame implements ActionListener{
             }
             else if(stm.doesProjectIDExist(name)){
                 addProject.setText("The name already exist, try again");
+                revalidate();
+                repaint();
+            }
+            else if(Integer.parseInt(startWeek)<stm.getCurrentWeek()){
+                addProject.setText("The start week is invalid, try again");
                 revalidate();
                 repaint();
             }
