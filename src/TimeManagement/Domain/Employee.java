@@ -27,7 +27,23 @@ public class Employee {
 	}
 
 	public void registerHours(double activityID, int date, double hours) {
-		int totalActivities = week.get(currentWeek).size();
+		if (hours > 24) {
+			hours = 24;
+		}
+		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
+			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
+				double x = aProjectWeek.get(date);
+				x = x+hours;
+				aProjectWeek.set(date,x);
+				System.out.println(date);
+				System.out.println(hours);
+			}
+		}
+	}
+	public void editHours(double activityID, int date, double hours) {
+		if (hours > 24) {
+			hours = 24;
+		}
 		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
 				aProjectWeek.set(date, hours);
@@ -63,9 +79,6 @@ public class Employee {
             assignedActivites.add(a);
         }
 
-	}
-	public void assignFutureActivity(Activity a) {
-		futureAssignedActivties.add(a);
 	}
 
 	public void refreshActivties() { //Needs to be called everytime an activity is created / changed with the employee.
