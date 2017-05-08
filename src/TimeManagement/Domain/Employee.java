@@ -52,12 +52,10 @@ public class Employee {
 			}
 		}
 	}
-	public double getHoursWorkedDay(int gWeek, int gDate) {
-		double hours = 0;
-		for (ArrayList<Double> aProjectWeek : week.get(gWeek)) {
-				hours = hours + aProjectWeek.get(gDate);
-			}
-		return hours;
+
+	public double getHoursWorkedDayActivity(int gWeek, int gDate, Activity a) {
+		int x = assignedActivites.lastIndexOf(a);
+		return week.get(gWeek).get(x).get(gDate);
 	}
 
 	public void assignProject(Project project) {
