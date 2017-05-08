@@ -144,6 +144,7 @@ public class Employee {
 	}
 
 	public String[][] getActivityHours() {
+		assert true;
 		String[][] x = new String[5][assignedActivites.size() + 1];
 		x[0][0] = "Monday";
 		x[1][0] = "Tuesday";
@@ -157,7 +158,19 @@ public class Employee {
 				}
 			}
 		}
+		assert correctHoursReturned(x);
 		return x;
+	}
+	private boolean correctHoursReturned(String[][] x) {
+		boolean result = true;
+		for (int i = 0; i < assignedActivites.size();i++) {
+			for (int j = 1; j < x[i].length; j++) {
+				if (!x[j-1][i+1].equals(week.get(currentWeek).get(i).get(j).toString())) {
+					result = false;
+				}
+			}
+		}
+		return result;
 	}
 
 	public String[] getActivitiesAssigned() {
