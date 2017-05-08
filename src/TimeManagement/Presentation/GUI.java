@@ -52,7 +52,7 @@ public class GUI extends JFrame implements ActionListener{
     private JPanel assignEmployeePanel;
     private int selectAIndex=0;
     private int daySelect=0;
-    private int editSelect =0;
+    private int editSelect=0;
 
     // Functional buttons
     private JButton nextWeek;
@@ -177,7 +177,8 @@ public class GUI extends JFrame implements ActionListener{
     private void registerHoursPage(){
         Panel panel = new Panel();
         panel.setLayout(new BorderLayout());
-
+        JLabel week = new JLabel("Week: "+STM.getCurrentWeek());
+        panel.add(week,BorderLayout.NORTH);
         JPanel registerHoursPanel = new JPanel(new GridBagLayout());
 
         Object rowData[][] = currentLoggedOn.getActivityHours();
@@ -363,8 +364,8 @@ public class GUI extends JFrame implements ActionListener{
         editHourPanel.add(labelActivity, cs);
 
         boxOfAssignedActivitiesToEdit = new JComboBox(new Vector(currentLoggedOn.getAssignedActivites()));
-        boxOfAssignedActivitiesToEdit.addActionListener(this);
         boxOfAssignedActivitiesToEdit.setSelectedIndex(editSelect);
+        boxOfAssignedActivitiesToEdit.addActionListener(this);
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 3;
@@ -857,8 +858,14 @@ public class GUI extends JFrame implements ActionListener{
             revalidate();
             repaint();
         }
-        if(e.getSource() == days || e.getSource()==boxOfAssignedActivitiesToEdit){
+        if(e.getSource() == days){
             daySelect = days.getSelectedIndex();
+            getContentPane().removeAll();
+            editHoursPage();
+            revalidate();
+            repaint();
+        }
+        if(e.getSource()==boxOfAssignedActivitiesToEdit){
             editSelect = boxOfAssignedActivitiesToEdit.getSelectedIndex();
             getContentPane().removeAll();
             editHoursPage();
