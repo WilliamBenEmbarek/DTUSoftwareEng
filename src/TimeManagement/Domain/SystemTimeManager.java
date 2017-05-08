@@ -168,7 +168,10 @@ public class SystemTimeManager {
 			return true;
 		} else if (ID.equals("William") && pass.equals("321")) {
 			return true;
-		} else {
+		} else if(ID.equals("E0") && pass.equals("0")){
+			return true;
+		}
+		else {
 			return (ID.equals("Tobias") && pass.equals("TheBest"));
 		}
 
