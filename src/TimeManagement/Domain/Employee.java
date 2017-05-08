@@ -34,6 +34,12 @@ public class Employee {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
 				double x = aProjectWeek.get(date);
 				x = x+hours;
+				if (x > 24) {
+					x = 24;
+				}
+				if (getHoursWorkedDay(currentWeek,date) + x > 24) {
+					x = 24-getHoursWorkedDay(currentWeek,date);
+				}
 				aProjectWeek.set(date,x);
 				System.out.println(date);
 				System.out.println(hours);
@@ -51,6 +57,13 @@ public class Employee {
 				System.out.println(hours);
 			}
 		}
+	}
+	public double getHoursWorkedDay(int gWeek, int gDate) {
+		double hours = 0;
+		for (ArrayList<Double> aProjectWeek : week.get(gWeek)) {
+			hours = hours + aProjectWeek.get(gDate);
+		}
+		return hours;
 	}
 
 	public double getHoursWorkedDayActivity(int gWeek, int gDate, Activity a) {
