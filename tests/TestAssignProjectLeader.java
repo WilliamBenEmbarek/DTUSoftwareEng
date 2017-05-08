@@ -26,6 +26,9 @@ public class TestAssignProjectLeader extends SampleDataSetup{
 
         // The employee by ID: Emil should not be a employee anymore
         assertEquals(stm.getEmployeeByID("Emil"),null);
+
+        // See if the project leader is assign
+        assertEquals(stm.getProjectLeaderByID("Emil").getAssignedProject(),project);
     }
 
     /*
