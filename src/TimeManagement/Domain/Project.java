@@ -6,12 +6,10 @@ import java.util.ArrayList;
  * Created by Emil on 27/03/2017.
  */
 public class Project {
-	private int ProjectNumber;
 	private String projectName;
 	public ArrayList<ProjectActivity> activities = new ArrayList<ProjectActivity>(0);
 	private int startWeek;
 	private ProjectLeader projectLeader;
-	private ArrayList<PersonalActivity> personalActivities = new ArrayList<PersonalActivity>(0);
 
 	public Project(String projectName, int startWeek) {
 		this.projectName = projectName;
@@ -39,10 +37,6 @@ public class Project {
 		return startWeek;
 	}
 
-	public int getNumberOfActivties() {
-		return activities.size();
-	}
-
 	public ArrayList<ProjectActivity> getActivities(int week) {
 		for (int i = 0; i < this.activities.size(); i++) {
 			if (this.activities.get(i).getEndWeek() < week) {
@@ -62,15 +56,6 @@ public class Project {
 		}
 	}
 
-	public void addPersonalActivity(PersonalActivity activity) throws InvalidInputException, NameAlreadyExistException {
-		if (activity.getStartWeek() < this.startWeek) {
-			throw new InvalidInputException("The input is invalid.");
-		} else if (doesActivityNameExist(activity.getName())) {
-			throw new NameAlreadyExistException("This name already exist.");
-		} else {
-			personalActivities.add(activity);
-		}
-	}
 
 	public boolean doesActivityNameExist(String name) {
 		for (int i = 0; i < activities.size(); i++) {
