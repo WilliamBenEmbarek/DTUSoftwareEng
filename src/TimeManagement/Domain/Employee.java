@@ -15,18 +15,19 @@ public class Employee {
 	private int currentWeek;
 	private SystemTimeManager stm;
 	boolean unableToWork = false;
-	public Employee(String ID,SystemTimeManager stm) {
+
+	public Employee(String ID, SystemTimeManager stm) {
 		this.ID = ID;
 		currentWeek = stm.getCurrentWeek();
 		projectWeek.add(new ArrayList<Double>());
-		for (int i = 0; i <6; i++) {
+		for (int i = 0; i < 6; i++) {
 			projectWeek.get(0).add(0.0);
 		}
 		week.add(currentWeek, projectWeek);
 		this.stm = stm;
 	}
 
-	public void registerHours(double activityID, int date, double hours) throws InvalidInputException{
+	public void registerHours(double activityID, int date, double hours) throws InvalidInputException {
 		if (hours > 24) {
 			hours = 24;
 		}
@@ -36,18 +37,19 @@ public class Employee {
 		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
 				double x = aProjectWeek.get(date);
-				x = x+hours;
+				x = x + hours;
 				if (x > 24) {
 					x = 24;
 				}
-				if (getHoursWorkedDay(currentWeek,date) + x > 24) {
-					x = 24-getHoursWorkedDay(currentWeek,date);
+				if (getHoursWorkedDay(currentWeek, date) + x > 24) {
+					x = 24 - getHoursWorkedDay(currentWeek, date);
 				}
-				aProjectWeek.set(date,x);
+				aProjectWeek.set(date, x);
 			}
 		}
 	}
-	public void editHours(double activityID, int date, double hours) throws InvalidInputException{
+
+	public void editHours(double activityID, int date, double hours) throws InvalidInputException {
 		if (hours > 24) {
 			hours = 24;
 		}
@@ -56,13 +58,14 @@ public class Employee {
 		}
 		for (ArrayList<Double> aProjectWeek : week.get(currentWeek)) {
 			if (aProjectWeek.get(0) == activityID) { //Check if the first element in the arraylist is equal to the actvity we want to register hours on.
-				if (getHoursWorkedDay(currentWeek,date) + hours > 24) {
-					hours = 24-getHoursWorkedDay(currentWeek,date);
+				if (getHoursWorkedDay(currentWeek, date) + hours > 24) {
+					hours = 24 - getHoursWorkedDay(currentWeek, date);
 				}
 				aProjectWeek.set(date, hours);
 			}
 		}
 	}
+
 	public double getHoursWorkedDay(int gWeek, int gDate) {
 		double hours = 0;
 		for (ArrayList<Double> aProjectWeek : week.get(gWeek)) {
@@ -84,13 +87,13 @@ public class Employee {
 		}
 		refreshActivties();
 	}
+
 	public void assignActivity(Activity a) {
-	    if(a.getStartWeek()>currentWeek){
+		if (a.getStartWeek() > currentWeek) {
 			futureAssignedActivties.add(a);
-        }
-        else{
-            assignedActivites.add(a);
-        }
+		} else {
+			assignedActivites.add(a);
+		}
 
 	}
 
@@ -98,25 +101,25 @@ public class Employee {
 		int x = week.get(currentWeek).size();
 		if (x != assignedActivites.size()) {
 			for (int i = x; i < assignedActivites.size(); i++) {
-				week.get(currentWeek).add(x,new ArrayList<Double>());
-				for (int y = 0; y <6; y++) {
-					week.get(currentWeek).get(x).add(y,0.0);
+				week.get(currentWeek).add(x, new ArrayList<Double>());
+				for (int y = 0; y < 6; y++) {
+					week.get(currentWeek).get(x).add(y, 0.0);
 				}
 			}
 		}
 		for (int i = 0; i < assignedActivites.size(); i++) { //Loop through list of activities.
 			if ((week.get(currentWeek).get(i).get(0) != (assignedActivites.get(i).getID()))) { // If the activity does not exist
-				week.get(currentWeek).get(i).set(0,assignedActivites.get(i).getID());
+				week.get(currentWeek).get(i).set(0, assignedActivites.get(i).getID());
 			}
 		}
 	}
 
-	public void AddProject (String ProjectName, int StartWeek) throws NameAlreadyExistException {
-		stm.newProject(ProjectName,StartWeek);
+	public void AddProject(String ProjectName, int StartWeek) throws NameAlreadyExistException {
+		stm.newProject(ProjectName, StartWeek);
 	}
 
-	public void AddProject (String ProjectName, int StartWeek, Employee projectLeader) throws NameAlreadyExistException {
-		stm.newProject(ProjectName,StartWeek,projectLeader);
+	public void AddProject(String ProjectName, int StartWeek, Employee projectLeader) throws NameAlreadyExistException {
+		stm.newProject(ProjectName, StartWeek, projectLeader);
 	}
 
 	public String getID() {
@@ -124,56 +127,56 @@ public class Employee {
 	}
 
 	// To display the ID names in JComboBox java Swing
-	public String toString(){
-    	return this.ID;
+	public String toString() {
+		return this.ID;
 	}
 
 	public Project getCurrentProject() {
 		return CurrentProject;
 	}
 
-	public void setCurrentProject(Project P){this.CurrentProject=P;}
+	public void setCurrentProject(Project P) {
+		this.CurrentProject = P;
+	}
 
 	public ArrayList<Activity> getAssignedActivites() {
 		return assignedActivites;
 	}
 
-    public ArrayList<Activity> getFutureAssignedActivties() {
-        return futureAssignedActivties;
-    }
+	public ArrayList<Activity> getFutureAssignedActivties() {
+		return futureAssignedActivties;
+	}
 
-    public void assignPersonalActivity(Activity a) {
+	public void assignPersonalActivity(Activity a) {
 		unableToWork = true;
 		assignedActivites.add(a);
 	}
 
 	public String[][] getActivityHours() {
-		String[][] x = new String[5][assignedActivites.size()+1];
+		String[][] x = new String[5][assignedActivites.size() + 1];
 		x[0][0] = "Monday";
 		x[1][0] = "Tuesday";
 		x[2][0] = "Wednesday";
 		x[3][0] = "Thursday";
 		x[4][0] = "Friday";
 		for (int i = 0; i < assignedActivites.size(); i++) {
-			for (int j = 1; j < 6;j++)
-			{
-				if (week.get(currentWeek).get(i).get(j) != null)
-				{
-					x[j-1][i+1] = week.get(currentWeek).get(i).get(j).toString();
+			for (int j = 1; j < 6; j++) {
+				if (week.get(currentWeek).get(i).get(j) != null) {
+					x[j - 1][i + 1] = week.get(currentWeek).get(i).get(j).toString();
 				}
 			}
 		}
 		return x;
 	}
 
-	public String[] getActivitiesAssigned(){
-	    String[] tempArray = new String[this.assignedActivites.size()+1];
-	    tempArray[0]="";
-	    for(int i=0; i<this.assignedActivites.size();i++){
-	        tempArray[i+1]=this.assignedActivites.get(i).getName();
-        }
-        return tempArray;
-    }
+	public String[] getActivitiesAssigned() {
+		String[] tempArray = new String[this.assignedActivites.size() + 1];
+		tempArray[0] = "";
+		for (int i = 0; i < this.assignedActivites.size(); i++) {
+			tempArray[i + 1] = this.assignedActivites.get(i).getName();
+		}
+		return tempArray;
+	}
 
 	public void updateWeek() {
 		currentWeek = stm.getCurrentWeek();
@@ -182,7 +185,7 @@ public class Employee {
 		for (int i = 0; i < assignedActivites.size(); i++) {
 			week.get(currentWeek).add(new ArrayList<Double>(1)); //Inner ArrayList. Keeps track of hours on what days.
 			for (int j = 0; j < 6; j++) {
-				week.get(currentWeek).get(i).add(j,0.0);
+				week.get(currentWeek).get(i).add(j, 0.0);
 			}
 		}
 		if (assignedActivites.size() != 0) {

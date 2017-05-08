@@ -12,19 +12,19 @@ public class SystemTimeManager {
 	public ArrayList<Project> projects = new ArrayList<Project>(0);
 	private int CurrentWeek = 0;
 
-	public SystemTimeManager(){
+	public SystemTimeManager() {
 	}
 
-	public void AssignProjectLeader(Employee E, Project P){
-		ProjectLeader PL = new ProjectLeader(E.getID(),P.getProjectName(),P);
+	public void AssignProjectLeader(Employee E, Project P) {
+		ProjectLeader PL = new ProjectLeader(E.getID(), P.getProjectName(), P);
 		P.setProjectLeader(PL);
 		projectLeaders.add(PL);
 		employees.remove(E);
 	}
 
-	public ArrayList<Employee> AvailableEmployeesForAGivenActivity (Activity A) {
-	    int startWeek = A.getStartWeek();
-	    int endWeek = A.getEndWeek();
+	public ArrayList<Employee> AvailableEmployeesForAGivenActivity(Activity A) {
+		int startWeek = A.getStartWeek();
+		int endWeek = A.getEndWeek();
 
 		ArrayList<Employee> AvailableEmployees = new ArrayList<Employee>(0);
 		for (Employee employee : employees) {
@@ -67,9 +67,9 @@ public class SystemTimeManager {
 		return projects;
 	}
 
-	public Project getProjectByID(String ID){
-		for(int i = 0; i< projects.size(); i++){
-			if(projects.get(i).getProjectName().equals(ID)){
+	public Project getProjectByID(String ID) {
+		for (int i = 0; i < projects.size(); i++) {
+			if (projects.get(i).getProjectName().equals(ID)) {
 				return projects.get(i);
 			}
 		}
@@ -77,19 +77,17 @@ public class SystemTimeManager {
 	}
 
 	public void newProject(String ProjectName, int StartWeek) throws NameAlreadyExistException {
-		if(doesProjectIDExist(ProjectName)==true){
+		if (doesProjectIDExist(ProjectName) == true) {
 			throw new NameAlreadyExistException("This name already exist.");
-		}
-		else {
+		} else {
 			this.projects.add(new Project(ProjectName, StartWeek));
 		}
 	}
 
 	public void newProject(String ProjectName, int StartWeek, Employee projectLeader) throws NameAlreadyExistException {
-		if(doesProjectIDExist(ProjectName)==true){
+		if (doesProjectIDExist(ProjectName) == true) {
 			throw new NameAlreadyExistException("This name already exist.");
-		}
-		else {
+		} else {
 			Project P = new Project(ProjectName, StartWeek);
 			this.employees.remove(projectLeader);
 			ProjectLeader PL = new ProjectLeader(projectLeader.getID(), ProjectName, P);
@@ -99,38 +97,38 @@ public class SystemTimeManager {
 		}
 	}
 
-	public ArrayList<Project> projectsWithoutAProjectLeader(){
+	public ArrayList<Project> projectsWithoutAProjectLeader() {
 		ArrayList<Project> tempArray = new ArrayList<>();
 
-		for(int i = 0; i< projects.size(); i++){
-			if(projects.get(i).getProjectLeader()==null){
+		for (int i = 0; i < projects.size(); i++) {
+			if (projects.get(i).getProjectLeader() == null) {
 				tempArray.add(projects.get(i));
 			}
 		}
 		return tempArray;
 	}
 
-	public Employee getEmployeeByID(String ID){
-		for(int i = 0; i< employees.size(); i++){
-			if(employees.get(i).getID().equals(ID)){
+	public Employee getEmployeeByID(String ID) {
+		for (int i = 0; i < employees.size(); i++) {
+			if (employees.get(i).getID().equals(ID)) {
 				return employees.get(i);
 			}
 		}
 		return null;
 	}
 
-	public ProjectLeader getProjectLeaderByID(String ID){
-		for(int i = 0; i< projectLeaders.size(); i++){
-			if(projectLeaders.get(i).getID().equals(ID)){
+	public ProjectLeader getProjectLeaderByID(String ID) {
+		for (int i = 0; i < projectLeaders.size(); i++) {
+			if (projectLeaders.get(i).getID().equals(ID)) {
 				return projectLeaders.get(i);
 			}
 		}
 		return null;
 	}
 
-	public boolean doesProjectIDExist(String ID){
-		for (int i = 0; i< this.projects.size(); i++){
-			if(this.projects.get(i).getProjectName().equals(ID)) {
+	public boolean doesProjectIDExist(String ID) {
+		for (int i = 0; i < this.projects.size(); i++) {
+			if (this.projects.get(i).getProjectName().equals(ID)) {
 				return true;
 			}
 		}
@@ -143,28 +141,29 @@ public class SystemTimeManager {
 
 	// Hardcode employees
 	public void setUpEmployees() throws NameAlreadyExistException {
-		Employee e1 = new Employee("Emil",this);
+		Employee e1 = new Employee("Emil", this);
 		employees.add(e1);
-		Employee e2 = new Employee("William",this);
+		Employee e2 = new Employee("William", this);
 		employees.add(e2);
-		for(int i=0; i<10;i++){
-		    Employee e = new Employee("E"+i,this);
-		    employees.add(e);
-        }
+		for (int i = 0; i < 10; i++) {
+			Employee e = new Employee("E" + i, this);
+			employees.add(e);
+		}
 	}
-	public void nextWeek(){
-		CurrentWeek = CurrentWeek+1;
+
+	public void nextWeek() {
+		CurrentWeek = CurrentWeek + 1;
 		for (int i = 0; i < this.employees.size(); i++) {
 			this.employees.get(i).updateWeek();
 		}
 	}
 
 	// Hardcoding of login for each employee
-	public boolean checkLogin(String ID, String pass){
+	public boolean checkLogin(String ID, String pass) {
 
-		if(ID.equals("Emil") && pass.equals("123")){
+		if (ID.equals("Emil") && pass.equals("123")) {
 			return true;
 		}
-        return ID.equals("William") && pass.equals("321");
-    }
+		return ID.equals("William") && pass.equals("321");
+	}
 }

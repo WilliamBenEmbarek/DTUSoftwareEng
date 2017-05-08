@@ -3,7 +3,7 @@ package TimeManagement.Domain;
 /**
  * Created by Emil on 27/03/2017.
  */
-public class PersonalActivity extends Activity{
+public class PersonalActivity extends Activity {
 	public PersonalActivity(String name, double ID, int startWeek) {
 		super(name, ID, startWeek);
 	}
