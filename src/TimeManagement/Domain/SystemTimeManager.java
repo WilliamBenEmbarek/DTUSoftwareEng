@@ -25,14 +25,15 @@ public class SystemTimeManager {
 	}
 
 	public ArrayList<Employee> AvailableEmployeesForAGivenActivity(Activity A) {
+		assert A != null && A.getStartWeek() >= 0 && A.getEndWeek() > A.getStartWeek();
 		int startWeek = A.getStartWeek();
 		int endWeek = A.getEndWeek();
 
 		ArrayList<Employee> AvailableEmployees = new ArrayList<Employee>(0);
-		for (Employee employee : employees) {
-			if (employee.getCurrentProject() == null) {
+		for (Employee employee : employees) { //1
+			if (employee.getCurrentProject() == null) { //2
 				AvailableEmployees.add(employee);
-			} else if (employee.getAssignedActivites().contains(A) || employee.getFutureAssignedActivties().contains(A)) {
+			} else if (employee.getAssignedActivites().contains(A) || employee.getFutureAssignedActivties().contains(A)) { //3
 				// Already assigned this activity
 			} else{
 				ArrayList<Activity> ActivitiesInPeriod = new ArrayList<>();
@@ -45,18 +46,28 @@ public class SystemTimeManager {
 						ActivitiesInPeriod.add(employee.getAssignedActivites().get(j));
 					}
 				}
-				if (!(ActivitiesInPeriod.size() > 10)) {
+				if (!(ActivitiesInPeriod.size() > 10)) { //4
 					AvailableEmployees.add(employee);
 				}
 
-			} if (employee.unableToWork) {
+			} if (employee.unableToWork) { //5
 				AvailableEmployees.remove(employee);
 			}
 
 		}
+		assert EmployeeTester(AvailableEmployees,A);
 		return (AvailableEmployees);
 	}
-
+	private boolean EmployeeTester(ArrayList<Employee> x, Activity A) {
+		boolean result = true;
+		for (Employee employee : x) {
+			ArrayList<Activity> Eactivities = employee.getAssignedActivites();
+			if (!(Eactivities.size() < 10 && !employee.unableToWork && !Eactivities.contains(A))) {
+				result = false;
+			}
+		}
+		return result;
+	}
 	public ArrayList<Employee> getEmployees() {
 		return employees;
 	}

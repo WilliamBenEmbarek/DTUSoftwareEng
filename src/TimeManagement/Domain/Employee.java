@@ -28,6 +28,7 @@ public class Employee {
 	}
 
 	public void registerHours(double activityID, int date, double hours) throws InvalidInputException {
+
 		if (hours > 24) {
 			hours = 24;
 		}
