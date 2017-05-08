@@ -839,9 +839,13 @@ public class GUI extends JFrame implements ActionListener{
                     }
                 }
 
-                currentLoggedOn.registerHours(activityID,dayNumber+1,time);
+				try {
+					currentLoggedOn.registerHours(activityID,dayNumber+1,time);
+				} catch (InvalidInputException e1) {
+					e1.printStackTrace();
+				}
 
-                registerTime.setText("Time is registered");
+				registerTime.setText("Time is registered");
                 revalidate();
                 repaint();
             }
@@ -884,9 +888,13 @@ public class GUI extends JFrame implements ActionListener{
                     }
                 }
 
-                currentLoggedOn.editHours(activityID,dayNumber+1,time);
+				try {
+					currentLoggedOn.editHours(activityID,dayNumber+1,time);
+				} catch (InvalidInputException e1) {
+					e1.printStackTrace();
+				}
 
-                editTime.setText("Time is edited");
+				editTime.setText("Time is edited");
                 revalidate();
                 repaint();
             }

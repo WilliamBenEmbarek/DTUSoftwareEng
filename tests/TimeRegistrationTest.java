@@ -86,21 +86,26 @@ public class TimeRegistrationTest extends SampleDataSetup{
 		pL.assignEmployee(E,A1);
 
 		// Now register time (1 is Monday and 2.30 is hours worked
-		E.registerHours(A1.getID(),1,2.30);
+		try {
+			E.registerHours(A1.getID(),1,2.30);
 
-		// Now show hours worked
-		assertEquals(E.getHoursWorkedDayActivity(stm.getCurrentWeek(),1,A1),2.30,0);
+			// Now show hours worked
+			assertEquals(E.getHoursWorkedDayActivity(stm.getCurrentWeek(),1,A1),2.30,0);
 
-		// Now try another Activity on same day
-		ProjectActivity A2 = new ProjectActivity("Test",(double) 20.0, stm.getCurrentWeek());
-		pL.assignEmployee(E,A2);
-		E.registerHours(A2.getID(),1,3.50);
+			// Now try another Activity on same day
+			ProjectActivity A2 = new ProjectActivity("Test",(double) 20.0, stm.getCurrentWeek());
+			pL.assignEmployee(E,A2);
+			E.registerHours(A2.getID(),1,3.50);
 
-		assertEquals(E.getHoursWorkedDayActivity(stm.getCurrentWeek(),1,A2),3.50,0);
+			assertEquals(E.getHoursWorkedDayActivity(stm.getCurrentWeek(),1,A2),3.50,0);
 
-		// Now take the activity A2, but on a different day (2=tuesday)
-		E.registerHours(A2.getID(),2,1.0);
-		assertEquals(E.getHoursWorkedDayActivity(stm.getCurrentWeek(),2,A2),1.0,0);
+			// Now take the activity A2, but on a different day (2=tuesday)
+			E.registerHours(A2.getID(),2,1.0);
+			assertEquals(E.getHoursWorkedDayActivity(stm.getCurrentWeek(),2,A2),1.0,0);
+		} catch (InvalidInputException e){
+
+		}
+
 	}
 
 	@Test
