@@ -34,7 +34,7 @@ public class TimeRegistrationTest extends SampleDataSetup{
 		//Step 1
 		test.refreshActivties(); // refresh the activities in the employees personal 3d array
 		test.registerHours(1, 1,10.0); //Register 10 hours on monday
-		assertEquals(test.getHoursWorkedDay(stm.getCurrentWeek(), 1), 10,0);
+		assertEquals(test.getHoursWorkedDayActivity(stm.getCurrentWeek(), 1), 10,0);
 
 	}
 

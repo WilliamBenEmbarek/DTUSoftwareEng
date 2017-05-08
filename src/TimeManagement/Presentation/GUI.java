@@ -43,6 +43,7 @@ public class GUI extends JFrame implements ActionListener{
     private JComboBox boxOfActivities;
     private JComboBox boxOfAssignedActivities;
     private JComboBox days;
+    private JComboBox boxOfAssignedActivitiesToEdit;
 
     // Week days
     private String[] weekDays = new String[]{"Monday","Tuesday","Wednesday","Thursday","Friday"};
@@ -51,6 +52,7 @@ public class GUI extends JFrame implements ActionListener{
     private JPanel assignEmployeePanel;
     private int selectAIndex=0;
     private int daySelect=0;
+    private int editSelect =0;
 
     // Functional buttons
     private JButton nextWeek;
@@ -74,6 +76,7 @@ public class GUI extends JFrame implements ActionListener{
     private JButton assistancePage;
     private JButton editHoursPage;
     private JButton registerTime;
+    private JButton editTime;
 
     // Allows only numbers in some fields
     private NumberFormat intFormat = NumberFormat.getIntegerInstance();
@@ -359,11 +362,13 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         editHourPanel.add(labelActivity, cs);
 
-        boxOfAssignedActivities = new JComboBox(new Vector(currentLoggedOn.getAssignedActivites()));
+        boxOfAssignedActivitiesToEdit = new JComboBox(new Vector(currentLoggedOn.getAssignedActivites()));
+        boxOfAssignedActivitiesToEdit.addActionListener(this);
+        boxOfAssignedActivitiesToEdit.setSelectedIndex(editSelect);
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 3;
-        editHourPanel.add(boxOfAssignedActivities, cs);
+        editHourPanel.add(boxOfAssignedActivitiesToEdit, cs);
 
         JLabel labelDate = new JLabel("Day: ");
         cs.gridx     = 0;
@@ -387,7 +392,8 @@ public class GUI extends JFrame implements ActionListener{
         if(S.equals("Thursday"))day=4;
         if(S.equals("Friday"))day=5;
 
-        JLabel labelHours = new JLabel("Hours registered: "+currentLoggedOn.getHoursWorkedDay(STM.getCurrentWeek(),day));
+        Activity A = (Activity) boxOfAssignedActivitiesToEdit.getSelectedItem();
+        JLabel labelHours = new JLabel("Hours registered: "+currentLoggedOn.getHoursWorkedDayActivity(STM.getCurrentWeek(),day,A));
         cs.gridx     = 0;
         cs.gridy     = 1;
         cs.gridwidth = 1;
@@ -400,12 +406,12 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 3;
         editHourPanel.add(hours, cs);
 
-        registerTime = new JButton("Edit Time");
+        editTime = new JButton("Edit Time");
         cs.gridx     = 1;
         cs.gridy     = 3;
         cs.gridwidth = 3;
-        registerTime.addActionListener(this);
-        editHourPanel.add(registerTime, cs);
+        editTime.addActionListener(this);
+        editHourPanel.add(editTime, cs);
 
         backRegisterTimeMenue = new JButton("Back");
         cs.gridx     = 0;
@@ -851,14 +857,39 @@ public class GUI extends JFrame implements ActionListener{
             revalidate();
             repaint();
         }
-        if(e.getSource() == days){
+        if(e.getSource() == days || e.getSource()==boxOfAssignedActivitiesToEdit){
             daySelect = days.getSelectedIndex();
+            editSelect = boxOfAssignedActivitiesToEdit.getSelectedIndex();
             getContentPane().removeAll();
             editHoursPage();
             revalidate();
             repaint();
         }
+        if(e.getSource() == editTime){
+            if(boxOfAssignedActivitiesToEdit.getSelectedItem() == null || hours.getText().trim().equals("")){
+                editTime.setText("Something went wrong, try again");
+                revalidate();
+                repaint();
+            }
+            else{
+                Activity A = (Activity) boxOfAssignedActivitiesToEdit.getSelectedItem();
+                double activityID = A.getID();
+                Double time = Double.valueOf(hours.getText().trim());
+                // Convert from string monday etc. to number 1-5
+                int dayNumber = 0;
+                for(int i = 0; i<weekDays.length ; i++){
+                    if(weekDays[i]==days.getSelectedItem().toString()){
+                        dayNumber = i;
+                    }
+                }
 
+                currentLoggedOn.editHours(activityID,dayNumber+1,time);
+
+                editTime.setText("Time is edited");
+                revalidate();
+                repaint();
+            }
+        }
     }
 
     private void actionCommandsEmployeePage(ActionEvent e) throws NameAlreadyExistException {
