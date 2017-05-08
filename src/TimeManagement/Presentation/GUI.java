@@ -370,7 +370,10 @@ public class GUI extends JFrame implements ActionListener{
         cs.gridwidth = 1;
         assistPanel.add(labelEmployee, cs);
 
-        boxOfEmployees = new JComboBox(new Vector(stm.getEmployees()));
+        ArrayList<Employee> Empl = new ArrayList<>();
+        Empl.addAll(stm.getEmployees());
+        Empl.remove(currentLoggedOn);
+        boxOfEmployees = new JComboBox(new Vector(Empl));
         cs.gridx     = 1;
         cs.gridy     = 0;
         cs.gridwidth = 3;
@@ -1057,7 +1060,7 @@ public class GUI extends JFrame implements ActionListener{
             else{
                 ProjectLeader pL = currentLoggedOn.getCurrentProject().getProjectLeader();
                 try {
-                    pL.addActivity("Assist",idCounter,stm.getCurrentWeek(),stm.getCurrentWeek()+1);
+                    pL.addActivity("Assist"+idCounter,idCounter,stm.getCurrentWeek(),stm.getCurrentWeek()+1);
                 } catch (InvalidInputException | NameAlreadyExistException e1) {
                     e1.printStackTrace();
                 }
