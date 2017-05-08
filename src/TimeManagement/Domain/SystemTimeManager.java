@@ -162,10 +162,13 @@ public class SystemTimeManager {
 
 	// Hardcoding of login for each employee
 	public boolean checkLogin(String ID, String pass) {
-
 		if (ID.equals("Emil") && pass.equals("123")) {
 			return true;
+		} else if (ID.equals("William") && pass.equals("321")) {
+			return true;
+		} else {
+			return (ID.equals("Tobias") && pass.equals("TheBest"));
 		}
-		return ID.equals("William") && pass.equals("321");
+
 	}
 }
